@@ -76,7 +76,7 @@ def _record(path: Path, brand: str, material: str, data_dir: Path) -> Record:
         brand=brand,
         material=material,
         name=data.get("name") or path.parent.name,
-        ref=str(path.parent.relative_to(data_dir)),
+        ref=path.parent.relative_to(data_dir).as_posix(),  # gleich unter Windows und Linux
         values=values,
         diameter=_diameter(path.parent),
         links=links,
