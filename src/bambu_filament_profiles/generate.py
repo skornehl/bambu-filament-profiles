@@ -1,11 +1,11 @@
-"""Erzeugt aus einem abgeglichenen Eintrag ein Bambu-Studio-Benutzerprofil.
+"""Turn a matched entry into a Bambu Studio user profile.
 
-Das Profil ist ein eigenständiges Profil („custom root preset“), wie es der
-Assistent „Filament erstellen“ von Bambu Studio anlegt: ``inherits`` ist leer,
-alle Werte des passenden Generic-Profils stehen ausgeschrieben drin, dazu eine
-eigene ``filament_id`` und der Hersteller. Nur so ordnet Bambu Studio das
-Filament (AMS, Spulenverwaltung, Druckeranzeige) dem Hersteller zu statt
-„Generic“, denn erbende Profile übernehmen die ``filament_id`` des Elternprofils.
+The profile is a standalone profile ("custom root preset"), just like the one
+Bambu Studio's "Create filament" wizard creates: ``inherits`` is empty, all
+values of the matching Generic profile are written out, plus its own
+``filament_id`` and the brand. Only then does Bambu Studio file the filament
+(AMS, spool management, printer display) under its brand instead of "Generic",
+because inheriting profiles take over the parent's ``filament_id``.
 """
 
 from __future__ import annotations
@@ -31,11 +31,11 @@ class Limits:
     volumetric_max: float = 35
 
 
-#: Grenzen je Drucker (Präfix des Bambu-Druckerprofils).
+#: Limits per printer (prefix of the Bambu printer profile).
 PRINTER_LIMITS = {"Bambu Lab P1S": Limits(nozzle_max=300, bed_max=100, volumetric_max=35)}
 
-#: Basisprofil je Materialfamilie; die erste passende Regel gewinnt.
-#: (Familie, nötige Token oder None, Kandidaten in Reihenfolge)
+#: Base profile per material family; the first matching rule wins.
+#: (family, required tokens or None, candidates in order)
 PARENT_RULES: tuple[tuple[str, frozenset[str] | None, tuple[str, ...]], ...] = (
     ("PLA", frozenset({"silk"}), ("Generic PLA Silk",)),
     ("PLA", frozenset({"cf", "gf"}), ("Generic PLA-CF",)),
@@ -97,7 +97,7 @@ INT_KEYS = frozenset(
     }
 )
 
-#: Plausible Bereiche; Werte außerhalb werden verworfen (Warnung).
+#: Plausible ranges; values outside are dropped (warning).
 PLAUSIBLE = {
     "filament_density": (0.5, 3.5),
     "filament_flow_ratio": (0.7, 1.3),
@@ -131,13 +131,13 @@ PLATES = ("hot", "textured")
 OTHER_PLATES = ("cool", "eng", "supertack")
 
 SOURCE_LABELS = {
-    "manual": "eigene Werte",
+    "manual": "own values",
     "orca": "OrcaSlicer",
     "prusa": "PrusaSlicer",
     "ofd": "Open Filament Database",
     "spoolman": "SpoolmanDB",
     "cura": "Cura",
-    "derived": "abgeleitet",
+    "derived": "derived",
 }
 
 
@@ -189,7 +189,7 @@ def limits_for(printer: str) -> Limits:
 
 
 def choose_parent(family: str, tokens: frozenset[str], bambu: BambuProfiles, printer: str) -> str | None:
-    """Erste passende Regel gewinnt; fehlt deren Basisprofil, wird nicht geraten."""
+    """The first matching rule wins; if its base profile is missing, nothing is guessed."""
     for rule_family, needed, candidates in PARENT_RULES:
         if rule_family != family:
             continue
@@ -203,7 +203,7 @@ def product_name(entry: Entry) -> str:
     name = entry.name.strip()
     material = (entry.material or "").strip()
     if name.upper() == entry.family and material and material.upper() != entry.family and family_of(material) == entry.family:
-        name = material  # Sorte „PLA“ mit Material „PLA+“ → „PLA+“
+        name = material  # product "PLA" with material "PLA+" → "PLA+"
     if family_of(name) is None:
         material = (entry.material or entry.family).strip()
         name = f"{material} {name}".strip() if name.lower() != material.lower() else material
@@ -211,7 +211,7 @@ def product_name(entry: Entry) -> str:
 
 
 def filament_id_for(alias: str, user_id: str = "") -> str:
-    """Wie der Bambu-Assistent: „P“ + 7 Zeichen MD5 aus Name (und Benutzer-ID)."""
+    """Like the Bambu wizard: "P" + 7 characters of the MD5 of the name (and user ID)."""
     text = f"{alias}@{user_id}" if user_id else alias
     return "P" + hashlib.md5(text.encode("utf-8")).hexdigest()[:7]
 
@@ -235,23 +235,23 @@ def generate(entry: Entry, bambu: BambuProfiles, printer: str = DEFAULT_PRINTER,
     result.merged = merged
     for conflict in merged.conflicts:
         others = ", ".join(f"{SOURCE_LABELS.get(s, s)} {v:g}" for s, v in conflict.others.items())
-        result.warn(f"{conflict.key}: {SOURCE_LABELS.get(conflict.chosen_source)} {conflict.chosen:g} gewählt, abweichend {others}")
+        result.warn(f"{conflict.key}: {SOURCE_LABELS.get(conflict.chosen_source)} {conflict.chosen:g} chosen, differing: {others}")
 
     if system_keys:
         key = match_key(entry.brand, entry.material or entry.family, entry.name)
         if key in system_keys:
-            result.note(f"Bambu Studio bringt dafür schon das Systemprofil „{system_keys[key]}“ mit")
+            result.note(f"Bambu Studio already ships the system profile \"{system_keys[key]}\" for it")
             return result
     if brand.lower().replace(" ", "") in {"bambulab", "bambu"}:
-        result.note("Bambu-Lab-Filamente haben Systemprofile in Bambu Studio")
+        result.note("Bambu Lab filaments have system profiles in Bambu Studio")
         return result
 
     if merged.diameter is not None and abs(merged.diameter - 1.75) > 0.02:
-        return result.error(f"Durchmesser {merged.diameter:g} mm, der Drucker braucht 1,75 mm")
+        return result.error(f"diameter {merged.diameter:g} mm, the printer needs 1.75 mm")
 
     parent = choose_parent(entry.family, entry.tokens, bambu, printer)
     if parent is None:
-        return result.error(f"kein passendes Basisprofil für {entry.family} auf „{printer}“")
+        return result.error(f"no matching base profile for {entry.family} on \"{printer}\"")
     result.parent = parent
     base = bambu.flatten(parent)
     limits = limits_for(printer)
@@ -260,12 +260,12 @@ def generate(entry: Entry, bambu: BambuProfiles, printer: str = DEFAULT_PRINTER,
 
     for key, (low, high) in PLAUSIBLE.items():
         if key in values and not (low <= values[key] <= high):
-            result.warn(f"{key} = {values[key]:g} unplausibel, verworfen")
+            result.warn(f"{key} = {values[key]:g} implausible, dropped")
             values.pop(key)
     if "filament_max_volumetric_speed" in values:
         mvs = values["filament_max_volumetric_speed"]
         if not (0 < mvs <= limits.volumetric_max):
-            result.warn(f"Max. Volumenfluss {mvs:g} mm³/s unplausibel, verworfen")
+            result.warn(f"max volumetric speed {mvs:g} mm³/s implausible, dropped")
             values.pop("filament_max_volumetric_speed")
 
     if not _nozzle(result, values, provenance, base, limits):
@@ -299,18 +299,18 @@ class ExpandError(KeyError):
 
 
 def expand(spec: dict, bambu: BambuProfiles, filament_id: str) -> dict:
-    """Schlankes Profil (erbt vom Generic-Profil) zu einem eigenständigen ausschreiben.
+    """Write a slim profile (inheriting from the Generic profile) out as a standalone one.
 
-    Das Ergebnis entspricht dem, was der Assistent „Filament erstellen“ anlegt:
-    ``inherits`` leer, alle Werte des Basisprofils ausgeschrieben, eigene
-    ``filament_id``. Werte je Hotend-Variante werden auf die Länge des
-    Basisprofils vervielfältigt.
+    The result matches what the "Create filament" wizard creates: ``inherits``
+    empty, all values of the base profile written out, its own
+    ``filament_id``. Per-hotend-variant values are repeated to the length of
+    the base profile.
     """
     parent = spec.get("inherits") or ""
     try:
         base = bambu.flatten(parent)
     except KeyError as exc:
-        raise ExpandError(f"Basisprofil „{parent}“ fehlt in dieser Bambu-Studio-Version") from exc
+        raise ExpandError(f"base profile \"{parent}\" is missing in this Bambu Studio version") from exc
     root = {
         "name": spec["name"],
         "from": "User",
@@ -339,19 +339,19 @@ def _nozzle(result: Generated, values: dict, provenance: dict, base: dict, limit
     low = values.get("nozzle_temperature_range_low")
     high = values.get("nozzle_temperature_range_high")
     if low is not None and high is not None and low > high:
-        result.warn(f"Düsenbereich {low:g}–{high:g} °C verdreht, verworfen")
+        result.warn(f"nozzle range {low:g}–{high:g} °C reversed, dropped")
         values.pop("nozzle_temperature_range_low")
         values.pop("nozzle_temperature_range_high")
         low = high = None
     if low is not None and low > limits.nozzle_max:
-        result.error(f"braucht mindestens {low:g} °C an der Düse, der Drucker schafft {limits.nozzle_max:g} °C")
+        result.error(f"needs at least {low:g} °C at the nozzle, the printer reaches {limits.nozzle_max:g} °C")
         return False
     if high is not None and high > limits.nozzle_max:
-        result.warn(f"Düsen-Obergrenze {high:g} °C auf {limits.nozzle_max:g} °C begrenzt")
+        result.warn(f"nozzle maximum {high:g} °C capped at {limits.nozzle_max:g} °C")
         values["nozzle_temperature_range_high"] = high = float(limits.nozzle_max)
     for key in ("nozzle_temperature", "nozzle_temperature_initial_layer"):
         if key in values and values[key] > limits.nozzle_max:
-            result.error(f"{key} = {values[key]:g} °C über der Druckergrenze {limits.nozzle_max:g} °C")
+            result.error(f"{key} = {values[key]:g} °C above the printer limit {limits.nozzle_max:g} °C")
             return False
     lo = low if low is not None else -math.inf
     hi = high if high is not None else math.inf
@@ -364,18 +364,18 @@ def _nozzle(result: Generated, values: dict, provenance: dict, base: dict, limit
                 derived = low if low is not None else high
             values["nozzle_temperature"] = derived
             provenance["nozzle_temperature"] = "derived"
-            result.note(f"Düsentemperatur {derived:g} °C aus dem Bereich abgeleitet (Generic: {inherited:g} °C)")
+            result.note(f"nozzle temperature {derived:g} °C derived from the range (Generic: {inherited:g} °C)")
     if "nozzle_temperature_initial_layer" not in values and "nozzle_temperature" in values:
         values["nozzle_temperature_initial_layer"] = values["nozzle_temperature"]
         provenance["nozzle_temperature_initial_layer"] = "derived"
     for key in ("nozzle_temperature", "nozzle_temperature_initial_layer"):
         if key in values and not (lo <= values[key] <= hi):
-            result.warn(f"{key} = {values[key]:g} °C liegt außerhalb des Herstellerbereichs")
+            result.warn(f"{key} = {values[key]:g} °C is outside the manufacturer range")
     if low is None and high is None and "nozzle_temperature" in values:
         base_low = to_number(base.get("nozzle_temperature_range_low"))
         base_high = to_number(base.get("nozzle_temperature_range_high"))
         if base_low is not None and base_high is not None and not (base_low <= values["nozzle_temperature"] <= base_high):
-            result.warn(f"Düsentemperatur {values['nozzle_temperature']:g} °C liegt außerhalb des geerbten Bereichs {base_low:g}–{base_high:g} °C")
+            result.warn(f"nozzle temperature {values['nozzle_temperature']:g} °C is outside the inherited range {base_low:g}–{base_high:g} °C")
     return True
 
 
@@ -383,10 +383,10 @@ def _bed(result: Generated, values: dict, provenance: dict, base: dict, limits: 
     bmin = values.get("_bed_min")
     bmax = values.get("_bed_max")
     if bmin is not None and bmax is not None and bmin > bmax:
-        result.warn(f"Bettbereich {bmin:g}–{bmax:g} °C verdreht, verworfen")
+        result.warn(f"bed range {bmin:g}–{bmax:g} °C reversed, dropped")
         bmin = bmax = None
     if bmin is not None and bmin > limits.bed_max:
-        result.error(f"braucht mindestens {bmin:g} °C am Bett, der Drucker schafft {limits.bed_max:g} °C")
+        result.error(f"needs at least {bmin:g} °C on the bed, the printer reaches {limits.bed_max:g} °C")
         return False
     lo = bmin if bmin is not None else -math.inf
     hi = bmax if bmax is not None else math.inf
@@ -402,7 +402,7 @@ def _bed(result: Generated, values: dict, provenance: dict, base: dict, limits: 
                 derived = round5((bmin + bmax) / 2) if bmin is not None and bmax is not None else (bmin if bmin is not None else bmax)
                 values[key] = derived
                 provenance[key] = "derived"
-                result.note(f"{key} {derived:g} °C aus dem Bettbereich abgeleitet (Generic: {inherited:g} °C)")
+                result.note(f"{key} {derived:g} °C derived from the bed range (Generic: {inherited:g} °C)")
         if first not in values:
             if "_bed_first" in values:
                 values[first] = values["_bed_first"]
@@ -412,12 +412,12 @@ def _bed(result: Generated, values: dict, provenance: dict, base: dict, limits: 
                 provenance[first] = provenance.get(key, "derived")
         for k in (key, first):
             if k in values and values[k] > limits.bed_max:
-                result.error(f"{k} = {values[k]:g} °C über der Druckergrenze {limits.bed_max:g} °C")
+                result.error(f"{k} = {values[k]:g} °C above the printer limit {limits.bed_max:g} °C")
                 return False
     for plate in OTHER_PLATES:
         for k in (f"{plate}_plate_temp", f"{plate}_plate_temp_initial_layer"):
             if k in values and not (0 <= values[k] <= limits.bed_max):
-                result.warn(f"{k} = {values[k]:g} °C verworfen (Druckergrenze {limits.bed_max:g} °C)")
+                result.warn(f"{k} = {values[k]:g} °C dropped (printer limit {limits.bed_max:g} °C)")
                 values.pop(k)
     return True
 
@@ -427,5 +427,5 @@ def _description(alias: str, parent: str, merged: Merged, provenance: dict) -> s
     for source in ("manual", "orca", "prusa", "ofd", "spoolman", "cura"):
         if source in provenance.values() or source in {p for p in merged.provenance.values()}:
             used.append(SOURCE_LABELS[source])
-    sources = ", ".join(used) if used else "nur Basisprofil"
-    return f"{MARKER} {__version__}: {alias}. Basis {parent}. Werte aus: {sources}."
+    sources = ", ".join(used) if used else "base profile only"
+    return f"{MARKER} {__version__}: {alias}. Base {parent}. Values from: {sources}."

@@ -1,6 +1,6 @@
-"""Eigene Werte als TOML-Dateien im Ordner ``manual/`` (höchste Priorität).
+"""Your own values as TOML files in the ``manual/`` folder (highest priority).
 
-Beispiel ``manual/geeetech-pla.toml``::
+Example ``manual/geeetech-pla.toml``::
 
     brand = "Geeetech"
     material = "PLA"
@@ -36,14 +36,14 @@ def load(directory: Path) -> list[Record]:
             data = tomllib.load(fh)
         missing = [k for k in ("brand", "material", "name") if not data.get(k)]
         if missing:
-            raise ManualError(f"{path.name}: es fehlen {', '.join(missing)}")
+            raise ManualError(f"{path.name}: missing {', '.join(missing)}")
         values: dict[str, float] = {}
         for key, raw in (data.get("values") or {}).items():
             if key not in ALLOWED:
-                raise ManualError(f"{path.name}: unbekannter Schlüssel „{key}“")
+                raise ManualError(f"{path.name}: unknown key \"{key}\"")
             number = to_number(raw)
             if number is None:
-                raise ManualError(f"{path.name}: „{key}“ ist keine Zahl")
+                raise ManualError(f"{path.name}: \"{key}\" is not a number")
             values[key] = number
         records.append(
             Record(

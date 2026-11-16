@@ -39,26 +39,26 @@ def test_build_and_write(tmp_path, records, bambu):
     index = (tmp_path / "profiles" / "INDEX.md").read_text(encoding="utf-8")
     assert "## Geeetech" in index and "abcdef123456" in index
     report = (tmp_path / "profiles" / "REPORT.md").read_text(encoding="utf-8")
-    assert "PEEK" in report and "Systemprofil" in report
+    assert "PEEK" in report and "system profile" in report
 
 
 def test_write_output_replaces_old_files(tmp_path, records, bambu):
     out = tmp_path / "profiles"
-    (out / "Alt" / "PLA").mkdir(parents=True)
-    (out / "Alt" / "PLA" / "x.json").write_text("{}", encoding="utf-8")
-    (out / "notiz.txt").write_text("bleibt", encoding="utf-8")
-    (out / "INDEX.md").write_text("alt", encoding="utf-8")
+    (out / "Old" / "PLA").mkdir(parents=True)
+    (out / "Old" / "PLA" / "x.json").write_text("{}", encoding="utf-8")
+    (out / "note.txt").write_text("stays", encoding="utf-8")
+    (out / "INDEX.md").write_text("old", encoding="utf-8")
     write_output(build(records, bambu, PRINTER), out, LOCK, PRINTER)
-    assert not (out / "Alt").exists()
-    assert (out / "notiz.txt").exists()
+    assert not (out / "Old").exists()
+    assert (out / "note.txt").exists()
 
 
 def test_write_output_refuses_foreign_folder(tmp_path, records, bambu):
-    out = tmp_path / "fremd"
-    (out / "Fotos").mkdir(parents=True)
-    with pytest.raises(ValueError, match="nicht leer"):
+    out = tmp_path / "foreign"
+    (out / "Photos").mkdir(parents=True)
+    with pytest.raises(ValueError, match="not empty"):
         write_output(build(records, bambu, PRINTER), out, LOCK, PRINTER)
-    assert (out / "Fotos").exists()
+    assert (out / "Photos").exists()
 
 
 def test_build_info_and_age(tmp_path, records, bambu):
@@ -71,9 +71,9 @@ def test_build_info_and_age(tmp_path, records, bambu):
     assert catalog_age_days(info, now=datetime(2026, 1, 31, 13, tzinfo=timezone.utc)) == 30
     assert catalog_age_days({"built": "2026-01-01T00:00:00"}, now=datetime(2026, 1, 3, tzinfo=timezone.utc)) == 2
     assert catalog_age_days(None) is None
-    (out / "BUILD.json").write_text('{"built": "gestern"}', encoding="utf-8")
+    (out / "BUILD.json").write_text('{"built": "yesterday"}', encoding="utf-8")
     assert read_build_info(out) is None
-    assert read_build_info(tmp_path / "gibtsnicht") is None
+    assert read_build_info(tmp_path / "missing") is None
 
 
 def test_update_profiles_fetches_newest_then_builds(monkeypatch, tmp_path):
@@ -122,7 +122,7 @@ def test_duplicate_names_in_different_folders(bambu):
         return e
 
     a, b = generate(entry(), bambu, PRINTER), generate(entry(), bambu, PRINTER)
-    b.family = "BVOH"  # anderer Ordner, gleicher Profilname
+    b.family = "BVOH"  # other folder, same profile name
     _dedupe_paths([a, b])
     assert a.name == f"Acme BVOH @{PRINTER}"
     assert b.name == f"Acme BVOH (2) @{PRINTER}" and b.profile["name"] == b.name
@@ -133,7 +133,7 @@ def test_list_and_select(tmp_path, records, bambu):
     items = list_profiles(tmp_path)
     assert {i["brand"] for i in items} >= {"Geeetech", "Fillamentum"}
     assert {i["brand"] for i in select_profiles(items, vendors=["geee"])} == {"Geeetech"}
-    assert select_profiles(items, materials=["peek"]) == []  # PEEK ist für den P1S zu heiß
+    assert select_profiles(items, materials=["peek"]) == []  # PEEK is too hot for the P1S
     assert len(select_profiles(items, materials=["pla"], names=["pla"])) == len([i for i in items if i["material"] == "PLA"])
 
 
@@ -143,7 +143,7 @@ def test_report_lists_unmatched(tmp_path, bambu):
     records = {"spoolman": [Record(source="spoolman", brand="X", material="Holz", name="Holz", ref="r")]}
     result = build(records, bambu, PRINTER)
     write_output(result, tmp_path, {}, PRINTER)
-    assert "Nicht zugeordnet" in (tmp_path / "REPORT.md").read_text(encoding="utf-8")
+    assert "Unmatched" in (tmp_path / "REPORT.md").read_text(encoding="utf-8")
 
 
 def test_fixture_sources_exist():

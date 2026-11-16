@@ -1,14 +1,14 @@
-"""Lokale Bambu-Studio-Installation finden, Profile installieren und aufräumen.
+"""Find the local Bambu Studio installation, install profiles and clean up.
 
-Bambu Studio liest Benutzerprofile aus ``<Datenordner>/user/<Benutzer>/filament``.
-Eigenständige Profile (eigener Hersteller) liegen im Unterordner ``base``.
-``<Benutzer>`` ist die Bambu-Konto-ID oder ``default`` ohne Anmeldung; die
-aktive steht in ``BambuStudio.conf`` unter ``app.preset_folder``.
+Bambu Studio reads user profiles from ``<data folder>/user/<user>/filament``.
+Standalone profiles (own brand) live in the ``base`` subfolder. ``<user>`` is
+the Bambu account ID, or ``default`` when not logged in; the active one is
+stored in ``BambuStudio.conf`` under ``app.preset_folder``.
 
-Wichtig für das Löschen: Ist ein Profil mit der Cloud synchronisiert (die
-``.info``-Datei hat eine ``setting_id``), lädt Bambu Studio es beim nächsten
-Start wieder herunter, wenn nur die lokale Datei fehlt. Solche Profile löscht
-man in Bambu Studio selbst (Datei → Verwaltung von Batch-Profilen).
+Important for deleting: if a profile is synced with the cloud (its ``.info``
+file has a ``setting_id``), Bambu Studio downloads it again on the next start
+when only the local file is gone. Delete such profiles in Bambu Studio itself
+(File → Batch Preset Management).
 """
 
 from __future__ import annotations
@@ -65,11 +65,11 @@ class UserPreset:
         return bool(self.setting_id)
 
     def printers(self, system: BambuProfiles | None = None) -> list[str] | None:
-        """Drucker, für die Bambu Studio das Profil anbietet; ``None`` = nicht bestimmbar.
+        """Printers Bambu Studio offers the profile for; ``None`` = cannot be determined.
 
-        Eigene Angabe → bei eigenständigen Profilen der Namenszusatz „@Drucker“ (so setzt es
-        Bambu Studio beim Laden) → bei erbenden das Elternprofil der Installation.
-        Eine leere Liste heißt: für alle Drucker.
+        Own setting → for standalone profiles the "@printer" name suffix (that is what
+        Bambu Studio uses when loading) → for inheriting ones the installation's parent.
+        An empty list means: all printers.
         """
         if self.compatible_printers:
             return list(self.compatible_printers)
@@ -88,16 +88,16 @@ class UserPreset:
 
     @property
     def shown_vendor(self) -> str:
-        """Hersteller, unter dem Bambu Studio das Filament führt."""
+        """Brand under which Bambu Studio files the filament."""
         if self.root:
             return self.vendor or "?"
         if self.inherits.startswith("Generic"):
             return "Generic"
-        return f"wie {self.inherits}"
+        return f"as {self.inherits}"
 
     @property
     def kind(self) -> str:
-        return "eigenständig" if self.root else f"erbt von {self.inherits}"
+        return "standalone" if self.root else f"inherits {self.inherits}"
 
 
 @dataclass
@@ -109,7 +109,7 @@ class Action:
     data: dict = field(default_factory=dict)
 
 
-# --------------------------------------------------------------------------- Suche
+# -------------------------------------------------------------------------- search
 
 
 def candidate_dirs(platform: str | None = None, env: dict | None = None, home: Path | None = None) -> list[Installation]:
@@ -158,20 +158,20 @@ def choose_installation(found: list[Installation], data_dir: str | None, ask) ->
     if data_dir:
         path = Path(data_dir).expanduser()
         if not path.is_dir():
-            raise InstallError(f"Datenordner {path} gibt es nicht")
-        return Installation("manuell", path)
+            raise InstallError(f"data folder {path} does not exist")
+        return Installation("manual", path)
     if not found:
-        raise InstallError("Keine Bambu-Studio-Installation gefunden. Mit --data-dir den Datenordner angeben.")
+        raise InstallError("no Bambu Studio installation found; pass the data folder with --data-dir")
     if len(found) == 1:
         return found[0]
-    return _pick(found, "Mehrere Bambu-Studio-Installationen gefunden", ask, str)
+    return _pick(found, "Several Bambu Studio installations found", ask, str)
 
 
 def choose_user(data_dir: Path, requested: str | None, ask) -> str:
     ids = user_ids(data_dir)
     if requested:
         if requested not in ids:
-            raise InstallError(f"Benutzerordner „{requested}“ gibt es nicht (vorhanden: {', '.join(ids) or 'keiner'})")
+            raise InstallError(f"user folder \"{requested}\" does not exist (available: {', '.join(ids) or 'none'})")
         return requested
     active = active_user(data_dir)
     if not ids:
@@ -179,20 +179,20 @@ def choose_user(data_dir: Path, requested: str | None, ask) -> str:
     if len(ids) == 1:
         return ids[0]
     ordered = ([active] if active in ids else []) + [i for i in ids if i != active]
-    return _pick(ordered, "Mehrere Benutzerordner gefunden" + (f" (aktiv: {active})" if active else ""), ask, str)
+    return _pick(ordered, "Several user folders found" + (f" (active: {active})" if active else ""), ask, str)
 
 
 def _pick(options, title: str, ask, label):
     if ask is None:
-        raise InstallError(title + ": " + ", ".join(label(o) for o in options) + ". Bitte per Option auswählen.")
+        raise InstallError(title + ": " + ", ".join(label(o) for o in options) + ". Please choose one with an option.")
     lines = [title + ":"] + [f"  {i + 1}) {label(o)}" for i, o in enumerate(options)]
     answer = ask("\n".join(lines) + "\nNummer [1]: ").strip() or "1"
     if not answer.isdigit() or not 1 <= int(answer) <= len(options):
-        raise InstallError("Ungültige Auswahl")
+        raise InstallError("invalid choice")
     return options[int(answer) - 1]
 
 
-# --------------------------------------------------------------------- Prozesse
+# ------------------------------------------------------------------- processes
 
 
 def bambu_running(platform: str | None = None, proc_root: Path = Path("/proc"), run=subprocess.run) -> bool:
@@ -216,11 +216,11 @@ def bambu_running(platform: str | None = None, proc_root: Path = Path("/proc"), 
 
 
 def _is_bambu_process(entry: Path) -> bool:
-    """Prozessname (``comm``) oder Programmname (erstes Argument) gehört zu Bambu Studio.
+    """Process name (``comm``) or program name (first argument) belongs to Bambu Studio.
 
-    Der Flatpak-Hauptprozess heißt ``bambustu_main`` (Name des Hauptthreads), sein
-    Programm ist ``/app/bin/bambu-studio``. Nur das erste Argument zählt, damit eine
-    Shell mit „bambu-studio“ irgendwo im Befehl keinen Fehlalarm auslöst.
+    The Flatpak main process is called ``bambustu_main`` (name of the main thread),
+    its program is ``/app/bin/bambu-studio``. Only the first argument counts, so a
+    shell with "bambu-studio" somewhere in its command line raises no false alarm.
     """
     try:
         comm = (entry / "comm").read_text(encoding="utf-8", errors="replace").strip().lower()
@@ -236,7 +236,7 @@ def _is_bambu_process(entry: Path) -> bool:
     return program in PROCESS_NAMES or (program.endswith(".appimage") and "bambu" in program)
 
 
-# ------------------------------------------------------------ vorhandene Profile
+# ------------------------------------------------------------ existing profiles
 
 
 def read_info(path: Path) -> dict[str, str]:
@@ -261,7 +261,7 @@ def scan_user_presets(filament_dir: Path) -> tuple[list[UserPreset], list[str]]:
             try:
                 data = json.loads(path.read_text(encoding="utf-8"))
             except (OSError, ValueError) as exc:
-                problems.append(f"{path.name}: nicht lesbar ({exc})")
+                problems.append(f"{path.name}: unreadable ({exc})")
                 continue
             info = read_info(path.with_suffix(".info"))
             setting_id = info.get("setting_id", "")
@@ -282,7 +282,7 @@ def scan_user_presets(filament_dir: Path) -> tuple[list[UserPreset], list[str]]:
 
 
 def filter_presets(presets, vendors=(), names=(), generic_only=False, tool_only=False, not_for: str | None = None, system=None):
-    """Auswahl für ``cleanup``. ``not_for``: nur Profile, die sicher nicht für diesen Drucker gelten."""
+    """Selection for ``cleanup``. ``not_for``: only profiles that certainly do not apply to this printer."""
     result = []
     for preset in presets:
         if not_for and preset.usable_on(not_for, system) is not False:
@@ -299,11 +299,11 @@ def filter_presets(presets, vendors=(), names=(), generic_only=False, tool_only=
     return result
 
 
-# ----------------------------------------------------------------- Installation
+# ------------------------------------------------------------------ installation
 
 
 def plan_install(profile_files: list[Path], filament_dir: Path, existing: list[UserPreset], bambu: BambuProfiles, user_id: str):
-    """Aktionen planen; liefert (Aktionen, Fehlermeldungen)."""
+    """Plan the actions; returns (actions, error messages)."""
     by_name = {p.name: p for p in existing}
     actions: list[Action] = []
     errors: list[str] = []
@@ -331,7 +331,7 @@ def plan_install(profile_files: list[Path], filament_dir: Path, existing: list[U
 
 
 def assign_filament_id(name: str, user_id: str, existing: list[UserPreset]) -> str:
-    """Wie der Bambu-Assistent: gleicher Name → gleiche ID, sonst neue ohne Kollision."""
+    """Like the Bambu wizard: same name → same ID, otherwise a new one without collision."""
     alias = alias_of(name)
     taken: dict[str, set[str]] = {}
     for preset in existing:
@@ -376,37 +376,37 @@ def write_profile(action: Action, user_id: str, now: float | None = None) -> Non
 
 def delete_local(preset: UserPreset) -> None:
     if preset.synced:
-        raise InstallError(f"„{preset.name}“ ist mit der Cloud synchronisiert und käme zurück; bitte in Bambu Studio löschen")
+        raise InstallError(f"\"{preset.name}\" is synced with the cloud and would come back; please delete it in Bambu Studio")
     preset.path.unlink(missing_ok=True)
     preset.path.with_suffix(".info").unlink(missing_ok=True)
 
 
 def printers_label(preset: UserPreset, system: BambuProfiles | None) -> str:
-    """Kurzanzeige der Drucker, z. B. „P1S 0.4 nozzle, X1 0.4 nozzle (+2)“."""
+    """Short printer label, e.g. "P1S 0.4 nozzle, X1 0.4 nozzle (+2)"."""
     printers = preset.printers(system)
     if printers is None:
-        return "unbekannt"
+        return "unknown"
     if not printers:
-        return "alle"
+        return "all"
     short = [p.replace("Bambu Lab ", "") for p in printers]
     return ", ".join(short[:3]) + (f" (+{len(short) - 3})" if len(short) > 3 else "")
 
 
 def checklist_markdown(presets: list[UserPreset], user: str) -> str:
-    """Liste zum Abhaken für Datei → Verwaltung von Batch-Profilen in Bambu Studio."""
+    """Checklist for File → Batch Preset Management in Bambu Studio."""
     lines = [
-        f"# Filamentprofile zum Löschen (Benutzer {user})",
+        f"# Filament profiles to delete (user {user})",
         "",
-        "In Bambu Studio: Datei → Verwaltung von Batch-Profilen → Filament, diese Profile anhaken, Löschen.",
+        "In Bambu Studio: File → Batch Preset Management → Filament, tick these profiles, Delete.",
         "",
     ]
     for p in sorted(presets, key=lambda x: x.name.lower()):
-        lines.append(f"- [ ] {p.name} ({'Cloud' if p.synced else 'lokal'}, {p.kind}, Hersteller: {p.shown_vendor})")
+        lines.append(f"- [ ] {p.name} ({'cloud' if p.synced else 'local'}, {p.kind}, brand: {p.shown_vendor})")
     return "\n".join(lines) + "\n"
 
 
 def default_data_dir(platform: str | None = None, env: dict | None = None, home: Path | None = None) -> Path:
-    """Ablage für Backups und Quellen-Cache dieses Tools."""
+    """Folder for this tool's backups, sources and profiles."""
     platform = platform or sys.platform
     env = os.environ if env is None else env
     home = Path.home() if home is None else Path(home)

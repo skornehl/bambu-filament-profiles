@@ -1,8 +1,8 @@
-"""Normalisierung von Herstellern, Materialien und Sortennamen.
+"""Normalisation of brands, materials and product names.
 
-Die Quellen schreiben dieselben Filamente unterschiedlich („eSUN 3D“, „esun_3d“,
-„eSUN“; „PLA+“ und „PLA Plus“). Der Abgleich arbeitet deshalb mit einem
-Schlüssel aus normalisiertem Hersteller, Materialfamilie und Namens-Token.
+The sources spell the same filaments differently ("eSUN 3D", "esun_3d", "eSUN";
+"PLA+" and "PLA Plus"). Matching therefore uses a key made of the normalised
+brand, the material family and the name tokens.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ BRAND_ALIASES = {
     "add": "addnorth",
 }
 
-# Reihenfolge wichtig: längere Präfixe zuerst.
+# Order matters: longer prefixes first.
 FAMILIES: tuple[str, ...] = (
     "PETG",
     "PCTG",
@@ -84,7 +84,7 @@ WINDOWS_RESERVED = frozenset({"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in r
 
 
 def norm_brand(brand: str) -> str:
-    """Hersteller auf einen Vergleichsschlüssel bringen („eSUN 3D“ → „esun“)."""
+    """Reduce a brand to a comparison key ("eSUN 3D" → "esun")."""
     b = (brand or "").lower().replace("&", "and")
     b = re.sub(r"[^a-z0-9]", "", b)
     for suffix in ("filaments", "filament", "3d"):
@@ -94,7 +94,7 @@ def norm_brand(brand: str) -> str:
 
 
 def family_of(material: str) -> str | None:
-    """Materialfamilie (PLA, PETG, PA …) aus einer Materialangabe bestimmen."""
+    """Material family (PLA, PETG, PA …) from a material string."""
     upper = (material or "").upper()
     compact = re.sub(r"[^A-Z0-9+]", "", upper)
     if not compact:
@@ -107,13 +107,13 @@ def family_of(material: str) -> str | None:
             return FAMILY_ALIASES[bare]
         if bare in FAMILIES:
             return bare
-    # Längste Familie, die vorne passt („PETGCF“ → PETG, nicht PET)
+    # Longest family that matches at the start ("PETGCF" → PETG, not PET)
     return max((f for f in FAMILIES if compact.startswith(f)), key=len, default=None)
 
 
 def tokens(text: str) -> list[str]:
     t = (text or "").lower()
-    t = re.sub(r"\b[123][.,](75|85|0)\s*mm\b", " ", t)  # Durchmesserangaben
+    t = re.sub(r"\b[123][.,](75|85|0)\s*mm\b", " ", t)  # diameter strings
     t = t.replace("+", " + ")
     raw = re.findall(r"[a-z0-9]+|\+", t)
     out = []
@@ -122,7 +122,7 @@ def tokens(text: str) -> list[str]:
         if tok in STOP_TOKENS:
             continue
         out.append(tok)
-    # „high speed“ zu einem Token zusammenziehen
+    # merge "high speed" into one token
     joined: list[str] = []
     i = 0
     while i < len(out):
@@ -136,7 +136,7 @@ def tokens(text: str) -> list[str]:
 
 
 def name_tokens(name: str, brand: str, material: str) -> frozenset[str]:
-    """Token eines Sortennamens ohne Hersteller- und Materialfamilien-Token."""
+    """Tokens of a product name without brand and material family tokens."""
     drop = set(tokens(brand)) | {norm_brand(brand)}
     fam = family_of(material) or family_of(name)
     fam_token = fam.lower() if fam else None
@@ -144,17 +144,17 @@ def name_tokens(name: str, brand: str, material: str) -> frozenset[str]:
     for tok in tokens(name):
         if tok in drop or tok == fam_token:
             continue
-        # Materialbezeichnungen wie „pa6“, „pa12“ gehören zur Familie
+        # material names like "pa6", "pa12" belong to the family
         if fam_token and re.fullmatch(re.escape(fam_token) + r"\d*", tok):
             continue
-        # Synonyme der Familie („nylon“, „flex“)
+        # synonyms of the family ("nylon", "flex")
         if FAMILY_ALIASES.get(tok.upper()) == fam:
             continue
         result.add(tok)
-    # „PLA+“ als Materialangabe ist eine eigene Sorte
+    # "PLA+" as material is a product of its own
     if "plus" in tokens(material):
         result.add("plus")
-    # Faserverstärkung aus Typangaben wie „PLA-CF“ übernehmen
+    # take fibre reinforcement from types like "PLA-CF"
     mat = (material or "").lower()
     for fiber in ("cf", "gf"):
         if re.search(r"(^|[^a-z])" + fiber + r"\d*($|[^a-z])", mat):
@@ -170,7 +170,7 @@ def match_key(brand: str, material: str, name: str) -> tuple[str, str, frozenset
 
 
 def alias_of(profile_name: str) -> str:
-    """Profilname ohne „ @Drucker“-Zusatz."""
+    """Profile name without the " @printer" suffix."""
     return re.sub(r"\s*@.*$", "", profile_name or "").strip()
 
 
@@ -179,9 +179,9 @@ def norm_alias(profile_name: str) -> str:
 
 
 def safe_filename(text: str) -> str:
-    """Datei- und Ordnernamen für Linux und Windows."""
+    """File and folder names for Linux and Windows."""
     cleaned = re.sub(r'[<>:"/\\|?*]', "-", text).strip().rstrip(". ")
     cleaned = re.sub(r"\s+", " ", cleaned)
     if cleaned.split(".")[0].upper() in WINDOWS_RESERVED:
         cleaned += "_"
-    return cleaned or "unbenannt"
+    return cleaned or "unnamed"

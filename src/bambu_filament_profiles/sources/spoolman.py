@@ -1,4 +1,4 @@
-"""SpoolmanDB (``filaments/<hersteller>.json``): Stammdaten ohne Slicer-Feinwerte."""
+"""SpoolmanDB (``filaments/<brand>.json``): master data without slicer tuning values."""
 
 from __future__ import annotations
 

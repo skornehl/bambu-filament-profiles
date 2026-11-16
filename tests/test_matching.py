@@ -94,7 +94,7 @@ def test_alias_and_norm_alias():
 def test_safe_filename():
     assert safe_filename('A/B:C*D?"E<F>G|H') == "A-B-C-D--E-F-G-H"
     assert safe_filename("Name @Bambu Lab P1S 0.4 nozzle") == "Name @Bambu Lab P1S 0.4 nozzle"
-    assert safe_filename("  ...  ") == "unbenannt"
+    assert safe_filename("  ...  ") == "unnamed"
     assert safe_filename("PLA  Silk.") == "PLA Silk"
 
 

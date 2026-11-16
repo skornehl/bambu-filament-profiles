@@ -1,4 +1,4 @@
-"""Kommandozeile: ``bfp update | list | install | export | cleanup | app | fetch | build``."""
+"""Command line: ``bfp update | list | install | export | cleanup | app | fetch | build``."""
 
 from __future__ import annotations
 
@@ -40,12 +40,12 @@ from .install import (
 from .sources.bambu import BambuProfiles
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-#: Ab diesem Alter (Tage) weist das Tool auf ``bfp update`` hin.
+#: From this age (days) on, the tool points to ``bfp update``.
 MAX_AGE_DAYS = 30
 CLOUD_HINT = (
-    "Mit der Cloud synchronisierte Profile bitte in Bambu Studio löschen: "
-    "Datei → Verwaltung von Batch-Profilen (engl. Batch Preset Management), Profile anhaken, Löschen. "
-    "Nur lokal gelöscht lädt Bambu Studio sie beim nächsten Start wieder aus der Cloud."
+    "Please delete profiles synced with the cloud in Bambu Studio: "
+    "File → Batch Preset Management, tick the profiles, Delete. "
+    "If they are only deleted locally, Bambu Studio downloads them again from the cloud on the next start."
 )
 
 
@@ -57,31 +57,31 @@ def main(argv: list[str] | None = None, ask=None, out=print) -> int:
     try:
         return args.func(args, ask, out)
     except (InstallError, FetchError, OSError, ValueError) as exc:
-        out(f"Fehler: {exc}")
+        out(f"Error: {exc}")
         return 1
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="bfp", description="Bambu-Studio-Filamentprofile erzeugen und installieren")
+    parser = argparse.ArgumentParser(prog="bfp", description="Generate and install Bambu Studio filament profiles")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
     data = default_data_dir()
 
-    p = sub.add_parser("update", help="neueste Quellen holen und die Profile lokal neu erzeugen")
+    p = sub.add_parser("update", help="fetch the newest sources and rebuild the profiles locally")
     _source_args(p, data)
     p.add_argument("--manual", type=Path, default=REPO_ROOT / "manual")
     p.add_argument("--out", type=Path, default=data / "profiles")
     p.add_argument("--printer", default=DEFAULT_PRINTER)
-    p.add_argument("--pinned", action="store_true", help="Stände aus der Lock-Datei statt der neuesten holen")
+    p.add_argument("--pinned", action="store_true", help="fetch the commits from the lock file instead of the newest")
     p.set_defaults(func=cmd_update)
 
-    p = sub.add_parser("fetch", help="nur die Quell-Repos holen (neuester Stand)")
+    p = sub.add_parser("fetch", help="only fetch the source repos (newest state)")
     _source_args(p, data)
-    p.add_argument("--pinned", action="store_true", help="Stände aus der Lock-Datei statt der neuesten holen")
-    p.add_argument("--only", action="append", default=[], help="nur diese Quelle (mehrfach möglich)")
+    p.add_argument("--pinned", action="store_true", help="fetch the commits from the lock file instead of the newest")
+    p.add_argument("--only", action="append", default=[], help="only this source (repeatable)")
     p.set_defaults(func=cmd_fetch)
 
-    p = sub.add_parser("build", help="nur die Profile aus den schon geholten Quellen erzeugen")
+    p = sub.add_parser("build", help="only build the profiles from the sources fetched before")
     _source_args(p, data)
     p.add_argument("--manual", type=Path, default=REPO_ROOT / "manual")
     p.add_argument("--out", type=Path, default=data / "profiles")
@@ -89,93 +89,93 @@ def _parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_build)
 
     for name, helptext in (
-        ("list", "abgelegte Profile anzeigen"),
-        ("install", "Profile in Bambu Studio installieren"),
-        ("export", "eigenständige Profile zum Importieren von Hand in einen Ordner schreiben"),
+        ("list", "show the generated profiles"),
+        ("install", "install profiles into Bambu Studio"),
+        ("export", "write standalone profiles into a folder for importing by hand"),
     ):
         p = sub.add_parser(name, help=helptext)
         p.add_argument("--profiles", type=Path, default=data / "profiles")
-        p.add_argument("--vendor", action="append", default=[], help="Hersteller (Teilstring, mehrfach möglich)")
-        p.add_argument("--material", action="append", default=[], help="Material, z. B. PLA (mehrfach möglich)")
-        p.add_argument("--name", action="append", default=[], help="Sorte (Teilstring, mehrfach möglich)")
+        p.add_argument("--vendor", action="append", default=[], help="brand (substring, repeatable)")
+        p.add_argument("--material", action="append", default=[], help="material, e.g. PLA (repeatable)")
+        p.add_argument("--name", action="append", default=[], help="product (substring, repeatable)")
         if name == "install":
             _target_args(p)
-            p.add_argument("--all", action="store_true", help="ohne Filter alle Profile installieren")
-            p.add_argument("--overwrite", action="store_true", help="vorhandene gleichnamige Profile ohne Rückfrage überschreiben")
+            p.add_argument("--all", action="store_true", help="install all profiles without a filter")
+            p.add_argument("--overwrite", action="store_true", help="overwrite existing profiles with the same name without asking")
             p.set_defaults(func=cmd_install)
         elif name == "export":
-            p.add_argument("--out", type=Path, required=True, help="Zielordner")
-            p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
-            p.add_argument("--cache", type=Path, default=data / "sources", help="Fallback: Quellen-Cache")
+            p.add_argument("--out", type=Path, required=True, help="target folder")
+            p.add_argument("--data-dir", help="Bambu Studio data folder (found automatically otherwise)")
+            p.add_argument("--cache", type=Path, default=data / "sources", help="fallback: source cache")
             p.set_defaults(func=cmd_export)
         else:
             p.set_defaults(func=cmd_list)
 
-    p = sub.add_parser("app", help="Begleit-App im Browser öffnen: suchen, installieren, aufräumen")
+    p = sub.add_parser("app", help="open the companion app in the browser: search, install, clean up")
     p.add_argument("--profiles", type=Path, default=data / "profiles")
-    p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
+    p.add_argument("--data-dir", help="Bambu Studio data folder (found automatically otherwise)")
     p.add_argument("--backup-dir", type=Path, default=data / "backups")
-    p.add_argument("--port", type=int, default=8765, help="Port auf 127.0.0.1 (belegt → freier Port)")
-    p.add_argument("--no-browser", action="store_true", help="Browser nicht automatisch öffnen")
+    p.add_argument("--port", type=int, default=8765, help="port on 127.0.0.1 (taken → a free port)")
+    p.add_argument("--no-browser", action="store_true", help="do not open the browser automatically")
     p.set_defaults(func=cmd_app)
 
-    p = sub.add_parser("cleanup", help="vorhandene eigene Filamentprofile auflisten und aufräumen")
+    p = sub.add_parser("cleanup", help="list and clean up your existing filament profiles")
     _target_args(p)
-    p.add_argument("--vendor", action="append", default=[], help="Hersteller oder Namensteil (mehrfach möglich)")
-    p.add_argument("--name", action="append", default=[], help="Namensteil (mehrfach möglich)")
-    p.add_argument("--generic", action="store_true", help="nur Profile, die Bambu Studio unter „Generic“ führt")
-    p.add_argument("--from-tool", action="store_true", help="nur Profile, die dieses Tool installiert hat")
-    p.add_argument("--not-for", metavar="DRUCKER", help="nur Profile, die nicht für diesen Drucker gelten, z. B. „P1S 0.4“")
-    p.add_argument("--delete-local", action="store_true", help="nur lokale (nicht synchronisierte) Profile löschen")
-    p.add_argument("--list-file", type=Path, help="Liste der zu löschenden Profile als Markdown schreiben")
+    p.add_argument("--vendor", action="append", default=[], help="brand or part of the name (repeatable)")
+    p.add_argument("--name", action="append", default=[], help="part of the name (repeatable)")
+    p.add_argument("--generic", action="store_true", help='only profiles Bambu Studio files under "Generic"')
+    p.add_argument("--from-tool", action="store_true", help="only profiles installed by this tool")
+    p.add_argument("--not-for", metavar="PRINTER", help='only profiles that do not apply to this printer, e.g. "P1S 0.4"')
+    p.add_argument("--delete-local", action="store_true", help="delete local (not synced) profiles only")
+    p.add_argument("--list-file", type=Path, help="write the list of profiles to delete as Markdown")
     p.set_defaults(func=cmd_cleanup)
     return parser
 
 
 def _source_args(p: argparse.ArgumentParser, data: Path) -> None:
-    p.add_argument("--cache", type=Path, default=data / "sources", help="Ablage der Quell-Repos")
-    p.add_argument("--lock", type=Path, default=data / "sources.lock.json", help="geholte Quellen-Stände")
+    p.add_argument("--cache", type=Path, default=data / "sources", help="folder for the source repos")
+    p.add_argument("--lock", type=Path, default=data / "sources.lock.json", help="fetched source commits")
 
 
 def _target_args(p: argparse.ArgumentParser) -> None:
-    p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
-    p.add_argument("--user", help="Benutzerordner (Bambu-Konto-ID oder „default“)")
+    p.add_argument("--data-dir", help="Bambu Studio data folder (found automatically otherwise)")
+    p.add_argument("--user", help='user folder (Bambu account ID or "default")')
     p.add_argument("--backup-dir", type=Path, default=default_data_dir() / "backups")
-    p.add_argument("--dry-run", action="store_true", help="nur anzeigen, nichts schreiben")
-    p.add_argument("--yes", action="store_true", help="ohne Rückfrage ausführen")
-    p.add_argument("--force", action="store_true", help="auch wenn Bambu Studio läuft")
+    p.add_argument("--dry-run", action="store_true", help="only show, write nothing")
+    p.add_argument("--yes", action="store_true", help="run without asking")
+    p.add_argument("--force", action="store_true", help="even if Bambu Studio is running")
 
 
-# ----------------------------------------------------------------------- Befehle
+# --------------------------------------------------------------------- commands
 
 
 def _update(profiles: Path, out) -> None:
-    """Quellen holen und Profile neu erzeugen, mit den Standardorten im Datenordner."""
+    """Fetch the sources and rebuild the profiles, using the default places in the data folder."""
     data = default_data_dir()
     result = update_profiles(data / "sources", data / "sources.lock.json", REPO_ROOT / "manual", profiles, DEFAULT_PRINTER, log=out)
-    out(f"{len(result.ok)} Profile unter {profiles} abgelegt")
+    out(f"{len(result.ok)} profiles written to {profiles}")
 
 
 def _catalog(args, out) -> list[dict]:
-    """Abgelegte Profile; fehlen sie am Standardort, holt und erzeugt das Tool sie zuerst."""
+    """The generated profiles; if they are missing in the default place, fetch and build them first."""
     items = list_profiles(args.profiles)
     if not items:
         if Path(args.profiles) != default_data_dir() / "profiles":
-            raise InstallError(f"Keine Profile in {args.profiles}. Erst erzeugen: bfp update --out {args.profiles}")
-        out("Noch keine Profile auf diesem Rechner: hole die Quellen und erzeuge die Profile (einmalig, dauert einen Moment) …")
+            raise InstallError(f"No profiles in {args.profiles}. Build them first: bfp update --out {args.profiles}")
+        out("No profiles on this computer yet: fetching the sources and building the profiles (once, takes a moment) …")
         _update(args.profiles, out)
         return list_profiles(args.profiles)
     age = catalog_age_days(read_build_info(args.profiles))
     if age is None:
-        out("Hinweis: Stand der Profile unbekannt. „bfp update“ holt den neuesten Stand.")
+        out('Note: the age of the profiles is unknown. "bfp update" fetches the newest state.')
     elif age > MAX_AGE_DAYS:
-        out(f"Hinweis: Die Profile sind {age} Tage alt. „bfp update“ holt den neuesten Stand.")
+        out(f'Note: the profiles are {age} days old. "bfp update" fetches the newest state.')
     return items
 
 
 def cmd_update(args, ask, out) -> int:
     result = update_profiles(args.cache, args.lock, args.manual, args.out, args.printer, pinned=args.pinned, log=out)
-    out(f"{len(result.ok)} Profile unter {args.out} abgelegt; Details in {args.out / 'REPORT.md'}")
+    out(f"{len(result.ok)} profiles written to {args.out}; details in {args.out / 'REPORT.md'}")
     return 0
 
 
@@ -184,7 +184,7 @@ def cmd_fetch(args, ask, out) -> int:
     new_lock = fetch_all(args.cache, lock, update=not args.pinned, names=set(args.only) or None, log=out)
     if new_lock != lock:
         write_lock(args.lock, new_lock)
-        out(f"Lock-Datei aktualisiert: {args.lock}")
+        out(f"Lock file updated: {args.lock}")
     return 0
 
 
@@ -194,7 +194,7 @@ def cmd_build(args, ask, out) -> int:
     records = load_records(args.cache, args.manual, args.printer, log=out)
     result = build(records, bambu, args.printer)
     write_output(result, args.out, lock, args.printer)
-    out(f"{len(result.ok)} Profile unter {args.out} abgelegt; Details in {args.out / 'REPORT.md'}")
+    out(f"{len(result.ok)} profiles written to {args.out}; details in {args.out / 'REPORT.md'}")
     return 0
 
 
@@ -202,7 +202,7 @@ def cmd_list(args, ask, out) -> int:
     items = select_profiles(_catalog(args, out), args.vendor, args.material, args.name)
     for item in items:
         out(f"{item['brand']} / {item['material']} / {item['product']}")
-    out(f"{len(items)} Profile")
+    out(f"{len(items)} profiles")
     return 0
 
 
@@ -218,16 +218,16 @@ def cmd_app(args, ask, out) -> int:
 def cmd_export(args, ask, out) -> int:
     items = select_profiles(_catalog(args, out), args.vendor, args.material, args.name)
     if not items:
-        out("Keine passenden Profile gefunden")
+        out("No matching profiles found")
         return 1
     found = [] if args.data_dir else find_installations()
     if args.data_dir or found:
         data_dir = Path(args.data_dir).expanduser() if args.data_dir else found[0].data_dir
         system = BambuProfiles.from_installation(data_dir)
-        out(f"Basisprofile aus {data_dir} (Version {system.bundle_version or '?'})")
+        out(f"Base profiles from {data_dir} (version {system.bundle_version or '?'})")
     else:
         system = BambuProfiles(args.cache / "bambu")
-        out(f"Basisprofile aus dem Quellen-Cache {args.cache / 'bambu'}")
+        out(f"Base profiles from the source cache {args.cache / 'bambu'}")
     args.out.mkdir(parents=True, exist_ok=True)
     written = 0
     for item in items:
@@ -235,11 +235,11 @@ def cmd_export(args, ask, out) -> int:
         try:
             data = expand(spec, system, filament_id_for(alias_of(spec["name"])))
         except ExpandError as exc:
-            out(f"  [FEHLER] {spec['name']}: {exc.args[0]}")
+            out(f"  [ERROR] {spec['name']}: {exc.args[0]}")
             continue
         (args.out / f"{safe_filename(spec['name'])}.json").write_text(json.dumps(data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
         written += 1
-    out(f"{written} Profile nach {args.out} geschrieben. In Bambu Studio: Datei → Importieren → Konfigurationen importieren.")
+    out(f"{written} profiles written to {args.out}. In Bambu Studio: File → Import → Import Configs.")
     return 0
 
 
@@ -248,12 +248,12 @@ def _target(args, ask, out, writes: bool = True):
     user = choose_user(inst.data_dir, args.user, ask)
     filament_dir = inst.data_dir / "user" / user / "filament"
     out(f"Bambu Studio: {inst}")
-    out(f"Benutzerordner: {user}{' (nicht angemeldet)' if user == 'default' else ''}")
+    out(f"User folder: {user}{' (not logged in)' if user == 'default' else ''}")
     if writes and bambu_running():
-        out("Achtung: Bambu Studio läuft gerade. Bitte schließen, sonst sieht es die Änderungen erst nach einem Neustart")
-        out("und kann sie beim Beenden überschreiben.")
+        out("Warning: Bambu Studio is running. Please close it, otherwise it only sees the changes after a restart")
+        out("and may overwrite them when it exits.")
         if not args.dry_run and not args.force:
-            raise InstallError("Abbruch, weil Bambu Studio läuft (mit --force trotzdem ausführen)")
+            raise InstallError("aborted because Bambu Studio is running (use --force to run anyway)")
     return inst, user, filament_dir
 
 
@@ -261,55 +261,55 @@ def _confirm(args, ask, question: str) -> bool:
     if args.yes:
         return True
     if ask is None:
-        raise InstallError("Keine Rückfrage möglich; mit --yes bestätigen")
-    return ask(f"{question} [j/N] ").strip().lower() in {"j", "ja", "y", "yes"}
+        raise InstallError("cannot ask; confirm with --yes")
+    return ask(f"{question} [y/N] ").strip().lower() in {"y", "yes", "j", "ja"}
 
 
 def cmd_install(args, ask, out) -> int:
     if not (args.vendor or args.material or args.name or args.all):
-        raise InstallError("Bitte mit --vendor, --material oder --name auswählen (oder --all für alle)")
+        raise InstallError("please select with --vendor, --material or --name (or --all for everything)")
     items = select_profiles(_catalog(args, out), args.vendor, args.material, args.name)
     if not items:
-        out("Keine passenden Profile gefunden")
+        out("No matching profiles found")
         return 1
     inst, user, filament_dir = _target(args, ask, out)
     try:
         system = BambuProfiles.from_installation(inst.data_dir)
     except FileNotFoundError as exc:
-        raise InstallError(f"Systemprofile der Installation nicht gefunden ({exc}); Bambu Studio einmal starten") from exc
-    out(f"Systemprofile der Installation: Version {system.bundle_version or '?'}")
+        raise InstallError(f"system profiles of the installation not found ({exc}); start Bambu Studio once") from exc
+    out(f"System profiles of the installation: version {system.bundle_version or '?'}")
     existing, problems = scan_user_presets(filament_dir)
     for problem in problems:
-        out(f"Hinweis: {problem}")
+        out(f"Note: {problem}")
     actions, errors = plan_install([i["path"] for i in items], filament_dir, existing, system, user)
     for error in errors:
-        out(f"  [FEHLER] {error}")
+        out(f"  [ERROR] {error}")
     for action in actions:
-        label = {"new": "neu", "same": "unverändert", "conflict": "VORHANDEN"}[action.kind]
+        label = {"new": "new", "same": "unchanged", "conflict": "EXISTS"}[action.kind]
         out(f"  [{label}] {action.name}")
     new = [a for a in actions if a.kind == "new"]
     conflicts = [a for a in actions if a.kind == "conflict"]
-    out(f"{len(new)} neu, {len(conflicts)} schon vorhanden mit anderem Inhalt, {len(actions) - len(new) - len(conflicts)} unverändert")
+    out(f"{len(new)} new, {len(conflicts)} already present with different content, {len(actions) - len(new) - len(conflicts)} unchanged")
     if args.dry_run:
-        out("Probelauf: nichts geschrieben")
+        out("Dry run: nothing written")
         return 0
     chosen = list(new)
     for action in conflicts:
-        if args.overwrite or (ask is not None and not args.yes and _confirm(args, ask, f"„{action.name}“ überschreiben?")):
+        if args.overwrite or (ask is not None and not args.yes and _confirm(args, ask, f'Overwrite "{action.name}"?')):
             chosen.append(action)
         else:
-            out(f"übersprungen: {action.name}")
+            out(f"skipped: {action.name}")
     if not chosen:
-        out("Nichts zu tun")
+        out("Nothing to do")
         return 0
-    if not _confirm(args, ask, f"{len(chosen)} Profile nach {filament_dir / 'base'} schreiben?"):
-        out("Abgebrochen")
+    if not _confirm(args, ask, f"Write {len(chosen)} profiles to {filament_dir / 'base'}?"):
+        out("Cancelled")
         return 1
     archive = backup(filament_dir, args.backup_dir, user)
     out(f"Backup: {archive}")
     for action in chosen:
         write_profile(action, user)
-    out(f"{len(chosen)} Profile installiert. Bambu Studio neu starten; angemeldet lädt es sie in die Cloud hoch.")
+    out(f"{len(chosen)} profiles installed. Restart Bambu Studio; when logged in it uploads them to the cloud.")
     return 0
 
 
@@ -317,40 +317,40 @@ def cmd_cleanup(args, ask, out) -> int:
     inst, user, filament_dir = _target(args, ask, out, writes=args.delete_local)
     presets, problems = scan_user_presets(filament_dir)
     for problem in problems:
-        out(f"Hinweis: {problem}")
+        out(f"Note: {problem}")
     try:
         system = BambuProfiles.from_installation(inst.data_dir)
     except FileNotFoundError:
         system = None
     selected = filter_presets(presets, args.vendor, args.name, args.generic, args.from_tool, args.not_for, system)
-    out(f"{len(selected)} von {len(presets)} eigenen Filamentprofilen ausgewählt:")
+    out(f"{len(selected)} of {len(presets)} own filament profiles selected:")
     for p in selected:
-        cloud = "Cloud" if p.synced else "lokal"
-        out(f"  [{cloud}] {p.name} — {p.kind}, Hersteller: {p.shown_vendor}, Drucker: {_printers(p, system)}")
+        cloud = "cloud" if p.synced else "local"
+        out(f"  [{cloud}] {p.name} — {p.kind}, brand: {p.shown_vendor}, printers: {_printers(p, system)}")
     synced = [p for p in selected if p.synced]
     local = [p for p in selected if not p.synced]
     if args.list_file:
         args.list_file.write_text(_cleanup_list(selected, user), encoding="utf-8")
-        out(f"Liste geschrieben: {args.list_file}")
+        out(f"List written: {args.list_file}")
     if synced:
-        out(f"{len(synced)} davon sind mit der Cloud synchronisiert. {CLOUD_HINT}")
+        out(f"{len(synced)} of them are synced with the cloud. {CLOUD_HINT}")
     if not args.delete_local:
-        out("Zum Löschen der lokalen Profile --delete-local angeben")
+        out("Add --delete-local to delete the local profiles")
         return 0
     if not local:
-        out("Keine lokalen Profile zum Löschen")
+        out("No local profiles to delete")
         return 0
     if args.dry_run:
-        out(f"Probelauf: {len(local)} lokale Profile würden gelöscht")
+        out(f"Dry run: {len(local)} local profiles would be deleted")
         return 0
-    if not _confirm(args, ask, f"{len(local)} lokale Profile löschen?"):
-        out("Abgebrochen")
+    if not _confirm(args, ask, f"Delete {len(local)} local profiles?"):
+        out("Cancelled")
         return 1
     archive = backup(filament_dir, args.backup_dir, user)
     out(f"Backup: {archive}")
     for preset in local:
         delete_local(preset)
-    out(f"{len(local)} lokale Profile gelöscht")
+    out(f"{len(local)} local profiles deleted")
     return 0
 
 

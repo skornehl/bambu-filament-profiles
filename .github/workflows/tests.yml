@@ -21,20 +21,20 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - name: Abhängigkeiten
+      - name: Dependencies
         run: python -m pip install -e ".[dev]"
-      - name: Tests mit Abdeckung
+      - name: Tests with coverage
         run: python -m pytest --cov --cov-report=term-missing --cov-report=xml
 
   live:
-    # Holt die echten Quellen und erzeugt die Profile so wie bei Benutzern.
+    # Fetches the real sources and builds the profiles just like on a user's machine.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Quellen holen und Profile erzeugen
+      - name: Fetch sources and build profiles
         run: python bfp.py update
-      - name: Profile sind lesbar
+      - name: Profiles are readable
         run: python bfp.py list --vendor Geeetech

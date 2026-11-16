@@ -1,12 +1,12 @@
-"""Lokale Web-Oberfläche der Begleit-App (``bfp app``).
+"""Local web interface of the companion app (``bfp app``).
 
-Ein kleiner HTTP-Server aus der Standardbibliothek, nur auf 127.0.0.1. Schutz
-gegen fremde Webseiten im selben Browser:
+A small HTTP server from the standard library, on 127.0.0.1 only. Protection
+against other web pages in the same browser:
 
-* jede API-Anfrage braucht das Zufalls-Token dieser Sitzung (Header ``X-BFP-Token``);
-* der ``Host``-Header muss ``127.0.0.1:<port>`` oder ``localhost:<port>`` sein
-  (gegen DNS-Rebinding);
-* Schreibaktionen nur per POST mit JSON.
+* every API request needs this session's random token (header ``X-BFP-Token``);
+* the ``Host`` header must be ``127.0.0.1:<port>`` or ``localhost:<port>``
+  (against DNS rebinding);
+* write actions only via POST with JSON.
 """
 
 from __future__ import annotations
@@ -30,13 +30,13 @@ MAX_BODY = 1_000_000
 
 class AppServer(ThreadingHTTPServer):
     daemon_threads = True
-    # HTTPServer setzt sonst SO_REUSEADDR. Unter Windows darf damit ein zweiter
-    # Prozess einen belegten Port noch einmal öffnen; dann teilen sich zwei
-    # Server still denselben Port.
+    # HTTPServer sets SO_REUSEADDR otherwise. On Windows that lets a second
+    # process open a port that is already taken; two servers then silently
+    # share the same port.
     allow_reuse_address = False
 
     def server_bind(self):
-        if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # pragma: no cover - nur Windows
+        if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # pragma: no cover - Windows only
             self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
         super().server_bind()
 
@@ -59,10 +59,10 @@ class Handler(BaseHTTPRequestHandler):
     server: AppServer
     server_version = "bfp"
 
-    def log_message(self, format, *args):  # noqa: A002 - ruhig bleiben
+    def log_message(self, format, *args):  # noqa: A002 - stay quiet
         pass
 
-    # ----------------------------------------------------------- Hilfen
+    # ----------------------------------------------------------- helpers
 
     def _send(self, status: int, body: bytes, content_type: str) -> None:
         self.send_response(status)
@@ -88,25 +88,25 @@ class Handler(BaseHTTPRequestHandler):
     def _body(self) -> dict:
         length = int(self.headers.get("Content-Length") or 0)
         if length > MAX_BODY:
-            raise ValueError("Anfrage zu groß")
+            raise ValueError("request too large")
         if "application/json" not in self.headers.get("Content-Type", ""):
-            raise ValueError("JSON erwartet")
+            raise ValueError("JSON expected")
         data = json.loads(self.rfile.read(length) or b"{}")
         if not isinstance(data, dict):
-            raise ValueError("JSON-Objekt erwartet")
+            raise ValueError("JSON object expected")
         return data
 
-    # ---------------------------------------------------------- Anfragen
+    # ---------------------------------------------------------- requests
 
     def do_GET(self):  # noqa: N802
         if not self._host_ok():
-            return self._json(403, {"error": "Falscher Host"})
+            return self._json(403, {"error": "wrong host"})
         parts = urlsplit(self.path)
         if parts.path == "/":
             html = INDEX_HTML.read_text(encoding="utf-8").replace("__BFP_TOKEN__", self.server.token)
             return self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
         if not self._token_ok():
-            return self._json(403, {"error": "Token fehlt"})
+            return self._json(403, {"error": "token missing"})
         query = {k: v[0] for k, v in parse_qs(parts.query).items()}
         session = self.server.session
         try:
@@ -124,13 +124,13 @@ class Handler(BaseHTTPRequestHandler):
                     )
         except (InstallError, ValueError) as exc:
             return self._json(400, {"error": str(exc)})
-        return self._json(404, {"error": "Nicht gefunden"})
+        return self._json(404, {"error": "not found"})
 
     def do_POST(self):  # noqa: N802
         if not self._host_ok():
-            return self._json(403, {"error": "Falscher Host"})
+            return self._json(403, {"error": "wrong host"})
         if not self._token_ok():
-            return self._json(403, {"error": "Token fehlt"})
+            return self._json(403, {"error": "token missing"})
         session = self.server.session
         try:
             body = self._body()
@@ -155,11 +155,11 @@ class Handler(BaseHTTPRequestHandler):
                     return None
         except (InstallError, FetchError, OSError, ValueError) as exc:
             return self._json(400, {"error": str(exc)})
-        return self._json(404, {"error": "Nicht gefunden"})
+        return self._json(404, {"error": "not found"})
 
 
 def make_server(session: AppSession, port: int = 8765) -> AppServer:
-    """Server auf dem Wunsch-Port, sonst auf einem freien Port."""
+    """Server on the requested port, otherwise on a free one."""
     try:
         return AppServer(session, port=port)
     except OSError:
@@ -168,15 +168,15 @@ def make_server(session: AppSession, port: int = 8765) -> AppServer:
 
 def run_app(session: AppSession, port: int = 8765, open_browser: bool = True, out=print) -> int:
     server = make_server(session, port)
-    out(f"Begleit-App läuft auf {server.url}")
-    out("Beenden mit dem Knopf „Beenden“ in der App oder mit Strg+C.")
+    out(f"Companion app running at {server.url}")
+    out('Stop it with the "Quit" button in the app or with Ctrl+C.')
     if open_browser:
         webbrowser.open(server.url)
     try:
         server.serve_forever()
-    except KeyboardInterrupt:  # pragma: no cover - interaktiv
+    except KeyboardInterrupt:  # pragma: no cover - interactive
         pass
     finally:
         server.server_close()
-    out("Begleit-App beendet")
+    out("Companion app stopped")
     return 0

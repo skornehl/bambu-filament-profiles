@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Filamentprofile</title>
+<title>Filament profiles</title>
 <style>
 :root {
   --bg: #f5f6f8; --panel: #ffffff; --text: #1b2130; --muted: #5b6474; --line: #dfe3e9;
@@ -78,66 +78,66 @@ dialog .foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px
 </head>
 <body>
 <header>
-  <h1>Filamentprofile für Bambu Studio</h1>
+  <h1>Filament profiles for Bambu Studio</h1>
   <div class="meta">
     <label id="instWrap" class="hidden">Installation <select id="instSel"></select></label>
     <span id="instText"></span>
-    <label>Benutzer <select id="userSel"></select></label>
-    <span id="runBadge" class="badge ok">Bambu Studio geschlossen</span>
+    <label>User <select id="userSel"></select></label>
+    <span id="runBadge" class="badge ok">Bambu Studio closed</span>
     <span id="catText"></span>
   </div>
-  <button id="updBtn" type="button" class="hidden" title="Neueste Quellen holen und die Profile neu erzeugen">Profile aktualisieren</button>
-  <button id="reloadBtn" type="button">Neu laden</button>
-  <button id="quitBtn" type="button">Beenden</button>
+  <button id="updBtn" type="button" class="hidden" title="Fetch the newest sources and rebuild the profiles">Update profiles</button>
+  <button id="reloadBtn" type="button">Reload</button>
+  <button id="quitBtn" type="button">Quit</button>
 </header>
 <nav role="tablist">
-  <button role="tab" id="tabFind" aria-selected="true" type="button">Profile finden</button>
-  <button role="tab" id="tabMine" aria-selected="false" type="button">Meine Profile</button>
+  <button role="tab" id="tabFind" aria-selected="true" type="button">Find profiles</button>
+  <button role="tab" id="tabMine" aria-selected="false" type="button">My profiles</button>
 </nav>
 
 <main id="paneFind">
   <div class="toolbar">
-    <input id="q" type="search" placeholder="Suchen, z. B. sunlu matte" autofocus>
-    <select id="brandSel"><option value="">Alle Hersteller</option></select>
-    <select id="matSel"><option value="">Alle Materialien</option></select>
-    <label><input id="hideInst" type="checkbox"> installierte ausblenden</label>
+    <input id="q" type="search" placeholder="Search, e.g. sunlu matte" autofocus>
+    <select id="brandSel"><option value="">All brands</option></select>
+    <select id="matSel"><option value="">All materials</option></select>
+    <label><input id="hideInst" type="checkbox"> hide installed</label>
     <span class="count" id="findCount"></span>
   </div>
   <div class="split">
     <div class="card"><div class="tablewrap">
       <table>
-        <thead><tr><th class="check"></th><th>Hersteller</th><th>Material</th><th>Sorte</th><th>Werte aus</th><th>Status</th></tr></thead>
+        <thead><tr><th class="check"></th><th>Brand</th><th>Material</th><th>Product</th><th>Values from</th><th>Status</th></tr></thead>
         <tbody id="findBody"></tbody>
       </table>
     </div></div>
-    <div class="card"><div class="detail" id="detail"><div class="empty">Profil anklicken, um die Werte zu sehen.</div></div></div>
+    <div class="card"><div class="detail" id="detail"><div class="empty">Click a profile to see its values.</div></div></div>
   </div>
   <div class="actionbar">
-    <span class="grow" id="selInfo">Nichts ausgewählt</span>
-    <button id="clearSel" type="button">Auswahl leeren</button>
-    <button id="installBtn" class="primary" type="button" disabled>Installieren…</button>
+    <span class="grow" id="selInfo">Nothing selected</span>
+    <button id="clearSel" type="button">Clear selection</button>
+    <button id="installBtn" class="primary" type="button" disabled>Install…</button>
   </div>
 </main>
 
 <main id="paneMine" class="hidden">
-  <div class="note">Profile mit Cloud-Kopie bitte in Bambu Studio löschen: <b>Datei → Verwaltung von Batch-Profilen</b>, anhaken, Löschen.
-    Nur lokal gelöscht holt Bambu Studio sie beim nächsten Start aus der Cloud zurück. Hier lassen sich nur lokale Profile löschen.</div>
+  <div class="note">Please delete profiles with a cloud copy in Bambu Studio: <b>File → Batch Preset Management</b>, tick them, Delete.
+    If they are only deleted locally, Bambu Studio brings them back from the cloud on the next start. Only local profiles can be deleted here.</div>
   <div class="toolbar">
-    <input id="mq" type="search" placeholder="Name enthält …">
-    <label><input id="mGeneric" type="checkbox"> nur unter „Generic“</label>
-    <label>nicht für Drucker <input id="mNotFor" type="text" placeholder="z. B. P1S 0.4" style="min-width:140px"></label>
+    <input id="mq" type="search" placeholder="Name contains …">
+    <label><input id="mGeneric" type="checkbox"> only under "Generic"</label>
+    <label>not for printer <input id="mNotFor" type="text" placeholder="e.g. P1S 0.4" style="min-width:140px"></label>
     <span class="count" id="mineCount"></span>
   </div>
   <div class="card" style="flex:1"><div class="tablewrap">
     <table>
-      <thead><tr><th class="check"><input type="checkbox" id="mAll" aria-label="Alle auswählen"></th><th>Name</th><th>Art</th><th>Hersteller</th><th>Drucker</th><th>Ablage</th></tr></thead>
+      <thead><tr><th class="check"><input type="checkbox" id="mAll" aria-label="Select all"></th><th>Name</th><th>Kind</th><th>Brand</th><th>Printers</th><th>Stored</th></tr></thead>
       <tbody id="mineBody"></tbody>
     </table>
   </div></div>
   <div class="actionbar">
-    <span class="grow" id="mSelInfo">Nichts ausgewählt</span>
-    <button id="listBtn" type="button" disabled>Liste für Bambu Studio herunterladen</button>
-    <button id="delBtn" class="danger" type="button" disabled>Lokale löschen…</button>
+    <span class="grow" id="mSelInfo">Nothing selected</span>
+    <button id="listBtn" type="button" disabled>Download list for Bambu Studio</button>
+    <button id="delBtn" class="danger" type="button" disabled>Delete local…</button>
   </div>
 </main>
 
@@ -176,46 +176,46 @@ function dialog(title, content, buttons) {
   $("dlgFoot").replaceChildren(...buttons);
   if (!$("dlg").open) $("dlg").showModal();
 }
-const closeBtn = (label = "Schließen") => el("button", { type: "button", onclick: () => $("dlg").close() }, label);
-function fail(err) { dialog("Fehler", el("p", { class: "error" }, err.message || String(err)), [closeBtn()]); }
+const closeBtn = (label = "Close") => el("button", { type: "button", onclick: () => $("dlg").close() }, label);
+function fail(err) { dialog("Error", el("p", { class: "error" }, err.message || String(err)), [closeBtn()]); }
 
-// ------------------------------------------------------------- Kopfzeile
+// ---------------------------------------------------------------- header
 function renderState() {
   const i = S.info;
   $("instWrap").classList.toggle("hidden", i.installations.length < 2);
   $("instSel").replaceChildren(...i.installations.map((t, n) => el("option", { value: n, selected: n === i.installation }, t)));
-  $("instText").textContent = i.data_dir ? (i.installations.length < 2 ? i.installations[0] : "") : "Keine Bambu-Studio-Installation gefunden";
-  $("userSel").replaceChildren(...i.users.map((u) => el("option", { value: u, selected: u === i.user }, u === i.active_user ? `${u} (aktiv)` : u)));
+  $("instText").textContent = i.data_dir ? (i.installations.length < 2 ? i.installations[0] : "") : "No Bambu Studio installation found";
+  $("userSel").replaceChildren(...i.users.map((u) => el("option", { value: u, selected: u === i.user }, u === i.active_user ? `${u} (active)` : u)));
   const b = $("runBadge");
-  b.textContent = i.running ? "Bambu Studio läuft: bitte schließen" : "Bambu Studio geschlossen";
+  b.textContent = i.running ? "Bambu Studio is running: please close it" : "Bambu Studio closed";
   b.className = "badge " + (i.running ? "warn" : "ok");
   const built = i.catalog_built ? new Date(i.catalog_built) : null;
-  $("catText").textContent = built ? `Profile vom ${built.toLocaleDateString("de-DE")}` : "Stand der Profile unbekannt";
+  $("catText").textContent = built ? `Profiles from ${built.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}` : "Age of the profiles unknown";
   $("updBtn").classList.toggle("hidden", !i.can_update);
   updateActions();
 }
 async function updateCatalog() {
-  dialog("Profile aktualisieren", el("p", {}, "Hole die neuesten Quellen und erzeuge die Profile neu. Das dauert einen Moment …"), []);
+  dialog("Update profiles", el("p", {}, "Fetching the newest sources and rebuilding the profiles. This takes a moment …"), []);
   try {
     const r = await api("/api/update", {});
     S.sel.clear();
     await loadState(); await loadProfiles();
-    dialog("Profile aktualisiert", el("p", {}, `${num(r.catalog_size, "Profil", "Profile")} auf dem neuesten Stand.`), [closeBtn()]);
+    dialog("Profiles updated", el("p", {}, `${num(r.catalog_size, "profile", "profiles")}, up to date.`), [closeBtn()]);
   } catch (err) { fail(err); }
 }
 async function loadState() { S.info = await api("/api/state"); renderState(); }
 async function refreshRunning() {
-  try { const i = await api("/api/state"); if (i.running !== S.info.running) { S.info = i; renderState(); } } catch (e) { /* App beendet */ }
+  try { const i = await api("/api/state"); if (i.running !== S.info.running) { S.info = i; renderState(); } } catch (e) { /* app stopped */ }
 }
 
-// ------------------------------------------------------------ Finden
+// ------------------------------------------------------------------ find
 async function loadProfiles() {
   S.profiles = await api("/api/profiles");
-  const brands = [...new Set(S.profiles.map((p) => p.brand))].sort((a, b) => a.localeCompare(b, "de", { sensitivity: "base" }));
+  const brands = [...new Set(S.profiles.map((p) => p.brand))].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
   const mats = [...new Set(S.profiles.map((p) => p.material))].sort();
   const keep = (sel, list, label) => { const v = sel.value; sel.replaceChildren(el("option", { value: "" }, label), ...list.map((x) => el("option", { value: x, selected: x === v }, x))); };
-  keep($("brandSel"), brands, "Alle Hersteller");
-  keep($("matSel"), mats, "Alle Materialien");
+  keep($("brandSel"), brands, "All brands");
+  keep($("matSel"), mats, "All materials");
   renderFind();
 }
 
@@ -229,39 +229,39 @@ function filtered() {
 function renderFind() {
   const list = filtered();
   const shown = list.slice(0, LIMIT);
-  $("findCount").textContent = list.length > LIMIT ? `${list.length} Treffer, die ersten ${LIMIT} angezeigt` : `${list.length} Treffer`;
+  $("findCount").textContent = list.length > LIMIT ? `${list.length} matches, showing the first ${LIMIT}` : num(list.length, "match", "matches");
   const rows = shown.map((p) => el("tr", { class: p.id === S.current ? "current" : "", onclick: (e) => { if (e.target.type !== "checkbox") showDetail(p.id); } },
-    el("td", { class: "check" }, el("input", { type: "checkbox", checked: S.sel.has(p.id), "aria-label": `${p.brand} ${p.product} auswählen`,
+    el("td", { class: "check" }, el("input", { type: "checkbox", checked: S.sel.has(p.id), "aria-label": `Select ${p.brand} ${p.product}`,
       onchange: (e) => { e.target.checked ? S.sel.add(p.id) : S.sel.delete(p.id); updateActions(); } })),
     el("td", {}, p.brand), el("td", {}, p.material), el("td", {}, p.product),
     el("td", {}, p.sources.map((s) => el("span", { class: "chip" }, s))),
-    el("td", {}, p.installed ? el("span", { class: "chip ok" }, "installiert") : "")));
-  $("findBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "Keine Treffer"))]));
+    el("td", {}, p.installed ? el("span", { class: "chip ok" }, "installed") : "")));
+  $("findBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "No matches"))]));
 }
 
 async function showDetail(id) {
   S.current = id; renderFind();
   try {
     const d = await api(`/api/profile?id=${id}`);
-    const dl = el("dl", {}, d.rows.map((r) => [el("dt", {}, r.label), el("dd", {}, `${r.value}${r.unit ? " " + r.unit : ""} `, r.origin === "geerbt" ? el("span", { class: "inh" }, "(geerbt)") : "")]));
+    const dl = el("dl", {}, d.rows.map((r) => [el("dt", {}, r.label), el("dd", {}, `${r.value}${r.unit ? " " + r.unit : ""} `, r.origin === "inherited" ? el("span", { class: "inh" }, "(inherited)") : "")]));
     $("detail").replaceChildren(
       el("h2", {}, `${d.brand} ${d.product}`),
-      el("div", { class: "sub" }, `${d.material} · Basis ${d.parent}`),
+      el("div", { class: "sub" }, `${d.material} · base ${d.parent}`),
       dl,
-      el("p", { class: "sub" }, d.sources.length ? `Werte aus: ${d.sources.join(", ")}. „geerbt“ = vom Basisprofil deiner Bambu-Studio-Version.` : "Alle Werte vom Basisprofil."));
+      el("p", { class: "sub" }, d.sources.length ? `Values from: ${d.sources.join(", ")}. "inherited" = from the base profile of your Bambu Studio version.` : "All values from the base profile."));
   } catch (e) { fail(e); }
 }
 
 function updateActions() {
   const running = S.info && S.info.running, noInst = !S.info || !S.info.data_dir;
-  $("selInfo").textContent = S.sel.size ? `${S.sel.size} ausgewählt` : "Nichts ausgewählt";
+  $("selInfo").textContent = S.sel.size ? `${S.sel.size} selected` : "Nothing selected";
   $("installBtn").disabled = !S.sel.size || running || noInst;
-  $("installBtn").title = running ? "Bambu Studio läuft" : "";
+  $("installBtn").title = running ? "Bambu Studio is running" : "";
   const mineSel = S.mine.filter((p) => S.mSel.has(p.name));
-  $("mSelInfo").textContent = mineSel.length ? `${mineSel.length} ausgewählt (${mineSel.filter((p) => !p.cloud).length} lokal)` : "Nichts ausgewählt";
+  $("mSelInfo").textContent = mineSel.length ? `${mineSel.length} selected (${mineSel.filter((p) => !p.cloud).length} local)` : "Nothing selected";
   $("listBtn").disabled = !mineSel.length;
   $("delBtn").disabled = !mineSel.some((p) => !p.cloud) || running;
-  $("delBtn").title = running ? "Bambu Studio läuft" : "";
+  $("delBtn").title = running ? "Bambu Studio is running" : "";
 }
 
 async function startInstall() {
@@ -271,44 +271,44 @@ async function startInstall() {
     const by = (k) => plan.actions.filter((a) => a.kind === k);
     const overwrite = new Set();
     const parts = [];
-    if (by("new").length) parts.push(el("p", {}, el("b", {}, `Neu (${by("new").length})`)), el("ul", {}, by("new").map((a) => el("li", {}, a.name))));
-    if (by("conflict").length) parts.push(el("p", {}, el("b", {}, `Schon vorhanden mit anderem Inhalt (${by("conflict").length})`), " – nur angehakte werden überschrieben:"),
+    if (by("new").length) parts.push(el("p", {}, el("b", {}, `New (${by("new").length})`)), el("ul", {}, by("new").map((a) => el("li", {}, a.name))));
+    if (by("conflict").length) parts.push(el("p", {}, el("b", {}, `Already present with different content (${by("conflict").length})`), " – only ticked ones are overwritten:"),
       el("ul", {}, by("conflict").map((a) => el("li", {}, el("label", {}, el("input", { type: "checkbox", onchange: (e) => e.target.checked ? overwrite.add(a.name) : overwrite.delete(a.name) }), " ", a.name)))));
-    if (by("same").length) parts.push(el("p", {}, `${by("same").length} unverändert, werden übersprungen.`));
-    if (plan.errors.length) parts.push(el("p", { class: "error" }, "Fehler:"), el("ul", {}, plan.errors.map((e) => el("li", {}, e))));
-    parts.push(el("p", { class: "sub" }, "Vorher wird ein Backup deines Filament-Ordners angelegt."));
+    if (by("same").length) parts.push(el("p", {}, `${by("same").length} unchanged, skipped.`));
+    if (plan.errors.length) parts.push(el("p", { class: "error" }, "Errors:"), el("ul", {}, plan.errors.map((e) => el("li", {}, e))));
+    parts.push(el("p", { class: "sub" }, "A backup of your filament folder is made first."));
     const go = el("button", { class: "primary", type: "button", onclick: async () => {
       go.disabled = true;
       try {
         const r = await api("/api/install", { ids, overwrite: [...overwrite] });
-        const out = [el("p", {}, `${num(r.installed.length, "Profil", "Profile")} installiert.`)];
-        if (r.skipped.length) out.push(el("p", {}, `Übersprungen: ${r.skipped.join(", ")}`));
+        const out = [el("p", {}, `${num(r.installed.length, "profile", "profiles")} installed.`)];
+        if (r.skipped.length) out.push(el("p", {}, `Skipped: ${r.skipped.join(", ")}`));
         if (r.backup) out.push(el("p", { class: "sub" }, `Backup: ${r.backup}`));
-        out.push(el("p", {}, "Bambu Studio jetzt starten; angemeldet lädt es die Profile in die Cloud hoch."));
-        dialog("Fertig", out, [closeBtn()]);
+        out.push(el("p", {}, "Start Bambu Studio now; when logged in it uploads the profiles to the cloud."));
+        dialog("Done", out, [closeBtn()]);
         S.sel.clear(); await loadProfiles(); updateActions();
       } catch (e) { fail(e); }
-    } }, "Installieren");
-    dialog(`${num(ids.length, "Profil", "Profile")} installieren`, parts, [closeBtn("Abbrechen"), go]);
+    } }, "Install");
+    dialog(`Install ${num(ids.length, "profile", "profiles")}`, parts, [closeBtn("Cancel"), go]);
     go.disabled = !by("new").length && !by("conflict").length;
   } catch (e) { fail(e); }
 }
 
-// -------------------------------------------------------- Meine Profile
+// ----------------------------------------------------------- my profiles
 let mineTimer = null;
 async function loadMine() {
   const q = new URLSearchParams({ q: $("mq").value, not_for: $("mNotFor").value, generic: $("mGeneric").checked ? "1" : "0" });
   try {
     const r = await api(`/api/existing?${q}`);
     S.mine = r.presets;
-    $("mineCount").textContent = `${r.presets.length} von ${r.total}`;
+    $("mineCount").textContent = `${r.presets.length} of ${r.total}`;
     const rows = r.presets.map((p) => el("tr", { onclick: (e) => { if (e.target.type !== "checkbox") { const c = e.currentTarget.querySelector("input"); c.checked = !c.checked; c.dispatchEvent(new Event("change")); } } },
-      el("td", { class: "check" }, el("input", { type: "checkbox", checked: S.mSel.has(p.name), "aria-label": `${p.name} auswählen`,
+      el("td", { class: "check" }, el("input", { type: "checkbox", checked: S.mSel.has(p.name), "aria-label": `Select ${p.name}`,
         onchange: (e) => { e.target.checked ? S.mSel.add(p.name) : S.mSel.delete(p.name); updateActions(); } })),
-      el("td", {}, p.name, p.from_tool ? el("span", { class: "chip ok", style: "margin-left:6px" }, "von diesem Tool") : ""),
+      el("td", {}, p.name, p.from_tool ? el("span", { class: "chip ok", style: "margin-left:6px" }, "from this tool") : ""),
       el("td", {}, p.kind), el("td", {}, p.vendor), el("td", {}, p.printers),
-      el("td", {}, el("span", { class: p.cloud ? "chip cloud" : "chip" }, p.cloud ? "Cloud" : "lokal"))));
-    $("mineBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "Keine eigenen Filamentprofile"))]));
+      el("td", {}, el("span", { class: p.cloud ? "chip cloud" : "chip" }, p.cloud ? "cloud" : "local"))));
+    $("mineBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "No own filament profiles"))]));
     $("mAll").checked = r.presets.length > 0 && r.presets.every((p) => S.mSel.has(p.name));
     updateActions();
   } catch (e) { fail(e); }
@@ -318,7 +318,7 @@ async function downloadList() {
   const names = S.mine.filter((p) => S.mSel.has(p.name)).map((p) => p.name);
   try {
     const r = await api("/api/checklist", { names });
-    const a = el("a", { href: URL.createObjectURL(new Blob([r.markdown], { type: "text/markdown" })), download: "filamentprofile-loeschen.md" });
+    const a = el("a", { href: URL.createObjectURL(new Blob([r.markdown], { type: "text/markdown" })), download: "filament-profiles-to-delete.md" });
     document.body.append(a); a.click(); a.remove();
   } catch (e) { fail(e); }
 }
@@ -326,21 +326,21 @@ async function downloadList() {
 function startDelete() {
   const chosen = S.mine.filter((p) => S.mSel.has(p.name));
   const local = chosen.filter((p) => !p.cloud), cloud = chosen.filter((p) => p.cloud);
-  const parts = [el("p", {}, `${num(local.length, "lokales Profil wird", "lokale Profile werden")} gelöscht:`), el("ul", {}, local.map((p) => el("li", {}, p.name)))];
-  if (cloud.length) parts.push(el("p", {}, `${num(cloud.length, "Cloud-Profil bleibt", "Cloud-Profile bleiben")}; die bitte in Bambu Studio löschen.`));
-  parts.push(el("p", { class: "sub" }, "Vorher wird ein Backup deines Filament-Ordners angelegt."));
+  const parts = [el("p", {}, `${num(local.length, "local profile", "local profiles")} will be deleted:`), el("ul", {}, local.map((p) => el("li", {}, p.name)))];
+  if (cloud.length) parts.push(el("p", {}, `${num(cloud.length, "cloud profile stays", "cloud profiles stay")}; please delete them in Bambu Studio.`));
+  parts.push(el("p", { class: "sub" }, "A backup of your filament folder is made first."));
   const go = el("button", { class: "danger", type: "button", onclick: async () => {
     go.disabled = true;
     try {
       const r = await api("/api/delete-local", { names: local.map((p) => p.name) });
-      dialog("Gelöscht", [el("p", {}, `${num(r.deleted.length, "lokales Profil", "lokale Profile")} gelöscht.`), r.backup ? el("p", { class: "sub" }, `Backup: ${r.backup}`) : ""], [closeBtn()]);
+      dialog("Deleted", [el("p", {}, `${num(r.deleted.length, "local profile", "local profiles")} deleted.`), r.backup ? el("p", { class: "sub" }, `Backup: ${r.backup}`) : ""], [closeBtn()]);
       S.mSel.clear(); await loadMine(); await loadProfiles();
     } catch (e) { fail(e); }
-  } }, "Löschen");
-  dialog("Lokale Profile löschen", parts, [closeBtn("Abbrechen"), go]);
+  } }, "Delete");
+  dialog("Delete local profiles", parts, [closeBtn("Cancel"), go]);
 }
 
-// ---------------------------------------------------------------- Start
+// ----------------------------------------------------------------- start
 function tab(name) {
   const find = name === "find";
   $("tabFind").setAttribute("aria-selected", find); $("tabMine").setAttribute("aria-selected", !find);
@@ -363,8 +363,8 @@ $("reloadBtn").onclick = async () => { await loadState(); await loadProfiles(); 
 $("instSel").onchange = async (e) => { try { S.info = await api("/api/select", { installation: Number(e.target.value) }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };
 $("userSel").onchange = async (e) => { try { S.info = await api("/api/select", { user: e.target.value }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };
 $("quitBtn").onclick = async () => {
-  try { await api("/api/shutdown", {}); } catch (e) { /* schon beendet */ }
-  document.body.replaceChildren(el("main", {}, el("div", { class: "empty" }, "Begleit-App beendet. Dieses Fenster kann geschlossen werden.")));
+  try { await api("/api/shutdown", {}); } catch (e) { /* already stopped */ }
+  document.body.replaceChildren(el("main", {}, el("div", { class: "empty" }, "Companion app stopped. You can close this window.")));
 };
 
 (async () => { try { await loadState(); await loadProfiles(); setInterval(refreshRunning, 5000); } catch (e) { fail(e); } })();

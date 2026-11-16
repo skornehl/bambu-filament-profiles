@@ -1,7 +1,7 @@
-"""Cura ``fdm_materials`` (XML je Farbe). Nur Temperaturen und Dichte.
+"""Cura ``fdm_materials`` (one XML per colour). Temperatures and density only.
 
-Lüfter- und Rückzugswerte sind auf Ultimaker-Drucker (Bowden) abgestimmt und
-werden nicht übernommen. Farben einer Sorte werden zusammengefasst.
+Fan and retraction values are tuned for Ultimaker printers (Bowden) and are not
+used. Colours of one product are merged.
 """
 
 from __future__ import annotations

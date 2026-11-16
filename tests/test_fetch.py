@@ -15,10 +15,10 @@ def upstream(tmp_path):
     repo = tmp_path / "upstream"
     (repo / "data").mkdir(parents=True)
     (repo / "data" / "a.json").write_text("{}", encoding="utf-8")
-    (repo / "other.txt").write_text("nicht holen", encoding="utf-8")
+    (repo / "other.txt").write_text("do not fetch", encoding="utf-8")
     git("init", "-q", "-b", "main", cwd=repo)
     git("add", ".", cwd=repo)
-    git("commit", "-q", "-m", "eins", cwd=repo)
+    git("commit", "-q", "-m", "one", cwd=repo)
     git("config", "uploadpack.allowFilter", "true", cwd=repo)
     git("config", "uploadpack.allowAnySHA1InWant", "true", cwd=repo)
     return repo
@@ -38,8 +38,8 @@ def test_fetch_source_sparse_and_pinned(upstream, tmp_path):
     assert not (checkout / "other.txt").exists()
     (upstream / "data" / "b.json").write_text("{}", encoding="utf-8")
     git("add", ".", cwd=upstream)
-    git("commit", "-q", "-m", "zwei", cwd=upstream)
-    assert fetch_source(source, tmp_path / "cache", first) == first  # festgelegter Stand
+    git("commit", "-q", "-m", "two", cwd=upstream)
+    assert fetch_source(source, tmp_path / "cache", first) == first  # pinned commit
     assert not (checkout / "data" / "b.json").exists()
     assert fetch_source(source, tmp_path / "cache", "HEAD") == head(upstream)
     assert (checkout / "data" / "b.json").exists()
@@ -57,8 +57,8 @@ def test_fetch_all_uses_lock(monkeypatch, upstream, tmp_path):
 
 
 def test_fetch_error(tmp_path):
-    source = Source("kaputt", (tmp_path / "gibt-es-nicht").as_uri(), "MIT", ("/x",), "Test")
-    with pytest.raises(FetchError, match="fehlgeschlagen"):
+    source = Source("broken", (tmp_path / "does-not-exist").as_uri(), "MIT", ("/x",), "Test")
+    with pytest.raises(FetchError, match="failed"):
         fetch_source(source, tmp_path / "cache", "HEAD")
 
 
@@ -79,11 +79,11 @@ def test_missing_git_is_explained(tmp_path):
     def no_git(*args, **kwargs):
         raise FileNotFoundError("git")
 
-    with pytest.raises(FetchError, match="Git installieren"):
+    with pytest.raises(FetchError, match="install Git"):
         fetch._git(["status"], tmp_path, run=no_git)
 
 
 def test_write_lock_creates_folder(tmp_path):
-    path = tmp_path / "neu" / "lock.json"
+    path = tmp_path / "new" / "lock.json"
     write_lock(path, {"a": {"commit": "1"}})
     assert read_lock(path) == {"a": {"commit": "1"}}
