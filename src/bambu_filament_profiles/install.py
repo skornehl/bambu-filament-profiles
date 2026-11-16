@@ -381,6 +381,30 @@ def delete_local(preset: UserPreset) -> None:
     preset.path.with_suffix(".info").unlink(missing_ok=True)
 
 
+def printers_label(preset: UserPreset, system: BambuProfiles | None) -> str:
+    """Kurzanzeige der Drucker, z. B. „P1S 0.4 nozzle, X1 0.4 nozzle (+2)“."""
+    printers = preset.printers(system)
+    if printers is None:
+        return "unbekannt"
+    if not printers:
+        return "alle"
+    short = [p.replace("Bambu Lab ", "") for p in printers]
+    return ", ".join(short[:3]) + (f" (+{len(short) - 3})" if len(short) > 3 else "")
+
+
+def checklist_markdown(presets: list[UserPreset], user: str) -> str:
+    """Liste zum Abhaken für Datei → Verwaltung von Batch-Profilen in Bambu Studio."""
+    lines = [
+        f"# Filamentprofile zum Löschen (Benutzer {user})",
+        "",
+        "In Bambu Studio: Datei → Verwaltung von Batch-Profilen → Filament, diese Profile anhaken, Löschen.",
+        "",
+    ]
+    for p in sorted(presets, key=lambda x: x.name.lower()):
+        lines.append(f"- [ ] {p.name} ({'Cloud' if p.synced else 'lokal'}, {p.kind}, Hersteller: {p.shown_vendor})")
+    return "\n".join(lines) + "\n"
+
+
 def default_data_dir(platform: str | None = None, env: dict | None = None, home: Path | None = None) -> Path:
     """Ablage für Backups und Quellen-Cache dieses Tools."""
     platform = platform or sys.platform

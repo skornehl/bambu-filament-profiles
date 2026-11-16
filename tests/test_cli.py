@@ -209,3 +209,17 @@ def test_cleanup_printer_column(fake_install, user_presets, not_running, tmp_pat
     (data / "user" / "1" / "filament").mkdir(parents=True)
     code, text = run(["cleanup", "--data-dir", str(data)])
     assert code == 0 and "0 von 0" in text
+
+
+def test_app_command(monkeypatch, profiles, fake_install, tmp_path):
+    from bambu_filament_profiles import webapp
+
+    seen = {}
+
+    def fake_run(session, port, open_browser, out):
+        seen.update(port=port, open_browser=open_browser, catalog=len(session.catalog), user=session.user)
+        return 0
+
+    monkeypatch.setattr(webapp, "run_app", fake_run)
+    code, _ = run(["app", "--profiles", str(profiles), "--data-dir", str(fake_install), "--port", "9999", "--no-browser", "--backup-dir", str(tmp_path / "bk")])
+    assert code == 0 and seen == {"port": 9999, "open_browser": False, "catalog": seen["catalog"], "user": "123"} and seen["catalog"] > 0

@@ -14,12 +14,41 @@ Voraussetzung: Python 3.11 oder neuer. Weitere Pakete braucht das Tool nicht.
 ```bash
 git clone https://github.com/skornehl/bambu-filament-profiles.git
 cd bambu-filament-profiles
-python bfp.py list --vendor SUNLU --material PLA
-python bfp.py install --vendor SUNLU --material PLA --dry-run
-python bfp.py install --vendor SUNLU --material PLA
+python3 bfp.py app
 ```
 
-Unter Windows genauso, mit `py` statt `python`. Bambu Studio vorher schließen.
+`app` öffnet die Begleit-App im Browser (siehe unten). Dasselbe geht auf der Kommandozeile:
+
+```bash
+python3 bfp.py list --vendor SUNLU --material PLA
+python3 bfp.py install --vendor SUNLU --material PLA --dry-run
+python3 bfp.py install --vendor SUNLU --material PLA
+```
+
+Unter Windows heißt der Befehl `py` statt `python3`. Bambu Studio vor dem Installieren oder Löschen schließen.
+
+## Begleit-App
+
+```bash
+python3 bfp.py app
+```
+
+Startet einen kleinen Server nur auf diesem Rechner (`http://127.0.0.1:8765`) und öffnet die Oberfläche im Browser.
+Beenden über den Knopf „Beenden“ oder mit Strg+C.
+
+- **Profile finden:** Suche über Hersteller, Material und Sorte („sunlu matte“), Filter nach Hersteller und Material.
+  Ein Klick zeigt die Werte: aus der Quelle oder „geerbt“ vom Basisprofil deiner Bambu-Studio-Version.
+  Mehrere anhaken, „Installieren…“ zeigt erst, was neu ist und was schon existiert; vorhandene werden nur
+  überschrieben, wenn du sie anhakst.
+- **Meine Profile:** deine vorhandenen Filamentprofile mit Art, Hersteller, Drucker und Ablage (lokal oder Cloud),
+  filterbar nach „nur unter Generic“ und „nicht für Drucker“. Lokale Profile lassen sich löschen, für Cloud-Profile
+  gibt es eine Liste für *Datei → Verwaltung von Batch-Profilen*.
+- **Gleiches Sicherheitsnetz wie `install`:** Backup vor jedem Schreiben, nichts schreiben, solange Bambu Studio
+  läuft (die App zeigt das oben an), Cloud-Profile nicht lokal löschen.
+- **Schutz:** Der Server lauscht nur auf 127.0.0.1, jede Aktion braucht ein Zufalls-Token der Sitzung, und der
+  Host-Header wird geprüft. So kann keine fremde Webseite über deinen Browser installieren oder löschen.
+
+Optionen: `--port`, `--data-dir`, `--no-browser`.
 
 ## Warum bisher alles unter „Generic“ landet
 
@@ -51,7 +80,7 @@ Filter sind Teilstrings und lassen sich wiederholen: `--vendor eSUN --vendor SUN
 ### install
 
 ```bash
-python bfp.py install --vendor Elegoo --material PLA --dry-run
+python3 bfp.py install --vendor Elegoo --material PLA --dry-run
 ```
 
 Sicherheitsnetz:
@@ -79,10 +108,10 @@ Die Profile landen in `<Datenordner>/user/<Konto-ID>/filament/base/`:
 ### cleanup: vorhandene Profile aufräumen
 
 ```bash
-python bfp.py cleanup --not-for "P1S 0.4"       # Profile, die nur für andere Drucker gelten
-python bfp.py cleanup --generic                 # alle, die Bambu Studio unter „Generic“ führt
-python bfp.py cleanup --vendor eSUN --list-file aufraeumen.md
-python bfp.py cleanup --generic --delete-local --dry-run
+python3 bfp.py cleanup --not-for "P1S 0.4"       # Profile, die nur für andere Drucker gelten
+python3 bfp.py cleanup --generic                 # alle, die Bambu Studio unter „Generic“ führt
+python3 bfp.py cleanup --vendor eSUN --list-file aufraeumen.md
+python3 bfp.py cleanup --generic --delete-local --dry-run
 ```
 
 Die Liste zeigt je Profil, ob es nur lokal oder auch in der Cloud liegt, wovon es erbt, unter welchem
@@ -104,7 +133,7 @@ dann `install` für die Hersteller, die du wirklich nutzt.
 ### Import von Hand
 
 ```bash
-python bfp.py export --vendor Geeetech --material PLA --out ./export
+python3 bfp.py export --vendor Geeetech --material PLA --out ./export
 ```
 
 In Bambu Studio: *Datei → Importieren → Konfigurationen importieren* und die Dateien aus `./export` wählen.
@@ -165,9 +194,9 @@ Danach `python bfp.py build`.
 ## Profile neu erzeugen
 
 ```bash
-python bfp.py fetch            # Stände aus sources.lock.json holen
-python bfp.py fetch --update   # neueste Stände holen und Lock-Datei aktualisieren
-python bfp.py build
+python3 bfp.py fetch            # Stände aus sources.lock.json holen
+python3 bfp.py fetch --update   # neueste Stände holen und Lock-Datei aktualisieren
+python3 bfp.py build
 ```
 
 Die Quell-Repos landen flach und nur mit den nötigen Dateien im Cache

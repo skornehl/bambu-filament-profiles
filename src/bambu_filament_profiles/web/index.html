@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filamentprofile</title>
+<style>
+:root {
+  --bg: #f5f6f8; --panel: #ffffff; --text: #1b2130; --muted: #5b6474; --line: #dfe3e9;
+  --accent: #0b7a4b; --accent-text: #ffffff; --accent-soft: #e5f3ec;
+  --warn-bg: #fff3dc; --warn: #7a4a00; --danger: #b42318; --danger-soft: #fdecea;
+  --chip: #eef1f5; --row-hover: #f0f3f7; --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151a; --panel: #1b1f26; --text: #e5e8ed; --muted: #98a1b0; --line: #2c323c;
+    --accent: #3fbf86; --accent-text: #0b1510; --accent-soft: #183326;
+    --warn-bg: #3a2b10; --warn: #f2c675; --danger: #ff8b80; --danger-soft: #3a1d1b;
+    --chip: #252a33; --row-hover: #222832; --shadow: none;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display: flex; flex-direction: column; }
+header { background: var(--panel); border-bottom: 1px solid var(--line); padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+header h1 { font-size: 16px; margin: 0; font-weight: 650; }
+.meta { color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; flex: 1; }
+.meta label { display: inline-flex; gap: 6px; align-items: center; }
+.badge { border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; }
+.badge.ok { background: var(--accent-soft); color: var(--accent); }
+.badge.warn { background: var(--warn-bg); color: var(--warn); }
+select, input[type=search], input[type=text] { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; min-height: 34px; }
+input[type=search], input[type=text] { min-width: 220px; }
+button { font: inherit; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text); padding: 6px 14px; min-height: 34px; cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-weight: 600; }
+button.danger { color: var(--danger); border-color: var(--danger); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+nav { display: flex; gap: 4px; padding: 0 20px; background: var(--panel); border-bottom: 1px solid var(--line); }
+nav button { border: none; border-bottom: 2px solid transparent; border-radius: 0; background: none; padding: 10px 14px; color: var(--muted); }
+nav button[aria-selected=true] { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
+main { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 16px 20px; gap: 12px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.toolbar .count { color: var(--muted); margin-left: auto; }
+.split { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); min-height: 0; }
+.tablewrap { overflow: auto; height: 100%; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { position: sticky; top: 0; background: var(--panel); color: var(--muted); font-weight: 600; font-size: 12px; z-index: 1; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--row-hover); }
+tbody tr.current { background: var(--accent-soft); }
+td.check, th.check { width: 34px; }
+.chip { display: inline-block; background: var(--chip); border-radius: 6px; padding: 1px 7px; font-size: 12px; margin: 1px 2px 1px 0; }
+.chip.ok { background: var(--accent-soft); color: var(--accent); }
+.chip.cloud { background: var(--warn-bg); color: var(--warn); }
+.detail { padding: 16px; overflow: auto; height: 100%; }
+.detail h2 { font-size: 16px; margin: 0 0 4px; }
+.detail .sub { color: var(--muted); margin-bottom: 12px; }
+.detail dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; }
+.detail dt { color: var(--muted); }
+.detail dd { margin: 0; }
+.detail .inh { color: var(--muted); font-size: 12px; }
+.empty { color: var(--muted); padding: 24px; text-align: center; }
+.actionbar { display: flex; gap: 12px; align-items: center; }
+.actionbar .grow { flex: 1; color: var(--muted); }
+.note { background: var(--warn-bg); color: var(--warn); border-radius: 10px; padding: 10px 14px; }
+.hidden { display: none !important; }
+dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--text); padding: 0; width: min(640px, 92vw); max-height: 86vh; }
+dialog::backdrop { background: rgba(10, 14, 20, .45); }
+dialog .body { padding: 18px 20px; overflow: auto; max-height: 64vh; }
+dialog h3 { margin: 0 0 10px; font-size: 16px; }
+dialog ul { margin: 6px 0 12px; padding-left: 20px; }
+dialog .foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--line); }
+.error { color: var(--danger); }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; } .detail { max-height: 40vh; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Filamentprofile für Bambu Studio</h1>
+  <div class="meta">
+    <label id="instWrap" class="hidden">Installation <select id="instSel"></select></label>
+    <span id="instText"></span>
+    <label>Benutzer <select id="userSel"></select></label>
+    <span id="runBadge" class="badge ok">Bambu Studio geschlossen</span>
+  </div>
+  <button id="reloadBtn" type="button">Neu laden</button>
+  <button id="quitBtn" type="button">Beenden</button>
+</header>
+<nav role="tablist">
+  <button role="tab" id="tabFind" aria-selected="true" type="button">Profile finden</button>
+  <button role="tab" id="tabMine" aria-selected="false" type="button">Meine Profile</button>
+</nav>
+
+<main id="paneFind">
+  <div class="toolbar">
+    <input id="q" type="search" placeholder="Suchen, z. B. sunlu matte" autofocus>
+    <select id="brandSel"><option value="">Alle Hersteller</option></select>
+    <select id="matSel"><option value="">Alle Materialien</option></select>
+    <label><input id="hideInst" type="checkbox"> installierte ausblenden</label>
+    <span class="count" id="findCount"></span>
+  </div>
+  <div class="split">
+    <div class="card"><div class="tablewrap">
+      <table>
+        <thead><tr><th class="check"></th><th>Hersteller</th><th>Material</th><th>Sorte</th><th>Werte aus</th><th>Status</th></tr></thead>
+        <tbody id="findBody"></tbody>
+      </table>
+    </div></div>
+    <div class="card"><div class="detail" id="detail"><div class="empty">Profil anklicken, um die Werte zu sehen.</div></div></div>
+  </div>
+  <div class="actionbar">
+    <span class="grow" id="selInfo">Nichts ausgewählt</span>
+    <button id="clearSel" type="button">Auswahl leeren</button>
+    <button id="installBtn" class="primary" type="button" disabled>Installieren…</button>
+  </div>
+</main>
+
+<main id="paneMine" class="hidden">
+  <div class="note">Profile mit Cloud-Kopie bitte in Bambu Studio löschen: <b>Datei → Verwaltung von Batch-Profilen</b>, anhaken, Löschen.
+    Nur lokal gelöscht holt Bambu Studio sie beim nächsten Start aus der Cloud zurück. Hier lassen sich nur lokale Profile löschen.</div>
+  <div class="toolbar">
+    <input id="mq" type="search" placeholder="Name enthält …">
+    <label><input id="mGeneric" type="checkbox"> nur unter „Generic“</label>
+    <label>nicht für Drucker <input id="mNotFor" type="text" placeholder="z. B. P1S 0.4" style="min-width:140px"></label>
+    <span class="count" id="mineCount"></span>
+  </div>
+  <div class="card" style="flex:1"><div class="tablewrap">
+    <table>
+      <thead><tr><th class="check"><input type="checkbox" id="mAll" aria-label="Alle auswählen"></th><th>Name</th><th>Art</th><th>Hersteller</th><th>Drucker</th><th>Ablage</th></tr></thead>
+      <tbody id="mineBody"></tbody>
+    </table>
+  </div></div>
+  <div class="actionbar">
+    <span class="grow" id="mSelInfo">Nichts ausgewählt</span>
+    <button id="listBtn" type="button" disabled>Liste für Bambu Studio herunterladen</button>
+    <button id="delBtn" class="danger" type="button" disabled>Lokale löschen…</button>
+  </div>
+</main>
+
+<dialog id="dlg"><div class="body" id="dlgBody"></div><div class="foot" id="dlgFoot"></div></dialog>
+
+<script>
+const TOKEN = "__BFP_TOKEN__";
+const LIMIT = 400;
+const S = { info: null, profiles: [], sel: new Set(), current: null, mine: [], mSel: new Set() };
+const $ = (id) => document.getElementById(id);
+const num = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+function el(tag, attrs = {}, ...kids) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else if (v === true) node.setAttribute(k, "");
+    else if (v !== false && v != null) node.setAttribute(k, v);
+  }
+  for (const kid of kids.flat(Infinity)) if (kid != null) node.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  return node;
+}
+
+async function api(path, body) {
+  const opt = { headers: { "X-BFP-Token": TOKEN } };
+  if (body !== undefined) { opt.method = "POST"; opt.headers["Content-Type"] = "application/json"; opt.body = JSON.stringify(body); }
+  const res = await fetch(path, opt);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+
+function dialog(title, content, buttons) {
+  $("dlgBody").replaceChildren(el("h3", {}, title), ...[].concat(content));
+  $("dlgFoot").replaceChildren(...buttons);
+  if (!$("dlg").open) $("dlg").showModal();
+}
+const closeBtn = (label = "Schließen") => el("button", { type: "button", onclick: () => $("dlg").close() }, label);
+function fail(err) { dialog("Fehler", el("p", { class: "error" }, err.message || String(err)), [closeBtn()]); }
+
+// ------------------------------------------------------------- Kopfzeile
+function renderState() {
+  const i = S.info;
+  $("instWrap").classList.toggle("hidden", i.installations.length < 2);
+  $("instSel").replaceChildren(...i.installations.map((t, n) => el("option", { value: n, selected: n === i.installation }, t)));
+  $("instText").textContent = i.data_dir ? (i.installations.length < 2 ? i.installations[0] : "") : "Keine Bambu-Studio-Installation gefunden";
+  $("userSel").replaceChildren(...i.users.map((u) => el("option", { value: u, selected: u === i.user }, u === i.active_user ? `${u} (aktiv)` : u)));
+  const b = $("runBadge");
+  b.textContent = i.running ? "Bambu Studio läuft: bitte schließen" : "Bambu Studio geschlossen";
+  b.className = "badge " + (i.running ? "warn" : "ok");
+  updateActions();
+}
+async function loadState() { S.info = await api("/api/state"); renderState(); }
+async function refreshRunning() {
+  try { const i = await api("/api/state"); if (i.running !== S.info.running) { S.info = i; renderState(); } } catch (e) { /* App beendet */ }
+}
+
+// ------------------------------------------------------------ Finden
+async function loadProfiles() {
+  S.profiles = await api("/api/profiles");
+  const brands = [...new Set(S.profiles.map((p) => p.brand))].sort((a, b) => a.localeCompare(b, "de", { sensitivity: "base" }));
+  const mats = [...new Set(S.profiles.map((p) => p.material))].sort();
+  const keep = (sel, list, label) => { const v = sel.value; sel.replaceChildren(el("option", { value: "" }, label), ...list.map((x) => el("option", { value: x, selected: x === v }, x))); };
+  keep($("brandSel"), brands, "Alle Hersteller");
+  keep($("matSel"), mats, "Alle Materialien");
+  renderFind();
+}
+
+function filtered() {
+  const words = $("q").value.toLowerCase().split(/\s+/).filter(Boolean);
+  const brand = $("brandSel").value, mat = $("matSel").value, hide = $("hideInst").checked;
+  return S.profiles.filter((p) => (!brand || p.brand === brand) && (!mat || p.material === mat) && !(hide && p.installed)
+    && words.every((w) => `${p.brand} ${p.material} ${p.product}`.toLowerCase().includes(w)));
+}
+
+function renderFind() {
+  const list = filtered();
+  const shown = list.slice(0, LIMIT);
+  $("findCount").textContent = list.length > LIMIT ? `${list.length} Treffer, die ersten ${LIMIT} angezeigt` : `${list.length} Treffer`;
+  const rows = shown.map((p) => el("tr", { class: p.id === S.current ? "current" : "", onclick: (e) => { if (e.target.type !== "checkbox") showDetail(p.id); } },
+    el("td", { class: "check" }, el("input", { type: "checkbox", checked: S.sel.has(p.id), "aria-label": `${p.brand} ${p.product} auswählen`,
+      onchange: (e) => { e.target.checked ? S.sel.add(p.id) : S.sel.delete(p.id); updateActions(); } })),
+    el("td", {}, p.brand), el("td", {}, p.material), el("td", {}, p.product),
+    el("td", {}, p.sources.map((s) => el("span", { class: "chip" }, s))),
+    el("td", {}, p.installed ? el("span", { class: "chip ok" }, "installiert") : "")));
+  $("findBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "Keine Treffer"))]));
+}
+
+async function showDetail(id) {
+  S.current = id; renderFind();
+  try {
+    const d = await api(`/api/profile?id=${id}`);
+    const dl = el("dl", {}, d.rows.map((r) => [el("dt", {}, r.label), el("dd", {}, `${r.value}${r.unit ? " " + r.unit : ""} `, r.origin === "geerbt" ? el("span", { class: "inh" }, "(geerbt)") : "")]));
+    $("detail").replaceChildren(
+      el("h2", {}, `${d.brand} ${d.product}`),
+      el("div", { class: "sub" }, `${d.material} · Basis ${d.parent}`),
+      dl,
+      el("p", { class: "sub" }, d.sources.length ? `Werte aus: ${d.sources.join(", ")}. „geerbt“ = vom Basisprofil deiner Bambu-Studio-Version.` : "Alle Werte vom Basisprofil."));
+  } catch (e) { fail(e); }
+}
+
+function updateActions() {
+  const running = S.info && S.info.running, noInst = !S.info || !S.info.data_dir;
+  $("selInfo").textContent = S.sel.size ? `${S.sel.size} ausgewählt` : "Nichts ausgewählt";
+  $("installBtn").disabled = !S.sel.size || running || noInst;
+  $("installBtn").title = running ? "Bambu Studio läuft" : "";
+  const mineSel = S.mine.filter((p) => S.mSel.has(p.name));
+  $("mSelInfo").textContent = mineSel.length ? `${mineSel.length} ausgewählt (${mineSel.filter((p) => !p.cloud).length} lokal)` : "Nichts ausgewählt";
+  $("listBtn").disabled = !mineSel.length;
+  $("delBtn").disabled = !mineSel.some((p) => !p.cloud) || running;
+  $("delBtn").title = running ? "Bambu Studio läuft" : "";
+}
+
+async function startInstall() {
+  const ids = [...S.sel];
+  try {
+    const plan = await api("/api/plan", { ids });
+    const by = (k) => plan.actions.filter((a) => a.kind === k);
+    const overwrite = new Set();
+    const parts = [];
+    if (by("new").length) parts.push(el("p", {}, el("b", {}, `Neu (${by("new").length})`)), el("ul", {}, by("new").map((a) => el("li", {}, a.name))));
+    if (by("conflict").length) parts.push(el("p", {}, el("b", {}, `Schon vorhanden mit anderem Inhalt (${by("conflict").length})`), " – nur angehakte werden überschrieben:"),
+      el("ul", {}, by("conflict").map((a) => el("li", {}, el("label", {}, el("input", { type: "checkbox", onchange: (e) => e.target.checked ? overwrite.add(a.name) : overwrite.delete(a.name) }), " ", a.name)))));
+    if (by("same").length) parts.push(el("p", {}, `${by("same").length} unverändert, werden übersprungen.`));
+    if (plan.errors.length) parts.push(el("p", { class: "error" }, "Fehler:"), el("ul", {}, plan.errors.map((e) => el("li", {}, e))));
+    parts.push(el("p", { class: "sub" }, "Vorher wird ein Backup deines Filament-Ordners angelegt."));
+    const go = el("button", { class: "primary", type: "button", onclick: async () => {
+      go.disabled = true;
+      try {
+        const r = await api("/api/install", { ids, overwrite: [...overwrite] });
+        const out = [el("p", {}, `${num(r.installed.length, "Profil", "Profile")} installiert.`)];
+        if (r.skipped.length) out.push(el("p", {}, `Übersprungen: ${r.skipped.join(", ")}`));
+        if (r.backup) out.push(el("p", { class: "sub" }, `Backup: ${r.backup}`));
+        out.push(el("p", {}, "Bambu Studio jetzt starten; angemeldet lädt es die Profile in die Cloud hoch."));
+        dialog("Fertig", out, [closeBtn()]);
+        S.sel.clear(); await loadProfiles(); updateActions();
+      } catch (e) { fail(e); }
+    } }, "Installieren");
+    dialog(`${num(ids.length, "Profil", "Profile")} installieren`, parts, [closeBtn("Abbrechen"), go]);
+    go.disabled = !by("new").length && !by("conflict").length;
+  } catch (e) { fail(e); }
+}
+
+// -------------------------------------------------------- Meine Profile
+let mineTimer = null;
+async function loadMine() {
+  const q = new URLSearchParams({ q: $("mq").value, not_for: $("mNotFor").value, generic: $("mGeneric").checked ? "1" : "0" });
+  try {
+    const r = await api(`/api/existing?${q}`);
+    S.mine = r.presets;
+    $("mineCount").textContent = `${r.presets.length} von ${r.total}`;
+    const rows = r.presets.map((p) => el("tr", { onclick: (e) => { if (e.target.type !== "checkbox") { const c = e.currentTarget.querySelector("input"); c.checked = !c.checked; c.dispatchEvent(new Event("change")); } } },
+      el("td", { class: "check" }, el("input", { type: "checkbox", checked: S.mSel.has(p.name), "aria-label": `${p.name} auswählen`,
+        onchange: (e) => { e.target.checked ? S.mSel.add(p.name) : S.mSel.delete(p.name); updateActions(); } })),
+      el("td", {}, p.name, p.from_tool ? el("span", { class: "chip ok", style: "margin-left:6px" }, "von diesem Tool") : ""),
+      el("td", {}, p.kind), el("td", {}, p.vendor), el("td", {}, p.printers),
+      el("td", {}, el("span", { class: p.cloud ? "chip cloud" : "chip" }, p.cloud ? "Cloud" : "lokal"))));
+    $("mineBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "Keine eigenen Filamentprofile"))]));
+    $("mAll").checked = r.presets.length > 0 && r.presets.every((p) => S.mSel.has(p.name));
+    updateActions();
+  } catch (e) { fail(e); }
+}
+
+async function downloadList() {
+  const names = S.mine.filter((p) => S.mSel.has(p.name)).map((p) => p.name);
+  try {
+    const r = await api("/api/checklist", { names });
+    const a = el("a", { href: URL.createObjectURL(new Blob([r.markdown], { type: "text/markdown" })), download: "filamentprofile-loeschen.md" });
+    document.body.append(a); a.click(); a.remove();
+  } catch (e) { fail(e); }
+}
+
+function startDelete() {
+  const chosen = S.mine.filter((p) => S.mSel.has(p.name));
+  const local = chosen.filter((p) => !p.cloud), cloud = chosen.filter((p) => p.cloud);
+  const parts = [el("p", {}, `${num(local.length, "lokales Profil wird", "lokale Profile werden")} gelöscht:`), el("ul", {}, local.map((p) => el("li", {}, p.name)))];
+  if (cloud.length) parts.push(el("p", {}, `${num(cloud.length, "Cloud-Profil bleibt", "Cloud-Profile bleiben")}; die bitte in Bambu Studio löschen.`));
+  parts.push(el("p", { class: "sub" }, "Vorher wird ein Backup deines Filament-Ordners angelegt."));
+  const go = el("button", { class: "danger", type: "button", onclick: async () => {
+    go.disabled = true;
+    try {
+      const r = await api("/api/delete-local", { names: local.map((p) => p.name) });
+      dialog("Gelöscht", [el("p", {}, `${num(r.deleted.length, "lokales Profil", "lokale Profile")} gelöscht.`), r.backup ? el("p", { class: "sub" }, `Backup: ${r.backup}`) : ""], [closeBtn()]);
+      S.mSel.clear(); await loadMine(); await loadProfiles();
+    } catch (e) { fail(e); }
+  } }, "Löschen");
+  dialog("Lokale Profile löschen", parts, [closeBtn("Abbrechen"), go]);
+}
+
+// ---------------------------------------------------------------- Start
+function tab(name) {
+  const find = name === "find";
+  $("tabFind").setAttribute("aria-selected", find); $("tabMine").setAttribute("aria-selected", !find);
+  $("paneFind").classList.toggle("hidden", !find); $("paneMine").classList.toggle("hidden", find);
+  if (!find) loadMine();
+}
+
+$("tabFind").onclick = () => tab("find");
+$("tabMine").onclick = () => tab("mine");
+for (const id of ["q", "brandSel", "matSel", "hideInst"]) $(id).addEventListener("input", renderFind);
+for (const id of ["mq", "mNotFor"]) $(id).addEventListener("input", () => { clearTimeout(mineTimer); mineTimer = setTimeout(loadMine, 250); });
+$("mGeneric").onchange = loadMine;
+$("mAll").onchange = (e) => { for (const p of S.mine) e.target.checked ? S.mSel.add(p.name) : S.mSel.delete(p.name); loadMine(); };
+$("clearSel").onclick = () => { S.sel.clear(); renderFind(); updateActions(); };
+$("installBtn").onclick = startInstall;
+$("listBtn").onclick = downloadList;
+$("delBtn").onclick = startDelete;
+$("reloadBtn").onclick = async () => { await loadState(); await loadProfiles(); if (!$("paneMine").classList.contains("hidden")) await loadMine(); };
+$("instSel").onchange = async (e) => { try { S.info = await api("/api/select", { installation: Number(e.target.value) }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };
+$("userSel").onchange = async (e) => { try { S.info = await api("/api/select", { user: e.target.value }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };
+$("quitBtn").onclick = async () => {
+  try { await api("/api/shutdown", {}); } catch (e) { /* schon beendet */ }
+  document.body.replaceChildren(el("main", {}, el("div", { class: "empty" }, "Begleit-App beendet. Dieses Fenster kann geschlossen werden.")));
+};
+
+(async () => { try { await loadState(); await loadProfiles(); setInterval(refreshRunning, 5000); } catch (e) { fail(e); } })();
+</script>
+</body>
+</html>
