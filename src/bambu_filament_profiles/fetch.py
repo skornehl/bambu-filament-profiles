@@ -1,8 +1,9 @@
-"""Quell-Repos flach und sparse in einen Cache klonen.
+"""Clone the source repos shallow and sparse into a cache.
 
-Welche Commits genutzt werden, steht in ``sources.lock.json``. ``fetch`` holt
-genau diese Stände, ``fetch --update`` den neuesten Stand und schreibt die
-Lock-Datei neu. Die Quellen werden nicht ins Repo eingecheckt.
+``fetch`` gets the newest state and records the commits in
+``sources.lock.json`` in this tool's data folder; ``fetch --pinned`` gets
+exactly those commits again. Neither sources nor generated profiles live in
+the repo.
 """
 
 from __future__ import annotations
@@ -30,14 +31,14 @@ SOURCES: dict[str, Source] = {
             "https://github.com/bambulab/BambuStudio.git",
             "AGPL-3.0",
             ("/resources/profiles/BBL.json", "/resources/profiles/BBL/filament/**", "/LICENSE"),
-            "Bambu Studio: Generic-Basisprofile und Systemprofile",
+            "Bambu Studio: Generic base profiles and system profiles",
         ),
         Source(
             "orca",
             "https://github.com/OrcaSlicer/OrcaSlicer.git",
             "AGPL-3.0",
             ("/resources/profiles/OrcaFilamentLibrary/filament/**", "/LICENSE.txt"),
-            "OrcaSlicer-Filamentbibliothek: Herstellerprofile mit Feinwerten",
+            "OrcaSlicer filament library: manufacturer profiles with tuned values",
         ),
         Source(
             "ofd",
@@ -50,28 +51,28 @@ SOURCES: dict[str, Source] = {
                 "/data/*/*/*/*/sizes.json",
                 "/LICENSE",
             ),
-            "Open Filament Database: Hersteller, Sorten, Temperaturbereiche",
+            "Open Filament Database: brands, products, temperature ranges",
         ),
         Source(
             "prusa",
             "https://github.com/prusa3d/PrusaSlicer-settings.git",
             "AGPL-3.0",
             ("/live/Templates/*.ini", "/License"),
-            "PrusaSlicer-Vorlagen: Temperaturen, Lüfter, Dichte",
+            "PrusaSlicer templates: temperatures, fans, density",
         ),
         Source(
             "spoolman",
             "https://github.com/Donkie/SpoolmanDB.git",
             "MIT",
             ("/filaments/*.json", "/LICENSE"),
-            "SpoolmanDB: Stammdaten",
+            "SpoolmanDB: master data",
         ),
         Source(
             "cura",
             "https://github.com/Ultimaker/fdm_materials.git",
             "CC0-1.0",
             ("/*.xml.fdm_material", "/LICENSE"),
-            "Cura fdm_materials: Temperaturen, Dichte",
+            "Cura fdm_materials: temperatures, density",
         ),
     )
 }
@@ -82,9 +83,12 @@ class FetchError(RuntimeError):
 
 
 def _git(args: list[str], cwd: Path, run=subprocess.run) -> str:
-    proc = run(["git", *args], cwd=cwd, capture_output=True, text=True, check=False)
+    try:
+        proc = run(["git", *args], cwd=cwd, capture_output=True, text=True, check=False)
+    except FileNotFoundError as exc:
+        raise FetchError("git not found. Please install Git (Windows: winget install Git.Git)") from exc
     if proc.returncode != 0:
-        raise FetchError(f"git {' '.join(args)} fehlgeschlagen: {proc.stderr.strip()}")
+        raise FetchError(f"git {' '.join(args)} failed: {proc.stderr.strip()}")
     return proc.stdout.strip()
 
 
@@ -95,11 +99,12 @@ def read_lock(path: Path) -> dict:
 
 
 def write_lock(path: Path, lock: dict) -> None:
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def fetch_source(source: Source, cache_dir: Path, ref: str, run=subprocess.run) -> str:
-    """Quelle auf ``ref`` (Commit oder ``HEAD``) bringen und den Commit zurückgeben."""
+    """Bring the source to ``ref`` (commit or ``HEAD``) and return the commit."""
     target = Path(cache_dir) / source.name
     target.mkdir(parents=True, exist_ok=True)
     if not (target / ".git").exists():

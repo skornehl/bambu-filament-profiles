@@ -5,6 +5,7 @@ import threading
 import pytest
 
 from bambu_filament_profiles import webapp
+from bambu_filament_profiles.fetch import FetchError
 from bambu_filament_profiles.appmodel import AppSession
 from bambu_filament_profiles.catalog import build, write_output
 
@@ -16,7 +17,7 @@ def server(tmp_path, records, bambu, fake_install):
     profiles = tmp_path / "profiles"
     write_output(build(records, bambu, PRINTER), profiles, {}, PRINTER)
     filament = fake_install / "user" / "123" / "filament"
-    (filament / "Alt PLA.json").write_text(json.dumps({"inherits": "Generic PLA"}), encoding="utf-8")
+    (filament / "Old PLA.json").write_text(json.dumps({"inherits": "Generic PLA"}), encoding="utf-8")
     session = AppSession(profiles, tmp_path / "bk", data_dir=str(fake_install), running=lambda: False)
     srv = webapp.make_server(session, port=0)
     thread = threading.Thread(target=srv.serve_forever, daemon=True)
@@ -26,9 +27,9 @@ def server(tmp_path, records, bambu, fake_install):
     srv.server_close()
 
 
-def call(srv, method, path, body=None, token=True, host=None, content_type="application/json"):
+def call(srv, method, path, body=None, token=True, host=None, content_type="application/json", extra=None):
     conn = http.client.HTTPConnection("127.0.0.1", srv.port, timeout=10)
-    headers = {"Host": host or f"127.0.0.1:{srv.port}"}
+    headers = {"Host": host or f"127.0.0.1:{srv.port}", **(extra or {})}
     if token:
         headers["X-BFP-Token"] = srv.token if token is True else token
     data = None
@@ -58,7 +59,7 @@ def test_index_embeds_token_and_security_headers(server):
 def test_rejects_wrong_host_and_missing_token(server):
     assert call(server, "GET", "/", host="evil.example:80")[0] == 403
     assert call(server, "GET", "/api/state", token=False)[0] == 403
-    assert call(server, "GET", "/api/state", token="falsch")[0] == 403
+    assert call(server, "GET", "/api/state", token="wrong")[0] == 403
     assert call(server, "POST", "/api/install", {"ids": [0]}, token=False)[0] == 403
     assert call(server, "POST", "/api/install", {"ids": [0]}, host="evil.example")[0] == 403
 
@@ -72,9 +73,9 @@ def test_get_endpoints(server):
     assert status == 200 and detail["parent"] == "Generic PLA"
     assert call(server, "GET", "/api/profile?id=99999")[0] == 400
     assert call(server, "GET", "/api/profile?id=abc")[0] == 400
-    status, existing = call(server, "GET", "/api/existing?generic=1&q=alt")
-    assert [p["name"] for p in existing["presets"]] == ["Alt PLA"]
-    assert call(server, "GET", "/api/gibtsnicht")[0] == 404
+    status, existing = call(server, "GET", "/api/existing?generic=1&q=old")
+    assert [p["name"] for p in existing["presets"]] == ["Old PLA"]
+    assert call(server, "GET", "/api/missing")[0] == 404
 
 
 def test_post_flow(server):
@@ -84,22 +85,22 @@ def test_post_flow(server):
     assert status == 200 and plan["actions"][0]["kind"] == "new"
     status, result = call(server, "POST", "/api/install", {"ids": [item["id"]], "overwrite": []})
     assert status == 200 and result["installed"] == [item["name"]]
-    status, md = call(server, "POST", "/api/checklist", {"names": ["Alt PLA"]})
-    assert "- [ ] Alt PLA" in md["markdown"]
-    status, deleted = call(server, "POST", "/api/delete-local", {"names": ["Alt PLA"]})
-    assert deleted["deleted"] == ["Alt PLA"]
+    status, md = call(server, "POST", "/api/checklist", {"names": ["Old PLA"]})
+    assert "- [ ] Old PLA" in md["markdown"]
+    status, deleted = call(server, "POST", "/api/delete-local", {"names": ["Old PLA"]})
+    assert deleted["deleted"] == ["Old PLA"]
     status, state = call(server, "POST", "/api/select", {"user": "default"})
     assert state["user"] == "default"
     assert call(server, "POST", "/api/select", {"user": "999"})[0] == 400
-    assert call(server, "POST", "/api/nix", {})[0] == 404
+    assert call(server, "POST", "/api/nothing", {})[0] == 404
 
 
 def test_post_validation(server):
     assert call(server, "POST", "/api/plan", b"[1, 2]")[0] == 400
     assert call(server, "POST", "/api/plan", b"{}", content_type="text/plain")[0] == 400
     assert call(server, "POST", "/api/plan", {"ids": []})[0] == 400
-    big = b"{" + b" " * (webapp.MAX_BODY + 1) + b"}"
-    assert call(server, "POST", "/api/plan", big)[0] == 400
+    # Only the announced length counts; the server does not even read the rest.
+    assert call(server, "POST", "/api/plan", b"{}", extra={"Content-Length": str(webapp.MAX_BODY + 1)})[0] == 400
 
 
 def test_shutdown_endpoint(tmp_path, records, bambu, fake_install):
@@ -129,7 +130,7 @@ def test_run_app_opens_browser_and_stops(monkeypatch, tmp_path, records, bambu, 
     monkeypatch.setattr(webapp.AppServer, "serve_forever", lambda self: None)
     lines = []
     assert webapp.run_app(session, port=0, out=lines.append) == 0
-    assert opened and opened[0].startswith("http://127.0.0.1:") and "beendet" in lines[-1]
+    assert opened and opened[0].startswith("http://127.0.0.1:") and "stopped" in lines[-1]
     assert webapp.run_app(session, port=0, open_browser=False, out=lines.append) == 0
 
 
@@ -137,5 +138,19 @@ def test_server_does_not_share_ports(server):
     import socket
 
     assert server.socket.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) == 0
-    if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # nur Windows
+    if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # Windows only
         assert server.socket.getsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE) == 1
+
+
+def test_update_endpoint(server):
+    assert call(server, "POST", "/api/update", {})[0] == 400  # without updater
+    server.session._updater = lambda log: log("ok")
+    status, result = call(server, "POST", "/api/update", {})
+    assert status == 200 and result["log"] == ["ok"] and result["catalog_size"] > 0
+
+    def broken(log):
+        raise FetchError("git not found")
+
+    server.session._updater = broken
+    status, result = call(server, "POST", "/api/update", {})
+    assert status == 400 and "git" in result["error"]

@@ -1,10 +1,9 @@
-"""Logik der Begleit-App, unabhängig von der Oberfläche.
+"""Logic of the companion app, independent of the user interface.
 
-Suchen im Profil-Katalog, Werte anzeigen (aus der Quelle oder vom Basisprofil
-geerbt), installieren und vorhandene Profile aufräumen. Dieselben Schutzregeln
-wie auf der Kommandozeile: Backup vor jedem Schreiben, keine stillen
-Überschreibungen, nichts schreiben, solange Bambu Studio läuft, Cloud-Profile
-nicht lokal löschen.
+Search the profile catalog, show values (from a source or inherited from the
+base profile), install, and clean up existing profiles. Same safety rules as on
+the command line: backup before every write, no silent overwrites, nothing
+written while Bambu Studio is running, cloud profiles are not deleted locally.
 """
 
 from __future__ import annotations
@@ -13,7 +12,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from .catalog import list_profiles
+from .catalog import list_profiles, read_build_info
 from .install import (
     InstallError,
     Installation,
@@ -32,21 +31,21 @@ from .install import (
 )
 from .sources.bambu import BambuProfiles
 
-#: (Schlüssel, Bezeichnung, Einheit) für die Detailansicht.
+#: (key, label, unit) for the detail view.
 DETAIL_FIELDS: tuple[tuple[str, str, str], ...] = (
-    ("nozzle_temperature", "Düse", "°C"),
-    ("nozzle_temperature_initial_layer", "Düse erste Schicht", "°C"),
-    ("nozzle_temperature_range_low", "Düse min.", "°C"),
-    ("nozzle_temperature_range_high", "Düse max.", "°C"),
+    ("nozzle_temperature", "Nozzle", "°C"),
+    ("nozzle_temperature_initial_layer", "Nozzle first layer", "°C"),
+    ("nozzle_temperature_range_low", "Nozzle min", "°C"),
+    ("nozzle_temperature_range_high", "Nozzle max", "°C"),
     ("textured_plate_temp", "Textured PEI", "°C"),
     ("hot_plate_temp", "Smooth PEI / High Temp", "°C"),
     ("cool_plate_temp", "Cool Plate", "°C"),
-    ("filament_max_volumetric_speed", "Max. Volumenfluss", "mm³/s"),
-    ("filament_flow_ratio", "Fluss", ""),
-    ("fan_min_speed", "Lüfter min.", "%"),
-    ("fan_max_speed", "Lüfter max.", "%"),
-    ("filament_density", "Dichte", "g/cm³"),
-    ("filament_retraction_length", "Rückzug", "mm"),
+    ("filament_max_volumetric_speed", "Max volumetric speed", "mm³/s"),
+    ("filament_flow_ratio", "Flow ratio", ""),
+    ("fan_min_speed", "Fan min", "%"),
+    ("fan_max_speed", "Fan max", "%"),
+    ("filament_density", "Density", "g/cm³"),
+    ("filament_retraction_length", "Retraction", "mm"),
 )
 
 
@@ -73,11 +72,11 @@ class CatalogItem:
 
 
 def parse_sources(description: str) -> list[str]:
-    """„… Werte aus: OrcaSlicer, SpoolmanDB.“ → ["OrcaSlicer", "SpoolmanDB"]."""
-    if "Werte aus:" not in description:
+    """"… Values from: OrcaSlicer, SpoolmanDB." → ["OrcaSlicer", "SpoolmanDB"]."""
+    if "Values from:" not in description:
         return []
-    tail = description.split("Werte aus:", 1)[1].strip().rstrip(".")
-    return [s.strip() for s in tail.split(",") if s.strip() and s.strip() != "nur Basisprofil"]
+    tail = description.split("Values from:", 1)[1].strip().rstrip(".")
+    return [s.strip() for s in tail.split(",") if s.strip() and s.strip() != "base profile only"]
 
 
 def load_catalog(profiles_dir: Path) -> list[CatalogItem]:
@@ -99,7 +98,7 @@ def load_catalog(profiles_dir: Path) -> list[CatalogItem]:
 
 
 def search(items: list[CatalogItem], text: str = "", brand: str = "", material: str = "") -> list[CatalogItem]:
-    """Alle Suchwörter müssen in Hersteller, Material oder Sorte vorkommen."""
+    """Every search word must appear in brand, material or product."""
     words = text.lower().split()
     result = []
     for item in items:
@@ -114,7 +113,7 @@ def search(items: list[CatalogItem], text: str = "", brand: str = "", material: 
 
 
 def details(item: CatalogItem, system: BambuProfiles | None) -> dict:
-    """Werte eines Profils; fehlende kommen aus dem Basisprofil der Installation („geerbt“)."""
+    """Values of a profile; missing ones come from the installation's base profile ("inherited")."""
     spec = json.loads(item.path.read_text(encoding="utf-8"))
     parent = spec.get("inherits", "")
     flat: dict = {}
@@ -123,9 +122,9 @@ def details(item: CatalogItem, system: BambuProfiles | None) -> dict:
     rows = []
     for key, label, unit in DETAIL_FIELDS:
         if key in spec:
-            value, origin = spec[key], "Quelle"
+            value, origin = spec[key], "source"
         elif key in flat:
-            value, origin = flat[key], "geerbt"
+            value, origin = flat[key], "inherited"
         else:
             continue
         value = value[0] if isinstance(value, list) and value else value
@@ -145,15 +144,24 @@ def details(item: CatalogItem, system: BambuProfiles | None) -> dict:
 
 
 class AppSession:
-    """Zustand der App: Katalog, gewählte Installation und Benutzer."""
+    """State of the app: catalog, chosen installation and user."""
 
-    def __init__(self, profiles_dir: Path, backup_dir: Path, data_dir: str | None = None, installations=None, running=bambu_running):
-        self.catalog = load_catalog(profiles_dir)
-        self.by_id = {item.id: item for item in self.catalog}
+    def __init__(
+        self,
+        profiles_dir: Path,
+        backup_dir: Path,
+        data_dir: str | None = None,
+        installations=None,
+        running=bambu_running,
+        updater=None,
+    ):
+        self.profiles_dir = Path(profiles_dir)
+        self._updater = updater
+        self._load_catalog()
         self.backup_dir = Path(backup_dir)
         self._running = running
         if data_dir:
-            self.installations = [Installation("manuell", Path(data_dir).expanduser())]
+            self.installations = [Installation("manual", Path(data_dir).expanduser())]
         else:
             self.installations = list(installations) if installations is not None else find_installations()
         self.installation: Installation | None = None
@@ -162,12 +170,21 @@ class AppSession:
         if self.installations:
             self.select(0)
 
-    # ------------------------------------------------------------- Auswahl
+    def _load_catalog(self) -> None:
+        self.catalog = load_catalog(self.profiles_dir)
+        self.by_id = {item.id: item for item in self.catalog}
+        self.build_info = read_build_info(self.profiles_dir)
+
+    @property
+    def catalog_built(self) -> str | None:
+        return self.build_info["built"] if self.build_info else None
+
+    # ------------------------------------------------------------- selection
 
     def select(self, installation: int | None = None, user: str | None = None) -> None:
         if installation is not None:
             if not 0 <= installation < len(self.installations):
-                raise InstallError("Unbekannte Installation")
+                raise InstallError("unknown installation")
             self.installation = self.installations[installation]
             ids = user_ids(self.installation.data_dir)
             active = active_user(self.installation.data_dir)
@@ -178,12 +195,12 @@ class AppSession:
                 self.system = None
         if user is not None:
             if user not in user_ids(self._require().data_dir):
-                raise InstallError(f"Benutzerordner „{user}“ gibt es nicht")
+                raise InstallError(f"user folder \"{user}\" does not exist")
             self.user = user
 
     def _require(self) -> Installation:
         if self.installation is None:
-            raise InstallError("Keine Bambu-Studio-Installation gefunden")
+            raise InstallError("no Bambu Studio installation found")
         return self.installation
 
     @property
@@ -195,11 +212,11 @@ class AppSession:
 
     def _guard_write(self) -> None:
         if self.running():
-            raise InstallError("Bambu Studio läuft. Bitte schließen und dann noch einmal versuchen.")
+            raise InstallError("Bambu Studio is running. Please close it and try again.")
         if self.system is None:
-            raise InstallError("Systemprofile der Installation nicht gefunden; Bambu Studio einmal starten")
+            raise InstallError("system profiles of the installation not found; start Bambu Studio once")
 
-    # -------------------------------------------------------------- Abfragen
+    # --------------------------------------------------------------- queries
 
     def state(self) -> dict:
         inst = self.installation
@@ -213,6 +230,8 @@ class AppSession:
             "running": self.running(),
             "system_version": self.system.bundle_version if self.system else None,
             "catalog_size": len(self.catalog),
+            "catalog_built": self.catalog_built,
+            "can_update": self._updater is not None,
         }
 
     def _presets(self):
@@ -226,7 +245,7 @@ class AppSession:
 
     def profile(self, item_id: int) -> dict:
         if item_id not in self.by_id:
-            raise InstallError("Unbekanntes Profil")
+            raise InstallError("unknown profile")
         return details(self.by_id[item_id], self.system)
 
     def existing(self, generic: bool = False, not_for: str = "", text: str = "") -> dict:
@@ -245,18 +264,18 @@ class AppSession:
         ]
         return {"total": len(presets), "presets": rows, "problems": problems}
 
-    # ------------------------------------------------------------- Aktionen
+    # --------------------------------------------------------------- actions
 
     def _items(self, ids) -> list[CatalogItem]:
         unknown = [i for i in ids if i not in self.by_id]
         if unknown or not ids:
-            raise InstallError("Keine oder unbekannte Profile ausgewählt")
+            raise InstallError("no or unknown profiles selected")
         return [self.by_id[i] for i in ids]
 
     def plan(self, ids) -> dict:
         self._require()
         if self.system is None:
-            raise InstallError("Systemprofile der Installation nicht gefunden; Bambu Studio einmal starten")
+            raise InstallError("system profiles of the installation not found; start Bambu Studio once")
         presets, _ = self._presets()
         actions, errors = plan_install([i.path for i in self._items(ids)], self.filament_dir, presets, self.system, self.user)
         return {"actions": [{"name": a.name, "kind": a.kind} for a in actions], "errors": errors}
@@ -294,6 +313,15 @@ class AppSession:
             delete_local(preset)
             result["deleted"].append(preset.name)
         return result
+
+    def update(self) -> dict:
+        """Fetch the sources again and rebuild the catalog (writes nothing into Bambu Studio)."""
+        if self._updater is None:
+            raise InstallError("updating is not available here")
+        log: list[str] = []
+        self._updater(log.append)
+        self._load_catalog()
+        return {"catalog_size": len(self.catalog), "catalog_built": self.catalog_built, "log": log[-8:]}
 
     def checklist(self, names) -> str:
         wanted = set(names)

@@ -1,7 +1,7 @@
-"""Leser für die einzelnen Datenquellen.
+"""Readers for the individual data sources.
 
-Jeder Leser bekommt das Wurzelverzeichnis eines (sparse) geklonten Quell-Repos
-und liefert eine Liste von :class:`~bambu_filament_profiles.model.Record`.
+Each reader gets the root folder of a (sparse) cloned source repo and returns a
+list of :class:`~bambu_filament_profiles.model.Record`.
 """
 
 from __future__ import annotations
@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 def to_number(value) -> float | None:
-    """Zahl aus Quellwerten lesen: "220", 220, ["220"], "95%" → 220.0 bzw. 95.0."""
+    """Read a number from source values: "220", 220, ["220"], "95%" → 220.0 or 95.0."""
     if isinstance(value, list):
         value = value[0] if value else None
     if value is None or isinstance(value, bool):

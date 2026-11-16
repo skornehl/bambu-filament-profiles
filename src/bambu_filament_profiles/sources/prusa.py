@@ -1,8 +1,8 @@
-"""PrusaSlicer-settings, Paket „Templates“ (``live/Templates/<version>.ini``).
+"""PrusaSlicer-settings, "Templates" bundle (``live/Templates/<version>.ini``).
 
-Druckerunabhängige Filamentvorlagen vieler Hersteller. Übernommen werden
-Temperaturen (inklusive erster Schicht), Lüfter und Dichte. Max. Volumenfluss
-und Flussfaktor sind auf Prusa-Hotends abgestimmt und bleiben außen vor.
+Printer-independent filament templates from many manufacturers. Used are
+temperatures (including the first layer), fans and density. Max volumetric
+speed and flow ratio are tuned for Prusa hotends and are left out.
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ def parse_ini(text: str) -> dict[tuple[str, str], dict[str, str]]:
 
 
 def resolve_sections(sections: dict[str, dict[str, str]], name: str, depth: int = 0) -> dict[str, str]:
-    """Werte einer Sektion samt geerbter (``inherits = *A*; *B*``, spätere gewinnen)."""
+    """Values of a section including inherited ones (``inherits = *A*; *B*``, later ones win)."""
     own = sections.get(name)
     if own is None or depth > 20:
         return {}

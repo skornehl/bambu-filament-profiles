@@ -23,15 +23,15 @@ def test_bambu_flatten_and_version(bambu):
     assert flat["name"] == "Generic PLA"
     assert bambu.version == "2.9.0.74"
     assert bambu.resolve("Generic PLA", "filament_vendor") == ["Generic"]
-    assert bambu.resolve("gibt es nicht", "x") is None
+    assert bambu.resolve("does not exist", "x") is None
     with pytest.raises(KeyError):
-        bambu.flatten("gibt es nicht")
+        bambu.flatten("does not exist")
 
 
 def test_bambu_compatibility(bambu):
     assert bambu.is_compatible("Generic PLA", PRINTER)
     assert not bambu.is_compatible("Generic PLA", "Bambu Lab A1 0.4 nozzle")
-    assert not bambu.is_compatible("Generic PLA @base", PRINTER)  # nicht instanziierbar
+    assert not bambu.is_compatible("Generic PLA @base", PRINTER)  # not instantiable
     keys = bambu.system_keys(PRINTER)
     assert ("overture", "PLA", frozenset()) in keys
 
@@ -123,20 +123,20 @@ def test_prusa_ini_details(tmp_path):
     text = "[filament:*a*]\ntemperature = 200\ncooling = 1\nmin_fan_speed = 50\nmax_fan_speed = 90\n\n# Kommentar\n[filament:Acme X]\ninherits = *a*\nfilament_vendor = Acme\nfilament_type = PETG\n[print:egal]\nfoo = bar\n"
     sections = {n: v for (k, n), v in prusa.parse_ini(text).items() if k == "filament"}
     assert prusa.resolve_sections(sections, "Acme X")["temperature"] == "200"
-    assert prusa.resolve_sections(sections, "fehlt") == {}
+    assert prusa.resolve_sections(sections, "missing") == {}
     (tmp_path / "live" / "Templates").mkdir(parents=True)
     (tmp_path / "live" / "Templates" / "1.0.2.ini").write_text("", encoding="utf-8")
     (tmp_path / "live" / "Templates" / "1.0.10.ini").write_text(text, encoding="utf-8")
     assert prusa.latest_bundle(tmp_path).name == "1.0.10.ini"
     (rec,) = prusa.load(tmp_path)
     assert rec.values == {"nozzle_temperature": 200, "fan_min_speed": 50, "fan_max_speed": 90}
-    assert prusa.load(tmp_path / "leer") == []
+    assert prusa.load(tmp_path / "empty") == []
 
 
 def test_spoolman_loader():
     records = spoolman.load(FIXTURES / "spoolman")
     names = {r.name for r in records}
-    assert "PLA" in names  # „{color_name}“ allein wird zum Material
+    assert "PLA" in names  # "{color_name}" alone becomes the material
     assert "Luminous" in names
     plain = next(r for r in records if r.name == "PLA")
     assert plain.values["nozzle_temperature"] == 205
@@ -150,12 +150,12 @@ def test_cura_loader(tmp_path):
     (rec,) = cura.load(FIXTURES / "cura")
     assert rec.brand == "eSUN" and rec.name == "PLA+"
     assert rec.values == {"filament_density": 1.24, "nozzle_temperature": 210.0, "_bed": 60.0}
-    (tmp_path / "bad.xml.fdm_material").write_text("<kaputt", encoding="utf-8")
+    (tmp_path / "bad.xml.fdm_material").write_text("<broken", encoding="utf-8")
     assert cura.load(tmp_path) == []
 
 
 def test_manual_loader(tmp_path):
-    assert manual.load(tmp_path / "fehlt") == []
+    assert manual.load(tmp_path / "missing") == []
     (tmp_path / "a.toml").write_text('brand = "Geeetech"\nmaterial = "PLA"\nname = "PLA"\n[values]\nfilament_flow_ratio = 0.98\n', encoding="utf-8")
     (rec,) = manual.load(tmp_path)
     assert rec.source == "manual" and rec.values == {"filament_flow_ratio": 0.98}
@@ -164,9 +164,9 @@ def test_manual_loader(tmp_path):
 @pytest.mark.parametrize(
     "content, message",
     [
-        ('brand = "X"\nmaterial = "PLA"\n', "es fehlen name"),
-        ('brand = "X"\nmaterial = "PLA"\nname = "Y"\n[values]\nfoo = 1\n', "unbekannter Schlüssel"),
-        ('brand = "X"\nmaterial = "PLA"\nname = "Y"\n[values]\nnozzle_temperature = "heiß"\n', "keine Zahl"),
+        ('brand = "X"\nmaterial = "PLA"\n', "missing name"),
+        ('brand = "X"\nmaterial = "PLA"\nname = "Y"\n[values]\nfoo = 1\n', "unknown key"),
+        ('brand = "X"\nmaterial = "PLA"\nname = "Y"\n[values]\nnozzle_temperature = "hot"\n', "not a number"),
     ],
 )
 def test_manual_errors(tmp_path, content, message):

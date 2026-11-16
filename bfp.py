@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Startet das Tool direkt aus dem ausgecheckten Repo, ohne Installation.
+"""Run the tool straight from the checked-out repo, without installing it.
 
-Beispiel:  python bfp.py install --vendor SUNLU --material PLA --dry-run
+Example:  python bfp.py install --vendor SUNLU --material PLA --dry-run
 """
 import sys
 from pathlib import Path

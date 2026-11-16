@@ -1,7 +1,7 @@
-"""Systemprofile von Bambu Studio (``resources/profiles/BBL``).
+"""Bambu Studio system profiles (``resources/profiles/BBL``).
 
-Sie liefern die Generic-Basisprofile, von denen die erzeugten Profile erben,
-und zeigen, für welche Filamente Bambu Studio schon ein fertiges Profil hat.
+They provide the Generic base profiles the generated profiles inherit from, and
+show which filaments already have a ready-made profile in Bambu Studio.
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ BUNDLE_FILE = Path("resources/profiles/BBL.json")
 
 
 class BambuProfiles:
-    """Systemprofile aus dem Bambu-Studio-Quellcode oder einer lokalen Installation."""
+    """System profiles from the Bambu Studio source code or a local installation."""
 
     def __init__(self, root: Path, profile_dir: Path = PROFILE_DIR, bundle_file: Path = BUNDLE_FILE):
         self.root = Path(root)
@@ -30,18 +30,18 @@ class BambuProfiles:
             if isinstance(data, dict) and data.get("name"):
                 self.presets[data["name"]] = data
         if not self.presets:
-            raise FileNotFoundError(f"Keine Bambu-Filamentprofile unter {directory}")
+            raise FileNotFoundError(f"No Bambu filament profiles in {directory}")
         bundle = self.root / bundle_file
         self.bundle_version = read_json(bundle).get("version", "") if bundle.exists() else ""
 
     @classmethod
     def from_installation(cls, data_dir: Path) -> BambuProfiles:
-        """Die Systemprofile, die die lokale Bambu-Studio-Installation gerade nutzt."""
+        """The system profiles the local Bambu Studio installation currently uses."""
         return cls(Path(data_dir) / "system", Path("BBL/filament"), Path("BBL.json"))
 
     @property
     def version(self) -> str:
-        """Versionsnummer für Benutzerprofile, z. B. „02.09.00.74“ → „2.9.0.74“."""
+        """Version number for user profiles, e.g. "02.09.00.74" → "2.9.0.74"."""
         parts = [p for p in self.bundle_version.split(".") if p.strip()]
         try:
             numbers = [str(int(p)) for p in parts]
@@ -64,14 +64,14 @@ class BambuProfiles:
         return None
 
     def flatten(self, name: str) -> dict:
-        """Alle Werte eines Profils inklusive der geerbten."""
+        """All values of a profile, including inherited ones."""
         chain = []
         seen = set()
         while name and name not in seen:
             seen.add(name)
             preset = self.presets.get(name)
             if preset is None:
-                raise KeyError(f"Basisprofil „{name}“ fehlt")
+                raise KeyError(f"base profile \"{name}\" is missing")
             chain.append(preset)
             name = preset.get("inherits", "")
         flat: dict = {}
@@ -87,7 +87,7 @@ class BambuProfiles:
         return not printers or printer in printers
 
     def system_keys(self, printer: str) -> dict[tuple, str]:
-        """Abgleichschlüssel aller Nicht-Generic-Systemprofile für den Drucker."""
+        """Match keys of all non-Generic system profiles for the printer."""
         keys: dict[tuple, str] = {}
         for name, preset in self.presets.items():
             if not self.is_compatible(name, printer):

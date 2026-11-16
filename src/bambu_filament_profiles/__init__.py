@@ -1,6 +1,6 @@
-"""Bambu-Studio-Filamentprofile aus offenen Filamentdatenbanken."""
+"""Bambu Studio filament profiles from open filament databases."""
 
 __version__ = "0.2.0"
 
-#: Kennung in der Beschreibung jedes erzeugten Profils.
+#: Marker in the description of every generated profile.
 MARKER = "bambu-filament-profiles"

@@ -8,5 +8,8 @@ htmlcov/
 *.egg-info/
 build/
 dist/
-# Lokaler Quellen-Cache, falls jemand --cache auf das Repo zeigt
+# Local source cache, in case someone points --cache at the repo
 .cache/
+# Generated profiles live in the data folder, never in the repo
+/profiles/
+/sources.lock.json

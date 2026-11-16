@@ -1,8 +1,8 @@
-"""OrcaSlicer-Filamentbibliothek (``resources/profiles/OrcaFilamentLibrary``).
+"""OrcaSlicer filament library (``resources/profiles/OrcaFilamentLibrary``).
 
-Herstellerprofile mit abgestimmten Feinwerten. Orca nutzt dasselbe JSON-Schema
-wie Bambu Studio. Übernommen werden nur Werte, die die Herstellerschicht selbst
-setzt, nicht die von Orcas eigenen ``fdm_filament_*``-Vorlagen.
+Manufacturer profiles with tuned values. Orca uses the same JSON schema as
+Bambu Studio. Only values set by the manufacturer layer itself are used, not
+those from Orca's own ``fdm_filament_*`` templates.
 """
 
 from __future__ import annotations
@@ -90,7 +90,7 @@ def load(root: Path, printer: str) -> list[Record]:
 
 
 def _choose_variant(variants, printer: str):
-    """Variante für den Zieldrucker wählen, sonst die druckerunabhängige."""
+    """Pick the variant for the target printer, otherwise the printer-independent one."""
     generic = None
     for preset, chain in variants:
         printers = _resolve(chain, "compatible_printers") or []

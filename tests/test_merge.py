@@ -35,7 +35,7 @@ def test_catalog_unique_superset_match_and_unmatched():
     )
     by_name = {e.name: e for e in catalog.entries}
     assert by_name["Luminous Glow PLA"].sources == ["ofd", "spoolman"]
-    # „Silk“ passt exakt zu „Silk PLA“ und nicht zum genaueren „Silk PLA Dual“
+    # "Silk" matches "Silk PLA" exactly and not the more specific "Silk PLA Dual"
     assert by_name["Silk PLA"].sources == ["ofd", "spoolman"]
     assert [r.name for r in catalog.unmatched] == ["Holz"]
 

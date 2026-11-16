@@ -1,21 +1,21 @@
-"""Gemeinsames Datenmodell aller Quellen.
+"""Data model shared by all sources.
 
-Jede Quelle liefert ``Record``-Objekte. Die Werte stehen bereits unter den
-Schlüsselnamen von Bambu Studio (z. B. ``nozzle_temperature``). Zusätzlich gibt
-es Hilfsschlüssel mit führendem Unterstrich, die der Generator auflöst:
+Every source yields ``Record`` objects. Values already use Bambu Studio key
+names (e.g. ``nozzle_temperature``). On top of that there are helper keys with a
+leading underscore that the generator resolves:
 
 ``_bed`` / ``_bed_first``
-    Betttemperatur ohne Plattentyp (wird auf Textured PEI und Smooth/Hot Plate verteilt).
+    Bed temperature without a plate type (spread to Textured PEI and Smooth/Hot Plate).
 ``_bed_min`` / ``_bed_max``
-    Vom Hersteller empfohlener Bettbereich (nur zur Prüfung und Ableitung).
+    Bed range recommended by the manufacturer (only for checks and derived values).
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-# Schlüssel, die der Generator aus Quellen übernimmt. Alles andere erbt vom
-# Generic-Basisprofil.
+# Keys the generator takes from sources. Everything else is inherited from the
+# Generic base profile.
 VALUE_KEYS: tuple[str, ...] = (
     "filament_density",
     "nozzle_temperature",
@@ -75,7 +75,7 @@ TEMPERATURE_KEYS = frozenset(
 
 @dataclass
 class Record:
-    """Ein Filament aus genau einer Quelle."""
+    """One filament from exactly one source."""
 
     source: str
     brand: str
@@ -84,15 +84,15 @@ class Record:
     ref: str
     values: dict[str, float] = field(default_factory=dict)
     diameter: float | None = None
-    #: Namen von Slicer-Profilen, auf die die Quelle selbst verweist.
+    #: Names of slicer profiles the source itself refers to.
     links: set[str] = field(default_factory=set)
-    #: Leer = für alle Drucker, sonst nur für diese Bambu-Druckerprofile.
+    #: Empty = all printers, otherwise only these Bambu printer profiles.
     compatible_printers: tuple[str, ...] = ()
 
 
 @dataclass
 class Entry:
-    """Ein Filament nach dem Abgleich aller Quellen."""
+    """One filament after matching all sources."""
 
     brand: str
     family: str

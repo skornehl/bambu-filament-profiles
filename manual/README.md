@@ -1,8 +1,8 @@
-# Eigene Werte
+# Your own values
 
-Jede `*.toml`-Datei in diesem Ordner beschreibt ein Filament. Ihre Werte haben Vorrang vor allen Quellen,
-etwa aus eigener Kalibrierung oder vom Datenblatt des Herstellers. Hersteller, Material und Name ordnen die
-Datei dem passenden Eintrag zu (Schreibweise egal, „PLA+“ = „PLA Plus“); passt keiner, entsteht ein neuer.
+Each `*.toml` file in this folder describes one filament. Its values take precedence over all sources, for
+example from your own calibration or from the manufacturer's data sheet. Brand, material and name match the
+file to the right entry (spelling does not matter, "PLA+" = "PLA Plus"); if none matches, a new one is created.
 
 ```toml
 brand = "Geeetech"
@@ -18,13 +18,13 @@ filament_max_volumetric_speed = 18
 fan_min_speed = 100
 ```
 
-Erlaubte Schlüssel: die Bambu-Studio-Namen `filament_density`, `nozzle_temperature`,
+Allowed keys: the Bambu Studio names `filament_density`, `nozzle_temperature`,
 `nozzle_temperature_initial_layer`, `nozzle_temperature_range_low`, `nozzle_temperature_range_high`,
 `hot_plate_temp`, `textured_plate_temp`, `cool_plate_temp`, `eng_plate_temp`, `supertack_plate_temp`
-(jeweils auch mit `_initial_layer`), `fan_min_speed`, `fan_max_speed`, `overhang_fan_speed`,
+(each also with `_initial_layer`), `fan_min_speed`, `fan_max_speed`, `overhang_fan_speed`,
 `additional_cooling_fan_speed`, `close_fan_the_first_x_layers`, `fan_cooling_layer_time`,
 `slow_down_layer_time`, `slow_down_min_speed`, `filament_max_volumetric_speed`, `filament_flow_ratio`,
-`filament_retraction_length`, `filament_retraction_speed`, `temperature_vitrification` sowie
-`_bed` und `_bed_first` (Bett für Textured PEI und Smooth PEI) und `_bed_min` / `_bed_max`.
+`filament_retraction_length`, `filament_retraction_speed`, `temperature_vitrification`, plus
+`_bed` and `_bed_first` (bed for Textured PEI and Smooth PEI) and `_bed_min` / `_bed_max`.
 
-Danach `python bfp.py build` ausführen.
+Then run `python3 bfp.py update` (offline: `python3 bfp.py build`).

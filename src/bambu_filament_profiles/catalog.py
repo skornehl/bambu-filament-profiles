@@ -1,4 +1,4 @@
-"""Gesamtlauf: Quellen laden, abgleichen, Profile erzeugen und ablegen."""
+"""Full run: load the sources, match them, generate and write the profiles."""
 
 from __future__ import annotations
 
@@ -6,8 +6,10 @@ import json
 import shutil
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 
+from .fetch import fetch_all, read_lock, write_lock
 from .generate import DEFAULT_PRINTER, SOURCE_LABELS, Generated, generate
 from .merge import build_catalog
 from .model import Record
@@ -21,6 +23,9 @@ LOADERS = {
     "spoolman": lambda root, printer: spoolman.load(root),
     "cura": lambda root, printer: cura.load(root),
 }
+
+#: State of the catalog (time, printer, source commits), stored next to the profiles.
+BUILD_INFO = "BUILD.json"
 
 
 @dataclass
@@ -39,10 +44,10 @@ def load_records(cache_dir: Path, manual_dir: Path | None, printer: str, log=pri
     for name, loader in LOADERS.items():
         root = Path(cache_dir) / name
         if not root.is_dir():
-            log(f"Quelle {name} fehlt im Cache, übersprungen")
+            log(f"source {name} is missing in the cache, skipped")
             continue
         records[name] = loader(root, printer)
-        log(f"{name}: {len(records[name])} Filamente gelesen")
+        log(f"{name}: read {len(records[name])} filaments")
     if manual_dir is not None:
         records["manual"] = manual.load(manual_dir)
     return records
@@ -58,7 +63,7 @@ def build(records: dict[str, list[Record]], bambu: BambuProfiles, printer: str =
 
 
 def _dedupe_paths(generated: list[Generated]) -> None:
-    """Gleiche Pfade oder gleiche Profilnamen bekommen „(2)“, „(3)“ … angehängt."""
+    """Duplicate paths or profile names get "(2)", "(3)" … appended."""
     paths: set[str] = set()
     names: set[str] = set()
     for g in generated:
@@ -78,8 +83,40 @@ def _dedupe_paths(generated: list[Generated]) -> None:
         names.add(g.name.lower())
 
 
-def write_output(result: BuildResult, out_dir: Path, lock: dict, printer: str) -> None:
+def update_profiles(cache_dir: Path, lock_path: Path, manual_dir: Path | None, out_dir: Path, printer: str = DEFAULT_PRINTER, pinned: bool = False, log=print) -> BuildResult:
+    """Fetch the sources (newest state, or the lock file's commits with ``pinned``) and rebuild the profiles."""
+    lock = fetch_all(Path(cache_dir), read_lock(lock_path), update=not pinned, log=log)
+    write_lock(lock_path, lock)
+    records = load_records(cache_dir, manual_dir, printer, log=log)
+    result = build(records, BambuProfiles(Path(cache_dir) / "bambu"), printer)
+    write_output(result, out_dir, lock, printer)
+    return result
+
+
+def read_build_info(profiles_dir: Path) -> dict | None:
+    """Content of BUILD.json, or ``None`` if it is missing or broken."""
+    try:
+        info = json.loads((Path(profiles_dir) / BUILD_INFO).read_text(encoding="utf-8"))
+        datetime.fromisoformat(info["built"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    return info
+
+
+def catalog_age_days(info: dict | None, now: datetime | None = None) -> int | None:
+    if not info:
+        return None
+    built = datetime.fromisoformat(info["built"])
+    if built.tzinfo is None:
+        built = built.replace(tzinfo=timezone.utc)
+    return ((now or datetime.now(timezone.utc)) - built).days
+
+
+def write_output(result: BuildResult, out_dir: Path, lock: dict, printer: str, now: datetime | None = None) -> None:
     out_dir = Path(out_dir)
+    if out_dir.exists() and any(out_dir.iterdir()) and not any((out_dir / n).exists() for n in (BUILD_INFO, "INDEX.md")):
+        # The folder is about to be emptied; never empty a folder that is not ours.
+        raise ValueError(f"{out_dir} is not empty and holds no generated profiles; please use an empty folder")
     if out_dir.exists():
         for child in out_dir.iterdir():
             if child.is_dir():
@@ -91,6 +128,9 @@ def write_output(result: BuildResult, out_dir: Path, lock: dict, printer: str) -
         path = out_dir / g.relpath
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(g.profile, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+    built = (now or datetime.now(timezone.utc)).replace(microsecond=0)
+    info = {"built": built.isoformat(), "printer": printer, "profiles": len(result.ok), "sources": lock}
+    (out_dir / BUILD_INFO).write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (out_dir / "INDEX.md").write_text(render_index(result, lock, printer), encoding="utf-8")
     (out_dir / "REPORT.md").write_text(render_report(result), encoding="utf-8")
 
@@ -100,23 +140,23 @@ def render_index(result: BuildResult, lock: dict, printer: str) -> str:
     for g in result.ok:
         by_brand[g.brand].append(g)
     lines = [
-        "# Filamentprofile",
+        "# Filament profiles",
         "",
-        f"Für **{printer}**, {len(result.ok)} Profile von {len(by_brand)} Herstellern. "
-        "Erzeugt mit `bfp build`; nicht von Hand bearbeiten.",
+        f"For **{printer}**, {len(result.ok)} profiles from {len(by_brand)} brands. "
+        "Generated by `bfp update`; do not edit by hand.",
         "",
-        "Quellen-Stände (sources.lock.json):",
+        "Source commits:",
         "",
     ]
     for name in sorted(lock):
         lines.append(f"- {name}: `{lock[name]['commit'][:12]}` ({lock[name].get('license', '?')})")
-    lines += ["", "## Hersteller", ""]
+    lines += ["", "## Brands", ""]
     lines.append(" · ".join(f"[{b}](#{_anchor(b)})" for b in sorted(by_brand, key=str.lower)))
     for brand in sorted(by_brand, key=str.lower):
-        lines += ["", f"## {brand}", "", "| Material | Sorte | Basisprofil | Werte aus | Datei |", "|---|---|---|---|---|"]
+        lines += ["", f"## {brand}", "", "| Material | Product | Base profile | Values from | File |", "|---|---|---|---|---|"]
         for g in sorted(by_brand[brand], key=lambda x: (x.family, x.product.lower())):
             sources = ", ".join(SOURCE_LABELS[s] for s in sorted(set(g.provenance.values()), key=list(SOURCE_LABELS).index))
-            lines.append(f"| {g.family} | {g.product} | {g.parent} | {sources or 'Basisprofil'} | [{g.relpath.split('/')[-1]}]({_link(g.relpath)}) |")
+            lines.append(f"| {g.family} | {g.product} | {g.parent} | {sources or 'base profile'} | [{g.relpath.split('/')[-1]}]({_link(g.relpath)}) |")
     return "\n".join(lines) + "\n"
 
 
@@ -126,23 +166,23 @@ def render_report(result: BuildResult) -> str:
     warned = [g for g in result.ok if any(i.level == "warning" for i in g.issues)]
     derived = [g for g in result.ok if any(i.level == "info" for i in g.issues)]
     lines = [
-        "# Bericht zum letzten Lauf",
+        "# Report of the last run",
         "",
-        f"- erzeugt: {len(result.ok)}",
-        f"- übersprungen, weil Bambu Studio schon ein Systemprofil hat: {len(system)}",
-        f"- übersprungen wegen Fehlern: {len(errors)}",
-        f"- erzeugt mit Warnungen: {len(warned)}",
-        f"- erzeugt mit abgeleiteten Werten: {len(derived)}",
-        f"- ohne erkennbares Material (nicht zugeordnet): {len(result.unmatched)}",
+        f"- generated: {len(result.ok)}",
+        f"- skipped because Bambu Studio already has a system profile: {len(system)}",
+        f"- skipped because of errors: {len(errors)}",
+        f"- generated with warnings: {len(warned)}",
+        f"- generated with derived values: {len(derived)}",
+        f"- no recognisable material (unmatched): {len(result.unmatched)}",
     ]
     reasons = Counter(_reason(i.message) for g in errors for i in g.issues if i.level == "error")
     if reasons:
-        lines += ["", "## Fehlergründe", ""] + [f"- {r}: {n}" for r, n in reasons.most_common()]
+        lines += ["", "## Error reasons", ""] + [f"- {r}: {n}" for r, n in reasons.most_common()]
     sections = (
-        ("Übersprungen (Fehler)", errors, "error"),
-        ("Systemprofil vorhanden", system, "info"),
-        ("Warnungen", warned, "warning"),
-        ("Abgeleitete Werte", derived, "info"),
+        ("Skipped (errors)", errors, "error"),
+        ("System profile exists", system, "info"),
+        ("Warnings", warned, "warning"),
+        ("Derived values", derived, "info"),
     )
     for title, items, level in sections:
         if not items:
@@ -152,21 +192,21 @@ def render_report(result: BuildResult) -> str:
             messages = "; ".join(i.message for i in g.issues if i.level == level)
             lines.append(f"- **{g.alias}** ({', '.join(sorted(set(g.entry.sources)))}): {messages}")
     if result.unmatched:
-        lines += ["", "## Nicht zugeordnet", ""]
+        lines += ["", "## Unmatched", ""]
         for r in sorted(result.unmatched, key=lambda x: (x.source, x.brand.lower(), x.name.lower())):
-            lines.append(f"- {r.source}: {r.brand} {r.name} (Material „{r.material}“)")
+            lines.append(f"- {r.source}: {r.brand} {r.name} (material \"{r.material}\")")
     return "\n".join(lines) + "\n"
 
 
 def _reason(message: str) -> str:
-    if "Basisprofil" in message:
-        return "kein passendes Basisprofil"
-    if "Düse" in message or "nozzle" in message:
-        return "zu heiß für die Düse"
-    if "Bett" in message or "plate" in message:
-        return "zu heiß fürs Bett"
-    if "Durchmesser" in message:
-        return "falscher Durchmesser"
+    if "base profile" in message:
+        return "no matching base profile"
+    if "nozzle" in message:
+        return "too hot for the nozzle"
+    if "bed" in message or "plate" in message:
+        return "too hot for the bed"
+    if "diameter" in message:
+        return "wrong diameter"
     return message
 
 
@@ -179,7 +219,7 @@ def _link(relpath: str) -> str:
 
 
 def list_profiles(profiles_dir: Path) -> list[dict]:
-    """Alle abgelegten Profile mit Hersteller, Material und Sorte (für install/list)."""
+    """All stored profiles with brand, material and product (for install/list)."""
     items = []
     for path in sorted(Path(profiles_dir).glob("*/*/*.json")):
         items.append({"brand": path.parent.parent.name, "material": path.parent.name, "product": path.stem, "path": path})

@@ -1,7 +1,7 @@
-"""Open Filament Database (``data/<hersteller>/<MATERIAL>/<sorte>/filament.json``).
+"""Open Filament Database (``data/<brand>/<MATERIAL>/<product>/filament.json``).
 
-Das Gerüst des Katalogs: Hersteller, Material und Sorte sowie die vom
-Hersteller angegebenen Bereiche für Düse und Bett, Dichte und weitere Werte.
+The skeleton of the catalog: brand, material and product, plus the nozzle and
+bed ranges stated by the manufacturer, density and further values.
 """
 
 from __future__ import annotations
@@ -76,7 +76,7 @@ def _record(path: Path, brand: str, material: str, data_dir: Path) -> Record:
         brand=brand,
         material=material,
         name=data.get("name") or path.parent.name,
-        ref=path.parent.relative_to(data_dir).as_posix(),  # gleich unter Windows und Linux
+        ref=path.parent.relative_to(data_dir).as_posix(),  # same on Windows and Linux
         values=values,
         diameter=_diameter(path.parent),
         links=links,
@@ -84,7 +84,7 @@ def _record(path: Path, brand: str, material: str, data_dir: Path) -> Record:
 
 
 def _diameter(filament_dir: Path) -> float | None:
-    """1,75 mm, wenn es eine Variante damit gibt, sonst den ersten Durchmesser."""
+    """1.75 mm if there is such a variant, otherwise the first diameter."""
     found: list[float] = []
     for sizes in sorted(filament_dir.glob("*/sizes.json")):
         entries = read_json(sizes)

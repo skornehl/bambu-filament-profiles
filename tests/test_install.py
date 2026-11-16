@@ -55,7 +55,7 @@ def test_candidate_dirs_windows_and_macos(tmp_path):
 def test_find_installations_simulated_linux(tmp_path):
     flatpak = tmp_path / ".var" / "app" / "com.bambulab.BambuStudio" / "config" / "BambuStudio"
     (flatpak / "user").mkdir(parents=True)
-    (tmp_path / ".config" / "BambuStudio").mkdir(parents=True)  # leer → keine Installation
+    (tmp_path / ".config" / "BambuStudio").mkdir(parents=True)  # empty → no installation
     found = find_installations("linux", {}, tmp_path)
     assert [i.kind for i in found] == ["flatpak"]
     (tmp_path / ".config" / "BambuStudio" / "BambuStudio.conf").write_text("{}", encoding="utf-8")
@@ -74,10 +74,10 @@ def test_find_installations_simulated_windows(tmp_path):
 def test_active_user_and_user_ids(fake_install, tmp_path):
     assert active_user(fake_install) == "123"
     assert user_ids(fake_install) == ["123", "default"]
-    assert active_user(tmp_path / "fehlt") is None
+    assert active_user(tmp_path / "missing") is None
     (tmp_path / "BambuStudio.conf").write_text("[]", encoding="utf-8")
     assert active_user(tmp_path) is None
-    assert user_ids(tmp_path / "fehlt") == []
+    assert user_ids(tmp_path / "missing") == []
 
 
 def test_choose_installation(tmp_path):
@@ -85,15 +85,15 @@ def test_choose_installation(tmp_path):
     assert choose_installation([a], None, None) == a
     assert choose_installation([a, b], None, lambda q: "2") == b
     assert choose_installation([a, b], None, lambda q: "") == a
-    with pytest.raises(InstallError, match="per Option"):
+    with pytest.raises(InstallError, match="with an option"):
         choose_installation([a, b], None, None)
-    with pytest.raises(InstallError, match="Ungültige"):
+    with pytest.raises(InstallError, match="invalid choice"):
         choose_installation([a, b], None, lambda q: "9")
-    with pytest.raises(InstallError, match="Keine Bambu-Studio"):
+    with pytest.raises(InstallError, match="no Bambu Studio"):
         choose_installation([], None, None)
     assert choose_installation([], str(tmp_path), None).data_dir == tmp_path
-    with pytest.raises(InstallError, match="gibt es nicht"):
-        choose_installation([], str(tmp_path / "fehlt"), None)
+    with pytest.raises(InstallError, match="does not exist"):
+        choose_installation([], str(tmp_path / "missing"), None)
 
 
 def test_choose_user(fake_install, tmp_path):
@@ -103,38 +103,38 @@ def test_choose_user(fake_install, tmp_path):
         questions.append(q)
         return ""
 
-    assert choose_user(fake_install, None, ask) == "123"  # aktiver Benutzer zuerst
-    assert "aktiv: 123" in questions[0]
+    assert choose_user(fake_install, None, ask) == "123"  # active user first
+    assert "active: 123" in questions[0]
     assert choose_user(fake_install, "default", None) == "default"
-    with pytest.raises(InstallError, match="gibt es nicht"):
+    with pytest.raises(InstallError, match="does not exist"):
         choose_user(fake_install, "999", None)
     with pytest.raises(InstallError):
         choose_user(fake_install, None, None)
     single = tmp_path / "single"
     (single / "user" / "default").mkdir(parents=True)
     assert choose_user(single, None, None) == "default"
-    assert choose_user(tmp_path / "leer", None, None) == "default"
+    assert choose_user(tmp_path / "empty", None, None) == "default"
 
 
-# ------------------------------------------------------------------ Prozesse
+# ------------------------------------------------------------------- processes
 
 
 def test_bambu_running_linux(tmp_path):
     for pid, comm in (("1", "systemd"), ("42", "bambu-studio"), ("self", "x")):
         (tmp_path / pid).mkdir()
         (tmp_path / pid / "comm").write_text(comm + "\n", encoding="utf-8")
-    (tmp_path / "7").mkdir()  # ohne comm
+    (tmp_path / "7").mkdir()  # without comm
     assert bambu_running("linux", tmp_path)
     (tmp_path / "42" / "comm").write_text("bash\n", encoding="utf-8")
     assert not bambu_running("linux", tmp_path)
-    assert not bambu_running("linux", tmp_path / "fehlt")
+    assert not bambu_running("linux", tmp_path / "missing")
 
 
 def test_bambu_running_windows_and_macos():
     def fake(out="", code=0, error=False):
         def run(*args, **kwargs):
             if error:
-                raise OSError("fehlt")
+                raise OSError("missing")
             return subprocess.CompletedProcess(args, code, stdout=out)
 
         return run
@@ -147,7 +147,7 @@ def test_bambu_running_windows_and_macos():
     assert not bambu_running("darwin", run=fake(error=True))
 
 
-# --------------------------------------------------------- vorhandene Profile
+# ------------------------------------------------------- existing profiles
 
 
 def write_preset(folder: Path, name: str, data: dict, setting_id: str | None = None):
@@ -161,39 +161,39 @@ def write_preset(folder: Path, name: str, data: dict, setting_id: str | None = N
 def presets_dir(fake_install):
     filament = fake_install / "user" / "123" / "filament"
     write_preset(filament, "SUNLU PLA", {"inherits": "Generic PLA", "filament_vendor": ["SUNLU"]}, "PFUS1")
-    write_preset(filament, "Mein PETG", {"inherits": "Generic PETG"})
+    write_preset(filament, "My PETG", {"inherits": "Generic PETG"})
     write_preset(filament, "Tinmorry Silk", {"inherits": "Bambu PLA Silk"}, "null")
     write_preset(filament / "base", "eSUN PETG Basic @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["eSUN"], "filament_id": "P18f7b94"}, "PFUS2")
     write_preset(filament / "base", "Acme PLA @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["Acme"], "filament_id": "Pabc1234", "description": MARKER + " 0.1.0"})
-    (filament / "kaputt.json").write_text("{", encoding="utf-8")
+    (filament / "broken.json").write_text("{", encoding="utf-8")
     return filament
 
 
 def test_scan_user_presets(presets_dir):
     presets, problems = scan_user_presets(presets_dir)
     by_name = {p.name: p for p in presets}
-    assert len(presets) == 5 and problems and "kaputt.json" in problems[0]
+    assert len(presets) == 5 and problems and "broken.json" in problems[0]
     assert by_name["SUNLU PLA"].synced and by_name["SUNLU PLA"].shown_vendor == "Generic"
-    assert by_name["SUNLU PLA"].kind == "erbt von Generic PLA"
+    assert by_name["SUNLU PLA"].kind == "inherits Generic PLA"
     assert not by_name["Tinmorry Silk"].synced  # setting_id = null
-    assert by_name["Tinmorry Silk"].shown_vendor == "wie Bambu PLA Silk"
+    assert by_name["Tinmorry Silk"].shown_vendor == "as Bambu PLA Silk"
     esun = by_name["eSUN PETG Basic @Bambu Lab P1S 0.4 nozzle"]
-    assert esun.root and esun.shown_vendor == "eSUN" and esun.kind == "eigenständig"
+    assert esun.root and esun.shown_vendor == "eSUN" and esun.kind == "standalone"
     assert by_name["Acme PLA @Bambu Lab P1S 0.4 nozzle"].from_tool
-    assert scan_user_presets(presets_dir / "fehlt") == ([], [])
+    assert scan_user_presets(presets_dir / "missing") == ([], [])
 
 
 def test_filter_presets(presets_dir):
     presets, _ = scan_user_presets(presets_dir)
     names = lambda items: sorted(p.name for p in items)  # noqa: E731
-    assert names(filter_presets(presets, generic_only=True)) == ["Mein PETG", "SUNLU PLA"]
+    assert names(filter_presets(presets, generic_only=True)) == ["My PETG", "SUNLU PLA"]
     assert names(filter_presets(presets, vendors=["esun"])) == ["eSUN PETG Basic @Bambu Lab P1S 0.4 nozzle"]
-    assert names(filter_presets(presets, names=["petg"])) == ["Mein PETG", "eSUN PETG Basic @Bambu Lab P1S 0.4 nozzle"]
+    assert names(filter_presets(presets, names=["petg"])) == ["My PETG", "eSUN PETG Basic @Bambu Lab P1S 0.4 nozzle"]
     assert names(filter_presets(presets, tool_only=True)) == ["Acme PLA @Bambu Lab P1S 0.4 nozzle"]
 
 
 def test_read_info_missing(tmp_path):
-    assert read_info(tmp_path / "fehlt.info") == {}
+    assert read_info(tmp_path / "missing.info") == {}
 
 
 def test_shown_vendor_root_without_vendor(tmp_path):
@@ -201,7 +201,7 @@ def test_shown_vendor_root_without_vendor(tmp_path):
     assert preset.shown_vendor == "?"
 
 
-# ---------------------------------------------------------------- Installation
+# ----------------------------------------------------------------- installation
 
 
 def spec_file(tmp_path: Path, name="Acme PLA @Bambu Lab P1S 0.4 nozzle", **values) -> Path:
@@ -223,10 +223,10 @@ def spec_file(tmp_path: Path, name="Acme PLA @Bambu Lab P1S 0.4 nozzle", **value
 
 def test_assign_filament_id(presets_dir):
     presets, _ = scan_user_presets(presets_dir)
-    assert assign_filament_id("Acme PLA @Bambu Lab P1S 0.6 nozzle", "123", presets) == "Pabc1234"  # gleicher Name
-    new = assign_filament_id("Neu PLA @X", "123", presets)
+    assert assign_filament_id("Acme PLA @Bambu Lab P1S 0.6 nozzle", "123", presets) == "Pabc1234"  # same name
+    new = assign_filament_id("New PLA @X", "123", presets)
     assert new.startswith("P") and new not in {"Pabc1234", "P18f7b94"}
-    assert assign_filament_id("Neu PLA @X", "default", presets) != new  # ohne Konto-ID
+    assert assign_filament_id("New PLA @X", "default", presets) != new  # without account ID
 
 
 def test_assign_filament_id_avoids_collision(tmp_path):
@@ -244,9 +244,9 @@ def test_plan_and_write_install(fake_install, presets_dir, tmp_path):
     new_spec = spec_file(specs, "Neu PLA @Bambu Lab P1S 0.4 nozzle", nozzle_temperature=205)
     conflict_spec = spec_file(specs, "Acme PLA @Bambu Lab P1S 0.4 nozzle", nozzle_temperature=210)
     bad = specs / "bad.json"
-    bad.write_text(json.dumps({"name": "Kaputt @X", "inherits": "Fehlt"}), encoding="utf-8")
+    bad.write_text(json.dumps({"name": "Broken @X", "inherits": "Missing"}), encoding="utf-8")
     actions, errors = plan_install([new_spec, conflict_spec, bad], presets_dir, presets, system, "123")
-    assert [a.kind for a in actions] == ["new", "conflict"] and "Kaputt" in errors[0]
+    assert [a.kind for a in actions] == ["new", "conflict"] and "Broken" in errors[0]
     new = actions[0]
     assert new.target == presets_dir / "base" / "Neu PLA @Bambu Lab P1S 0.4 nozzle.json"
     assert new.data["inherits"] == "" and new.data["version"] == "2.9.0.81"
@@ -270,12 +270,12 @@ def test_backup_and_delete(presets_dir, tmp_path):
     archive = backup(presets_dir, tmp_path / "backups", "123")
     with zipfile.ZipFile(archive) as z:
         assert "filament/SUNLU PLA.json" in z.namelist()
-    assert backup(tmp_path / "fehlt", tmp_path / "backups", "x").exists()
+    assert backup(tmp_path / "missing", tmp_path / "backups", "x").exists()
     presets, _ = scan_user_presets(presets_dir)
     by_name = {p.name: p for p in presets}
-    delete_local(by_name["Mein PETG"])
+    delete_local(by_name["My PETG"])
     assert not (presets_dir / "Mein PETG.json").exists()
-    with pytest.raises(InstallError, match="Cloud"):
+    with pytest.raises(InstallError, match="cloud"):
         delete_local(by_name["SUNLU PLA"])
     assert (presets_dir / "SUNLU PLA.json").exists()
 
@@ -294,7 +294,7 @@ def test_printers_and_not_for(fake_install, tmp_path):
     root = UserPreset("B @Bambu Lab A1 0.4 nozzle", tmp_path, True, "", "X", "", "", False)
     root_plain = UserPreset("C", tmp_path, True, "", "X", "", "", False)
     inherited = UserPreset("D", tmp_path, False, "Generic PLA", "", "", "", False)
-    orphan = UserPreset("E", tmp_path, False, "Fehlt", "", "", "", False)
+    orphan = UserPreset("E", tmp_path, False, "Missing", "", "", "", False)
     assert explicit.printers() == ["Bambu Lab H2D 0.4 nozzle"]
     assert root.printers() == ["Bambu Lab A1 0.4 nozzle"]
     assert root_plain.printers() == [] and root_plain.usable_on("P1S")
@@ -313,7 +313,7 @@ def fake_proc(root: Path, pid: str, comm: str, argv: list[str] | None = None):
 
 
 def test_bambu_running_detects_flatpak_main_thread(tmp_path):
-    # So sieht Bambu Studio 2.9.1 als Flatpak aus: comm des Hauptthreads, Programm /app/bin/bambu-studio
+    # This is what Bambu Studio 2.9.1 looks like as a Flatpak: comm of the main thread, program /app/bin/bambu-studio
     fake_proc(tmp_path, "174183", "bambustu_main", ["/app/bin/bambu-studio"])
     assert bambu_running("linux", tmp_path)
 
@@ -330,5 +330,5 @@ def test_bambu_running_ignores_shells_mentioning_bambu(tmp_path):
     fake_proc(tmp_path, "20", "zsh", ["/usr/bin/zsh", "-c", "pgrep -f /app/bin/bambu-studio"])
     fake_proc(tmp_path, "21", "python3", ["python3", "bfp.py", "install", "--vendor", "bambu-studio"])
     fake_proc(tmp_path, "22", "kworker", [])
-    fake_proc(tmp_path, "23", "ohne-cmdline")
+    fake_proc(tmp_path, "23", "no-cmdline")
     assert not bambu_running("linux", tmp_path)

@@ -1,31 +1,31 @@
-# Fremde Daten und Lizenzen
+# Third-party data and licenses
 
-Die Profile unter `profiles/` sind aus den folgenden Quellen abgeleitet. Die genauen Stände stehen in
-`sources.lock.json`. Die Testdaten unter `tests/fixtures/` sind kleine unveränderte Auszüge daraus.
+The tool fetches the following sources on the user's computer and builds the profiles from them; the repo
+contains no generated profiles. Which commits were fetched is recorded in the data folder in
+`sources.lock.json` and `profiles/BUILD.json`. The test data under `tests/fixtures/` are small unmodified
+excerpts from the sources.
 
-| Quelle | Lizenz | Copyright |
+| Source | License | Copyright |
 |---|---|---|
 | [OpenFilamentCollective/open-filament-database](https://github.com/OpenFilamentCollective/open-filament-database) | MIT | © 2025 OpenFilamentCollective |
 | [Donkie/SpoolmanDB](https://github.com/Donkie/SpoolmanDB) | MIT | © 2024 Donkie |
-| [Ultimaker/fdm_materials](https://github.com/Ultimaker/fdm_materials) | CC0-1.0 | gemeinfrei |
-| [OrcaSlicer/OrcaSlicer](https://github.com/OrcaSlicer/OrcaSlicer) | AGPL-3.0 | © OrcaSlicer-Mitwirkende |
+| [Ultimaker/fdm_materials](https://github.com/Ultimaker/fdm_materials) | CC0-1.0 | public domain |
+| [OrcaSlicer/OrcaSlicer](https://github.com/OrcaSlicer/OrcaSlicer) | AGPL-3.0 | © OrcaSlicer contributors |
 | [bambulab/BambuStudio](https://github.com/bambulab/BambuStudio) | AGPL-3.0 | © Bambu Lab |
 | [prusa3d/PrusaSlicer-settings](https://github.com/prusa3d/PrusaSlicer-settings) | AGPL-3.0 | © Prusa Research |
 
-## Was das für dieses Repo heißt
+## What this means for this repo
 
-- **MIT** (Open Filament Database, SpoolmanDB): freie Nutzung und Weitergabe; bei Weitergabe den
-  Copyright- und Lizenzhinweis beilegen (diese Datei).
-- **CC0** (Cura): keine Bedingungen.
-- **AGPL-3.0** (OrcaSlicer, Bambu Studio, PrusaSlicer-settings): Pflichten entstehen erst bei Weitergabe.
-  Solange das Repo privat ist und nur selbst genutzt wird, gibt es nichts weiter zu tun. Wird es veröffentlicht,
-  sollten die Profile und Testdaten, die Werte aus diesen Quellen enthalten, unter AGPL-3.0 mit Quellenhinweis
-  stehen. Einzelne Zahlenwerte sind kaum schutzfähig, die Profildateien als Ganzes aber schon.
+- **MIT** (Open Filament Database, SpoolmanDB): free use and redistribution; when redistributing, include the
+  copyright and license notice (this file).
+- **CC0** (Cura): no conditions.
+- **AGPL-3.0** (OrcaSlicer, Bambu Studio, PrusaSlicer-settings): obligations only arise on redistribution.
+  The generated profiles are created locally and are not redistributed. In the repo this only concerns the test
+  data: if the repo is published, they should be under AGPL-3.0 with a source notice.
 
-Das ist eine vorsichtige Einschätzung, keine Rechtsberatung.
+This is a cautious assessment, not legal advice.
 
-## Nicht verwendet
+## Not used
 
-[3dfilamentprofiles.com](https://3dfilamentprofiles.com/terms) verbietet in den Nutzungsbedingungen
-automatisierten Abruf, das Kopieren der Datenbank und abgeleitete Datensammlungen. Das Tool ruft die Seite
-nicht ab.
+[3dfilamentprofiles.com](https://3dfilamentprofiles.com/terms) forbids automated access, copying the database
+and derived data collections in its terms. The tool does not access the site.

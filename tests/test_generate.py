@@ -36,7 +36,7 @@ def test_helpers():
     assert filament_id_for("Acme PLA").startswith("P") and len(filament_id_for("Acme PLA")) == 8
     assert filament_id_for("Acme PLA", "123") != filament_id_for("Acme PLA")
     assert limits_for(PRINTER).nozzle_max == 300
-    assert limits_for("Anderer Drucker").bed_max == 100
+    assert limits_for("Other printer").bed_max == 100
 
 
 def test_product_name():
@@ -50,7 +50,7 @@ def test_choose_parent(bambu):
     assert choose_parent("PLA", frozenset(), bambu, PRINTER) == "Generic PLA"
     assert choose_parent("PLA", frozenset({"silk"}), bambu, PRINTER) == "Generic PLA Silk"
     assert choose_parent("PET", frozenset(), bambu, PRINTER) == "Generic PETG"
-    assert choose_parent("PLA", frozenset({"cf"}), bambu, PRINTER) is None  # CF-Basis fehlt in den Fixtures, kein Rückfall auf PLA
+    assert choose_parent("PLA", frozenset({"cf"}), bambu, PRINTER) is None  # CF base is missing in the fixtures, no fallback to PLA
     assert choose_parent("PEEK", frozenset(), bambu, PRINTER) is None
 
 
@@ -75,10 +75,10 @@ def test_generate_derives_temperatures_from_ranges(bambu):
         PRINTER,
     )
     spec = result.profile
-    assert spec["nozzle_temperature"] == ["200"]  # Generic 220 außerhalb → Mitte
+    assert spec["nozzle_temperature"] == ["200"]  # Generic 220 outside → middle
     assert result.provenance["nozzle_temperature"] == "derived"
-    assert spec["textured_plate_temp"] == ["40"]  # Generic 55 außerhalb 25–50
-    assert any("abgeleitet" in m for m in messages(result, "info"))
+    assert spec["textured_plate_temp"] == ["40"]  # Generic 55 outside 25–50
+    assert any("derived" in m for m in messages(result, "info"))
 
 
 def test_generate_keeps_inherited_when_inside_range(bambu):
@@ -101,7 +101,7 @@ def test_generate_rejects_too_hot(bambu):
     result = generate(make_entry({"nozzle_temperature": 310}), bambu, PRINTER)
     assert not result.ok
     result = generate(make_entry({"_bed_min": 110, "_bed_max": 120}), bambu, PRINTER)
-    assert not result.ok and "Bett" in messages(result, "error")[0]
+    assert not result.ok and "bed" in messages(result, "error")[0]
     result = generate(make_entry({"_bed": 105}), bambu, PRINTER)
     assert not result.ok
 
@@ -110,7 +110,7 @@ def test_generate_clamps_upper_nozzle_bound(bambu):
     result = generate(make_entry({"nozzle_temperature_range_low": 260, "nozzle_temperature_range_high": 320}, family="PETG", name="PETG"), bambu, PRINTER)
     assert result.ok
     assert result.profile["nozzle_temperature_range_high"] == ["300"]
-    assert any("begrenzt" in m for m in messages(result, "warning"))
+    assert any("capped" in m for m in messages(result, "warning"))
 
 
 def test_generate_drops_implausible_values(bambu):
@@ -132,11 +132,11 @@ def test_generate_swapped_ranges_and_out_of_range_targets(bambu):
         PRINTER,
     )
     assert result.ok
-    assert sum("verdreht" in m for m in messages(result, "warning")) == 2
+    assert sum("reversed" in m for m in messages(result, "warning")) == 2
     result = generate(make_entry({"nozzle_temperature_range_low": 190, "nozzle_temperature_range_high": 200, "nozzle_temperature": 215}), bambu, PRINTER)
-    assert any("außerhalb des Herstellerbereichs" in m for m in messages(result, "warning"))
+    assert any("outside the manufacturer range" in m for m in messages(result, "warning"))
     result = generate(make_entry({"nozzle_temperature": 250}), bambu, PRINTER)
-    assert any("geerbten Bereichs" in m for m in messages(result, "warning"))
+    assert any("inherited range" in m for m in messages(result, "warning"))
 
 
 def test_generate_skips(bambu):
@@ -146,9 +146,9 @@ def test_generate_skips(bambu):
     result = generate(make_entry(brand="Bambu Lab"), bambu, PRINTER)
     assert not result.ok and messages(result, "info")
     result = generate(make_entry(diameter=2.85), bambu, PRINTER)
-    assert not result.ok and "Durchmesser" in messages(result, "error")[0]
+    assert not result.ok and "diameter" in messages(result, "error")[0]
     result = generate(make_entry(family="PEEK", name="PEEK"), bambu, PRINTER)
-    assert not result.ok and "Basisprofil" in messages(result, "error")[0]
+    assert not result.ok and "base profile" in messages(result, "error")[0]
 
 
 def test_generate_reports_conflicts(bambu):
@@ -156,7 +156,7 @@ def test_generate_reports_conflicts(bambu):
     e.records.append(Record(source="orca", brand="Acme", material="PLA", name="PLA", ref="o", values={"nozzle_temperature": 230}))
     result = generate(e, bambu, PRINTER)
     assert result.profile["nozzle_temperature"] == ["230"]
-    assert any("abweichend" in m for m in messages(result, "warning"))
+    assert any("differing" in m for m in messages(result, "warning"))
 
 
 def test_expand_to_root_preset(bambu):
@@ -165,7 +165,7 @@ def test_expand_to_root_preset(bambu):
     assert root["inherits"] == "" and root["filament_id"] == "P1234567"
     assert root["nozzle_temperature"] == ["205"]
     assert root["filament_type"] == ["PLA"]
-    assert root["filament_flow_ratio"] == ["0.98"]  # geerbt aus Generic PLA @base
+    assert root["filament_flow_ratio"] == ["0.98"]  # inherited from Generic PLA @base
     assert root["compatible_printers"] == [PRINTER]
     for key in ("setting_id", "instantiation", "type"):
         assert key not in root
@@ -179,7 +179,7 @@ def test_expand_replicates_variant_values(bambu):
 
 def test_expand_missing_parent(bambu):
     with pytest.raises(ExpandError):
-        expand({"name": "X", "inherits": "Gibt es nicht"}, bambu, "P1")
+        expand({"name": "X", "inherits": "Does not exist"}, bambu, "P1")
 
 
 def test_product_name_uses_material_variant():

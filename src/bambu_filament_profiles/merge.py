@@ -1,4 +1,4 @@
-"""Abgleich der Quellen und Zusammenführung der Werte nach Priorität."""
+"""Match the sources and merge their values by priority."""
 
 from __future__ import annotations
 
@@ -7,14 +7,14 @@ from dataclasses import dataclass, field
 from .matching import match_key, norm_alias, norm_brand
 from .model import TEMPERATURE_KEYS, Entry, Record
 
-#: Wer bei Feinwerten gewinnt (links = höchste Priorität).
+#: Who wins for tuning values (left = highest priority).
 PRIORITY: tuple[str, ...] = ("manual", "orca", "prusa", "ofd", "spoolman", "cura")
-#: Herstellerangaben (Stammdaten): Datenbanken vor Slicer-Profilen.
+#: Manufacturer data (master data): databases before slicer profiles.
 MASTER_PRIORITY: tuple[str, ...] = ("manual", "ofd", "spoolman", "orca", "prusa", "cura")
 MASTER_KEYS = frozenset(
     {"filament_density", "nozzle_temperature_range_low", "nozzle_temperature_range_high", "_bed_min", "_bed_max"}
 )
-#: Ab dieser Abweichung (°C) zwischen Quellen landet ein Wert im Bericht.
+#: From this difference (°C) between sources on, a value goes into the report.
 CONFLICT_DELTA = 10.0
 
 SOURCE_ORDER: tuple[str, ...] = ("ofd", "manual", "orca", "prusa", "spoolman", "cura")
@@ -43,11 +43,11 @@ class Catalog:
 
 
 def build_catalog(records: dict[str, list[Record]]) -> Catalog:
-    """Records aller Quellen zu Einträgen zusammenfassen.
+    """Group the records of all sources into entries.
 
-    Die Open Filament Database bildet das Gerüst. Andere Quellen hängen sich
-    zuerst über deren Verweise auf Slicer-Profile an, dann über den
-    Abgleichschlüssel; passt nichts, entsteht ein neuer Eintrag.
+    The Open Filament Database is the skeleton. Other sources attach first via
+    its references to slicer profiles, then via the match key; if nothing
+    fits, a new entry is created.
     """
     entries: dict[tuple, Entry] = {}
     links: dict[str, tuple] = {}
@@ -80,7 +80,7 @@ def build_catalog(records: dict[str, list[Record]]) -> Catalog:
 
 
 def _unique_superset(entries: dict[tuple, Entry], key: tuple) -> tuple | None:
-    """Weniger genauer Name („Luminous“) → eindeutiger genauerer Eintrag („Luminous Glow“)."""
+    """Less specific name ("Luminous") → the one more specific entry ("Luminous Glow")."""
     brand, family, toks = key
     if not toks:
         return None

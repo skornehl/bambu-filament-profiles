@@ -1,15 +1,16 @@
 # bambu-filament-profiles
 
-Filamentprofile für Bambu Studio, **nach Hersteller sortiert** statt alles unter „Generic“.
-Erzeugt aus offenen Filamentdatenbanken, abgelegt als `profiles/<Hersteller>/<Material>/<Sorte>.json`,
-dazu ein Installer, der die lokale Bambu-Studio-Installation findet (Linux, Flatpak, Windows, macOS).
+Filament profiles for Bambu Studio, **sorted by brand** instead of everything ending up under "Generic".
+The tool fetches open filament databases in their newest state **on your computer**, builds the profiles from
+them and installs them into your local Bambu Studio installation (Linux, Flatpak, Windows, macOS).
+The repo contains no ready-made profiles that could go stale.
 
-Zielgerät ist der **Bambu Lab P1S mit 0,4-mm-Düse**. Übersicht aller Profile: [profiles/INDEX.md](profiles/INDEX.md),
-Bericht zum letzten Lauf (übersprungene Filamente, Warnungen): [profiles/REPORT.md](profiles/REPORT.md).
+Target printer is the **Bambu Lab P1S with a 0.4 mm nozzle**.
 
-## Schnellstart
+## Quick start
 
-Voraussetzung: Python 3.11 oder neuer. Weitere Pakete braucht das Tool nicht.
+Requirements: Python 3.11 or newer and Git (Windows: `winget install Git.Git`). The tool needs no other
+packages.
 
 ```bash
 git clone https://github.com/skornehl/bambu-filament-profiles.git
@@ -17,7 +18,8 @@ cd bambu-filament-profiles
 python3 bfp.py app
 ```
 
-`app` öffnet die Begleit-App im Browser (siehe unten). Dasselbe geht auf der Kommandozeile:
+On the first run the tool fetches the sources and builds the profiles (once, about 15 seconds and a bit over
+100 MB). `app` then opens the companion app in your browser (see below). The same works on the command line:
 
 ```bash
 python3 bfp.py list --vendor SUNLU --material PLA
@@ -25,57 +27,61 @@ python3 bfp.py install --vendor SUNLU --material PLA --dry-run
 python3 bfp.py install --vendor SUNLU --material PLA
 ```
 
-Unter Windows heißt der Befehl `py` statt `python3`. Bambu Studio vor dem Installieren oder Löschen schließen.
+On Windows the command is `py` instead of `python3`. Close Bambu Studio before installing or deleting.
 
-## Begleit-App
+## Companion app
 
 ```bash
 python3 bfp.py app
 ```
 
-Startet einen kleinen Server nur auf diesem Rechner (`http://127.0.0.1:8765`) und öffnet die Oberfläche im Browser.
-Beenden über den Knopf „Beenden“ oder mit Strg+C.
+Starts a small server on this computer only (`http://127.0.0.1:8765`) and opens the interface in your browser.
+Stop it with the "Quit" button or with Ctrl+C.
 
-- **Profile finden:** Suche über Hersteller, Material und Sorte („sunlu matte“), Filter nach Hersteller und Material.
-  Ein Klick zeigt die Werte: aus der Quelle oder „geerbt“ vom Basisprofil deiner Bambu-Studio-Version.
-  Mehrere anhaken, „Installieren…“ zeigt erst, was neu ist und was schon existiert; vorhandene werden nur
-  überschrieben, wenn du sie anhakst.
-- **Meine Profile:** deine vorhandenen Filamentprofile mit Art, Hersteller, Drucker und Ablage (lokal oder Cloud),
-  filterbar nach „nur unter Generic“ und „nicht für Drucker“. Lokale Profile lassen sich löschen, für Cloud-Profile
-  gibt es eine Liste für *Datei → Verwaltung von Batch-Profilen*.
-- **Gleiches Sicherheitsnetz wie `install`:** Backup vor jedem Schreiben, nichts schreiben, solange Bambu Studio
-  läuft (die App zeigt das oben an), Cloud-Profile nicht lokal löschen.
-- **Schutz:** Der Server lauscht nur auf 127.0.0.1, jede Aktion braucht ein Zufalls-Token der Sitzung, und der
-  Host-Header wird geprüft. So kann keine fremde Webseite über deinen Browser installieren oder löschen.
+- **Find profiles:** search across brand, material and product ("sunlu matte"), filter by brand and material.
+  A click shows the values: from a source, or "inherited" from the base profile of your Bambu Studio version.
+  Tick several, and "Install…" first shows what is new and what already exists; existing ones are only
+  overwritten if you tick them.
+- **My profiles:** your existing filament profiles with kind, brand, printers and where they are stored (local or
+  cloud), filterable by "only under Generic" and "not for printer". Local profiles can be deleted; for cloud
+  profiles there is a list for *File → Batch Preset Management*.
+- **Update profiles:** the header shows how old the profiles are; the button fetches the newest sources and
+  rebuilds the profiles. It changes nothing in Bambu Studio.
+- **Same safety net as `install`:** a backup before every write, nothing is written while Bambu Studio is
+  running (the app shows that at the top), cloud profiles are never deleted locally.
+- **Protection:** the server only listens on 127.0.0.1, every action needs the session's random token, and the
+  Host header is checked. So no other web page can install or delete anything through your browser.
 
-Optionen: `--port`, `--data-dir`, `--no-browser`.
+Options: `--port`, `--data-dir`, `--no-browser`.
 
-## Warum bisher alles unter „Generic“ landet
+## Why everything ends up under "Generic"
 
-Ein importiertes Benutzerprofil, das von „Generic PLA“ erbt, übernimmt beim Laden dessen
-`filament_id` (`GFL99`). Über diese ID ordnet Bambu Studio den Hersteller zu: im AMS, in der
-Spulenverwaltung und auf dem Drucker. Ergebnis: „Generic“.
+An imported user profile that inherits from "Generic PLA" takes over its `filament_id` (`GFL99`) when it is
+loaded. Bambu Studio uses this ID to determine the brand: in the AMS, in spool management and on the printer.
+Result: "Generic".
 
-Der Installer legt deshalb **eigenständige Profile** an, genau wie der Assistent „Filament erstellen“
-in Bambu Studio: `inherits` leer, alle Werte ausgeschrieben, Hersteller gesetzt, eigene `filament_id`
-(„P“ + 7 Zeichen MD5 aus Name und Konto-ID). Die Basiswerte stammen aus den Systemprofilen der
-**lokal installierten** Bambu-Studio-Version, passen also immer zur Version.
+The installer therefore creates **standalone profiles**, exactly like the "Create filament" wizard in Bambu
+Studio: `inherits` empty, all values written out, brand set, its own `filament_id` ("P" + 7 characters of the
+MD5 of the name and account ID). The base values come from the system profiles of the **locally installed**
+Bambu Studio version, so they always match your version.
 
-Im Repo liegen die Profile schlank: Sie erben vom passenden Generic-Profil und enthalten nur die Werte aus den
-Quellen. Diese Dateien kann man auch direkt importieren, dann erscheinen sie aber wieder unter „Generic“.
+In the local catalog the profiles are slim: they inherit from the matching Generic profile and only contain the
+values from the sources. You can import these files directly too, but then they show up under "Generic" again.
 
-## Befehle
+## Commands
 
-| Befehl | Zweck |
+| Command | Purpose |
 |---|---|
-| `list` | Profile im Repo anzeigen, filterbar mit `--vendor`, `--material`, `--name` |
-| `install` | ausgewählte Profile in Bambu Studio installieren |
-| `cleanup` | vorhandene eigene Filamentprofile auflisten und aufräumen |
-| `export` | eigenständige Profile in einen Ordner schreiben (für den Import von Hand) |
-| `fetch` | Quell-Repos in den Cache holen (Stände aus `sources.lock.json`) |
-| `build` | Profile aus dem Cache neu erzeugen |
+| `update` | fetch the newest sources and rebuild the profiles |
+| `list` | show profiles, filterable with `--vendor`, `--material`, `--name` |
+| `install` | install selected profiles into Bambu Studio |
+| `cleanup` | list and clean up your existing filament profiles |
+| `export` | write standalone profiles into a folder (for importing by hand) |
+| `app` | open the companion app in the browser |
+| `fetch` | only fetch the sources (part of `update`) |
+| `build` | only build the profiles from the fetched sources (part of `update`) |
 
-Filter sind Teilstrings und lassen sich wiederholen: `--vendor eSUN --vendor SUNLU --material PLA --material PETG`.
+Filters are substrings and can be repeated: `--vendor eSUN --vendor SUNLU --material PLA --material PETG`.
 
 ### install
 
@@ -83,127 +89,133 @@ Filter sind Teilstrings und lassen sich wiederholen: `--vendor eSUN --vendor SUN
 python3 bfp.py install --vendor Elegoo --material PLA --dry-run
 ```
 
-Sicherheitsnetz:
+Safety net:
 
-- **Probelauf** mit `--dry-run`: zeigt, was neu, unverändert oder schon vorhanden ist, und schreibt nichts.
-- **Nur mit Auswahl**: ohne `--vendor`/`--material`/`--name` läuft nichts (alle nur mit `--all`).
-- **Backup** des kompletten Filament-Ordners als ZIP, bevor etwas geschrieben wird
+- **Dry run** with `--dry-run`: shows what is new, unchanged or already present, and writes nothing.
+- **Only with a selection**: without `--vendor`/`--material`/`--name` nothing happens (everything only with `--all`).
+- **Backup** of the whole filament folder as a ZIP before anything is written
   (Linux: `~/.local/share/bambu-filament-profiles/backups`, Windows: `%LOCALAPPDATA%\bambu-filament-profiles\backups`).
-- **Keine stillen Überschreibungen**: Gibt es ein Profil mit gleichem Namen, fragt das Tool einzeln nach;
-  ohne Rückfragemöglichkeit wird es übersprungen, außer mit `--overwrite`.
-- **Bambu Studio muss geschlossen sein**: Läuft es, bricht das Tool ab (außer `--force`), denn Bambu Studio
-  sieht neue Dateien erst nach einem Neustart und kann sie beim Beenden überschreiben.
-- **Mehrere Installationen oder Benutzer**: Das Tool fragt nach; vorausgewählt ist der in Bambu Studio aktive
-  Benutzer. Ohne Terminal mit `--data-dir` bzw. `--user` angeben.
+- **No silent overwrites**: if a profile with the same name exists, the tool asks for each one; when it cannot
+  ask, the profile is skipped, unless you pass `--overwrite`.
+- **Bambu Studio must be closed**: if it is running, the tool aborts (unless `--force`), because Bambu Studio
+  only sees new files after a restart and may overwrite them when it exits.
+- **Several installations or users**: the tool asks; preselected is the user that is active in Bambu Studio.
+  Without a terminal, pass `--data-dir` or `--user`.
 
-Die Profile landen in `<Datenordner>/user/<Konto-ID>/filament/base/`:
+The profiles go to `<data folder>/user/<account ID>/filament/base/`:
 
-| System | Datenordner |
+| System | Data folder |
 |---|---|
 | Linux | `~/.config/BambuStudio` |
 | Linux (Flatpak) | `~/.var/app/com.bambulab.BambuStudio/config/BambuStudio` |
 | Windows | `%APPDATA%\BambuStudio` |
 | macOS | `~/Library/Application Support/BambuStudio` |
 
-### cleanup: vorhandene Profile aufräumen
+### cleanup: tidy up existing profiles
 
 ```bash
-python3 bfp.py cleanup --not-for "P1S 0.4"       # Profile, die nur für andere Drucker gelten
-python3 bfp.py cleanup --generic                 # alle, die Bambu Studio unter „Generic“ führt
-python3 bfp.py cleanup --vendor eSUN --list-file aufraeumen.md
+python3 bfp.py cleanup --not-for "P1S 0.4"       # profiles that only apply to other printers
+python3 bfp.py cleanup --generic                 # everything Bambu Studio files under "Generic"
+python3 bfp.py cleanup --vendor eSUN --list-file cleanup.md
 python3 bfp.py cleanup --generic --delete-local --dry-run
 ```
 
-Die Liste zeigt je Profil, ob es nur lokal oder auch in der Cloud liegt, wovon es erbt, unter welchem
-Hersteller Bambu Studio es führt und für welche Drucker es gilt. Den Drucker liest das Tool aus dem Profil,
-aus dem Namenszusatz „@Drucker“ oder aus dem Elternprofil der Installation; ist er nicht bestimmbar, wählt
-`--not-for` das Profil vorsichtshalber nicht aus. Nur lesende Aufrufe laufen auch, wenn Bambu Studio offen ist.
+For each profile the list shows whether it is local only or also in the cloud, what it inherits from, under
+which brand Bambu Studio files it and which printers it applies to. The tool reads the printers from the
+profile, from the "@printer" name suffix or from the installation's parent profile; if they cannot be
+determined, `--not-for` leaves the profile out to be safe. Read-only calls also work while Bambu Studio is open.
 
-**Wichtig:** Profile, die mit der Bambu-Cloud synchronisiert sind, lädt Bambu Studio beim nächsten Start
-wieder herunter, wenn nur die lokale Datei fehlt. Bambu Studio merkt sich Cloud-Löschungen nur im laufenden
-Programm, ein externes Tool kann sie nicht vormerken. Deshalb:
+**Important:** profiles synced with the Bambu cloud are downloaded again by Bambu Studio on the next start when
+only the local file is gone. Bambu Studio only remembers cloud deletions while it is running; an external tool
+cannot queue them. Therefore:
 
-- **Cloud-Profile** in Bambu Studio löschen: *Datei → Verwaltung von Batch-Profilen* (engl. *Batch Preset
-  Management*), Profile anhaken, *Löschen*. `--list-file` schreibt dafür eine Liste zum Abhaken.
-- **Nur lokale Profile** löscht `--delete-local` selbst (mit Backup, Probelauf und Rückfrage).
+- Delete **cloud profiles** in Bambu Studio: *File → Batch Preset Management*, tick the profiles, *Delete*.
+  `--list-file` writes a checklist for that.
+- **Local-only profiles** are deleted by `--delete-local` itself (with backup, dry run and confirmation).
 
-Ein sinnvoller Ablauf zum Umsortieren: `cleanup --generic --list-file …`, die Liste in Bambu Studio löschen,
-dann `install` für die Hersteller, die du wirklich nutzt.
+A sensible way to re-sort: `cleanup --generic --list-file …`, delete the list in Bambu Studio, then `install`
+the brands you actually use.
 
-### Import von Hand
+### Import by hand
 
 ```bash
 python3 bfp.py export --vendor Geeetech --material PLA --out ./export
 ```
 
-In Bambu Studio: *Datei → Importieren → Konfigurationen importieren* und die Dateien aus `./export` wählen.
+In Bambu Studio: *File → Import → Import Configs* and choose the files from `./export`.
 
-## Cloud-Synchronisation und Limit
+## Cloud sync and limit
 
-Ist man in Bambu Studio angemeldet, lädt es neue Benutzerprofile beim nächsten Abgleich in die Bambu-Cloud
-hoch. Wie viele Filamentprofile die Cloud annimmt, entscheidet der Bambu-Server; die Zahl steht nicht im
-Programm. Bambu nannte früher 200 Filamentprofile, Forenberichte zu neueren Versionen 100, manche Konten haben
-aber deutlich mehr synchronisiert. Ist das Limit erreicht, meldet Bambu Studio „Die Anzahl der in der Cloud
-zwischengespeicherten Profile hat die Obergrenze überschritten. Neu erstellte Profile können nur lokal verwendet
-werden.“ Darum installiert das Tool nie alles auf einmal.
+When you are logged in, Bambu Studio uploads new user profiles to the Bambu cloud on the next sync. How many
+filament profiles the cloud accepts is decided by the Bambu server; the number is not in the program. Bambu
+used to state 200 filament profiles, forum reports for newer versions say 100, but some accounts have synced
+considerably more. Once the limit is reached, Bambu Studio reports that the number of presets cached in the
+cloud has exceeded the upper limit and that newly created presets can only be used locally. That is why the
+tool never installs everything at once.
 
-## Quellen und Priorität
+## Sources and priority
 
-| Quelle | Lizenz | liefert |
+| Source | License | provides |
 |---|---|---|
-| [OrcaSlicer-Filamentbibliothek](https://github.com/OrcaSlicer/OrcaSlicer/tree/main/resources/profiles/OrcaFilamentLibrary) | AGPL-3.0 | vom Hersteller abgestimmte Feinwerte: Temperaturen, Lüfter, Kühlung, Max. Volumenfluss, Fluss, Rückzug |
-| [PrusaSlicer-settings, Paket Templates](https://github.com/prusa3d/PrusaSlicer-settings) | AGPL-3.0 | Temperaturen inkl. erster Schicht, Bett, Lüfter, Dichte |
-| [Open Filament Database](https://github.com/OpenFilamentCollective/open-filament-database) | MIT | Gerüst Hersteller/Material/Sorte, Herstellerbereiche für Düse und Bett, Dichte |
-| [SpoolmanDB](https://github.com/Donkie/SpoolmanDB) | MIT | Stammdaten: Dichte, Temperaturen |
-| [Cura fdm_materials](https://github.com/Ultimaker/fdm_materials) | CC0 | Temperaturen, Dichte |
-| [Bambu Studio](https://github.com/bambulab/BambuStudio) | AGPL-3.0 | Generic-Basisprofile; vorhandene Systemprofile |
+| [OrcaSlicer filament library](https://github.com/OrcaSlicer/OrcaSlicer/tree/main/resources/profiles/OrcaFilamentLibrary) | AGPL-3.0 | values tuned by the manufacturer: temperatures, fans, cooling, max volumetric speed, flow, retraction |
+| [PrusaSlicer-settings, Templates bundle](https://github.com/prusa3d/PrusaSlicer-settings) | AGPL-3.0 | temperatures incl. first layer, bed, fans, density |
+| [Open Filament Database](https://github.com/OpenFilamentCollective/open-filament-database) | MIT | brand/material/product skeleton, manufacturer ranges for nozzle and bed, density |
+| [SpoolmanDB](https://github.com/Donkie/SpoolmanDB) | MIT | master data: density, temperatures |
+| [Cura fdm_materials](https://github.com/Ultimaker/fdm_materials) | CC0 | temperatures, density |
+| [Bambu Studio](https://github.com/bambulab/BambuStudio) | AGPL-3.0 | Generic base profiles; existing system profiles |
 
-Bei Widersprüchen gewinnt: eigene Werte (`manual/`) → OrcaSlicer → PrusaSlicer → Open Filament Database →
-SpoolmanDB → Cura → geerbter Generic-Wert. Ausnahme: Dichte und Temperaturbereiche (Herstellerangaben) nimmt
-das Tool zuerst aus der Open Filament Database. Weichen Temperaturen um mehr als 10 °C ab, steht das im Bericht.
-Max. Volumenfluss und Flussfaktor aus PrusaSlicer bleiben außen vor, sie gelten für Prusa-Hotends.
+On conflicts the winner is: your own values (`manual/`) → OrcaSlicer → PrusaSlicer → Open Filament Database →
+SpoolmanDB → Cura → inherited Generic value. Exception: density and temperature ranges (manufacturer data) come
+from the Open Filament Database first. If temperatures differ by more than 10 °C, the report says so.
+Max volumetric speed and flow ratio from PrusaSlicer are left out; they apply to Prusa hotends.
 
-Filamente, für die Bambu Studio schon ein Systemprofil mitbringt (Bambu Lab, einige von Polymaker, SUNLU,
-Overture, eSUN), erzeugt das Tool nicht.
+Filaments that already have a system profile in Bambu Studio (Bambu Lab, some from Polymaker, SUNLU, Overture,
+eSUN) are not generated.
 
-[3dfilamentprofiles.com](https://3dfilamentprofiles.com) ist **keine** Quelle: Die Nutzungsbedingungen
-verbieten automatisierten Abruf und abgeleitete Datensammlungen. Werte, die du dort selbst abliest, kannst du
-als eigene Werte eintragen (nur für den privaten Gebrauch).
+[3dfilamentprofiles.com](https://3dfilamentprofiles.com) is **not** a source: its terms forbid automated access
+and derived data collections. Values you read there yourself can be entered as your own values (for private
+use only).
 
-Lizenzhinweise: [THIRD_PARTY.md](THIRD_PARTY.md).
+License notes: [THIRD_PARTY.md](THIRD_PARTY.md).
 
-## Prüfregeln für den P1S
+## Checks for the P1S
 
-- Düse höchstens 300 °C: Braucht ein Filament mindestens mehr, wird es übersprungen (PEEK, PEI, PPS …).
-  Eine höhere Obergrenze wird auf 300 °C begrenzt.
-- Bett höchstens 100 °C: Braucht ein Filament mindestens mehr, wird es übersprungen.
-- Nur 1,75 mm.
-- Max. Volumenfluss über 35 mm³/s, Lüfter außerhalb 0–100 %, Fluss außerhalb 0,7–1,3 und Dichte außerhalb
-  0,5–3,5 g/cm³ gelten als unplausibel und werden verworfen.
-- Liefert eine Quelle nur einen Temperaturbereich und liegt der geerbte Generic-Wert außerhalb, nimmt das Tool
-  die Bereichsmitte (auf 5 °C gerundet) und vermerkt das im Bericht.
-- Basisprofil je Material: PLA → Generic PLA (Silk, CF, High Speed eigene), PETG/PET/CPE → Generic PETG,
-  ABS, ASA, TPU, PA, PC, PCTG, PP, PE, PVA, HIPS … → das passende Generic-Profil für den P1S. Ohne passendes
-  Basisprofil wird das Filament gemeldet statt geraten.
+- Nozzle at most 300 °C: if a filament needs more at minimum, it is skipped (PEEK, PEI, PPS …). A higher upper
+  limit is capped at 300 °C.
+- Bed at most 100 °C: if a filament needs more at minimum, it is skipped.
+- 1.75 mm only.
+- Max volumetric speed above 35 mm³/s, fans outside 0–100 %, flow outside 0.7–1.3 and density outside
+  0.5–3.5 g/cm³ count as implausible and are dropped.
+- If a source only gives a temperature range and the inherited Generic value lies outside it, the tool takes
+  the middle of the range (rounded to 5 °C) and notes that in the report.
+- Base profile per material: PLA → Generic PLA (Silk, CF, High Speed have their own), PETG/PET/CPE → Generic
+  PETG, ABS, ASA, TPU, PA, PC, PCTG, PP, PE, PVA, HIPS … → the matching Generic profile for the P1S. Without a
+  matching base profile the filament is reported instead of guessed.
 
-## Eigene Werte
+## Your own values
 
-Eine TOML-Datei je Filament in `manual/` hat die höchste Priorität, siehe [manual/README.md](manual/README.md).
-Danach `python bfp.py build`.
+One TOML file per filament in `manual/` has the highest priority, see [manual/README.md](manual/README.md).
+Then run `python3 bfp.py update` (or, offline, `python3 bfp.py build`).
 
-## Profile neu erzeugen
+## Updating the profiles
 
 ```bash
-python3 bfp.py fetch            # Stände aus sources.lock.json holen
-python3 bfp.py fetch --update   # neueste Stände holen und Lock-Datei aktualisieren
-python3 bfp.py build
+python3 bfp.py update            # fetch the newest sources and rebuild the profiles
+python3 bfp.py update --pinned   # the same source commits as last time
 ```
 
-Die Quell-Repos landen flach und nur mit den nötigen Dateien im Cache
-(`~/.local/share/bambu-filament-profiles/sources`), nicht im Repo. `build --printer` erzeugt Profile für ein
-anderes Bambu-Druckerprofil; die Basisprofil-Regeln sind aber auf den P1S abgestimmt.
+Everything lives in the tool's data folder, not in the repo (Linux: `~/.local/share/bambu-filament-profiles`,
+Windows: `%LOCALAPPDATA%\bambu-filament-profiles`):
 
-## Entwicklung
+- `sources/`: the source repos, shallow and with only the files needed,
+- `sources.lock.json`: which commits were fetched last,
+- `profiles/`: the generated profiles, plus `INDEX.md` (overview), `REPORT.md` (skipped filaments, warnings)
+  and `BUILD.json` (time and source commits).
+
+If the profiles are older than 30 days, `list`, `install` and `export` point that out. `update --printer` builds
+profiles for another Bambu printer profile; the base profile rules are tuned for the P1S, though.
+
+## Development
 
 ```bash
 python -m venv .venv

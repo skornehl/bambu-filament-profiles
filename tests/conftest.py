@@ -13,7 +13,7 @@ PRINTER = "Bambu Lab P1S 0.4 nozzle"
 
 @pytest.fixture(autouse=True)
 def isolated_home(tmp_path_factory, monkeypatch):
-    """Tests sehen nie das echte Home (keine echte Bambu-Studio-Installation, keine Backups dort)."""
+    """Tests never see the real home (no real Bambu Studio installation, no backups there)."""
     home = tmp_path_factory.mktemp("home")
     monkeypatch.setenv("HOME", str(home))
     monkeypatch.setenv("USERPROFILE", str(home))
@@ -34,7 +34,7 @@ def records():
 
 @pytest.fixture
 def fake_install(tmp_path):
-    """Bambu-Studio-Datenordner mit Systemprofilen aus den Fixtures und Benutzer 123."""
+    """Bambu Studio data folder with system profiles from the fixtures and user 123."""
     data = tmp_path / "BambuStudio"
     shutil.copytree(FIXTURES / "bambu" / "resources" / "profiles" / "BBL" / "filament", data / "system" / "BBL" / "filament")
     (data / "system" / "BBL.json").write_text(json.dumps({"name": "Bambu Lab", "version": "02.09.00.81"}), encoding="utf-8")
