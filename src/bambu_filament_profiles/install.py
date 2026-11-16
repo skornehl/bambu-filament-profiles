@@ -30,7 +30,9 @@ from .sources.bambu import BambuProfiles
 
 APP_DIR = "BambuStudio"
 FLATPAK_ID = "com.bambulab.BambuStudio"
-PROCESS_NAMES = frozenset({"bambu-studio", "bambustudio", "bambu_studio", "bambu-studio.exe", "bambustudio.exe"})
+PROCESS_NAMES = frozenset(
+    {"bambu-studio", "bambustudio", "bambu_studio", "bambustu_main", "bambu-studio.exe", "bambustudio.exe"}
+)
 
 
 class InstallError(RuntimeError):
@@ -210,16 +212,28 @@ def bambu_running(platform: str | None = None, proc_root: Path = Path("/proc"), 
         entries = list(Path(proc_root).iterdir())
     except OSError:
         return False
-    for entry in entries:
-        if not entry.name.isdigit():
-            continue
-        try:
-            comm = (entry / "comm").read_text(encoding="utf-8", errors="replace").strip().lower()
-        except OSError:
-            continue
-        if comm in PROCESS_NAMES:
-            return True
-    return False
+    return any(_is_bambu_process(entry) for entry in entries if entry.name.isdigit())
+
+
+def _is_bambu_process(entry: Path) -> bool:
+    """Prozessname (``comm``) oder Programmname (erstes Argument) gehört zu Bambu Studio.
+
+    Der Flatpak-Hauptprozess heißt ``bambustu_main`` (Name des Hauptthreads), sein
+    Programm ist ``/app/bin/bambu-studio``. Nur das erste Argument zählt, damit eine
+    Shell mit „bambu-studio“ irgendwo im Befehl keinen Fehlalarm auslöst.
+    """
+    try:
+        comm = (entry / "comm").read_text(encoding="utf-8", errors="replace").strip().lower()
+    except OSError:
+        comm = ""
+    if comm in PROCESS_NAMES:
+        return True
+    try:
+        argv0 = (entry / "cmdline").read_bytes().split(b"\0", 1)[0].decode("utf-8", errors="replace")
+    except OSError:
+        return False
+    program = argv0.replace("\\", "/").rsplit("/", 1)[-1].lower()
+    return program in PROCESS_NAMES or (program.endswith(".appimage") and "bambu" in program)
 
 
 # ------------------------------------------------------------ vorhandene Profile

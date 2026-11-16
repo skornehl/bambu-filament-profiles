@@ -303,3 +303,32 @@ def test_printers_and_not_for(fake_install, tmp_path):
     assert orphan.printers(system) is None
     selected = filter_presets([explicit, root, root_plain, inherited, orphan], not_for="P1S", system=system)
     assert [p.name for p in selected] == ["A", "B @Bambu Lab A1 0.4 nozzle"]
+
+
+def fake_proc(root: Path, pid: str, comm: str, argv: list[str] | None = None):
+    (root / pid).mkdir(parents=True)
+    (root / pid / "comm").write_text(comm + "\n", encoding="utf-8")
+    if argv is not None:
+        (root / pid / "cmdline").write_bytes(b"\0".join(a.encode() for a in argv) + b"\0")
+
+
+def test_bambu_running_detects_flatpak_main_thread(tmp_path):
+    # So sieht Bambu Studio 2.9.1 als Flatpak aus: comm des Hauptthreads, Programm /app/bin/bambu-studio
+    fake_proc(tmp_path, "174183", "bambustu_main", ["/app/bin/bambu-studio"])
+    assert bambu_running("linux", tmp_path)
+
+
+def test_bambu_running_detects_program_name(tmp_path):
+    fake_proc(tmp_path, "10", "GUI-Thread", ["/app/bin/bambu-studio", "bambustudio://open?file=x"])
+    assert bambu_running("linux", tmp_path)
+    other = tmp_path / "appimage"
+    fake_proc(other, "11", "AppRun", ["/home/u/Apps/Bambu_Studio_linux_ubuntu-v02.09.01.70.AppImage"])
+    assert bambu_running("linux", other)
+
+
+def test_bambu_running_ignores_shells_mentioning_bambu(tmp_path):
+    fake_proc(tmp_path, "20", "zsh", ["/usr/bin/zsh", "-c", "pgrep -f /app/bin/bambu-studio"])
+    fake_proc(tmp_path, "21", "python3", ["python3", "bfp.py", "install", "--vendor", "bambu-studio"])
+    fake_proc(tmp_path, "22", "kworker", [])
+    fake_proc(tmp_path, "23", "ohne-cmdline")
+    assert not bambu_running("linux", tmp_path)
