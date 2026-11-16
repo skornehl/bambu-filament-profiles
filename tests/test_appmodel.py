@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from bambu_filament_profiles.appmodel import AppSession, details, load_catalog, parse_sources, search
+from bambu_filament_profiles.appmodel import AppSession, details, load_catalog, search
 from bambu_filament_profiles.catalog import build, write_output
 from bambu_filament_profiles.install import InstallError, Installation
 
@@ -23,12 +23,6 @@ def session(profiles_dir, fake_install, tmp_path):
     (filament / "Cloud PETG.json").write_text(json.dumps({"inherits": "Generic PETG", "compatible_printers": ["Bambu Lab H2D 0.4 nozzle"]}), encoding="utf-8")
     (filament / "Cloud PETG.info").write_text("setting_id = PFUS1\n", encoding="utf-8")
     return AppSession(profiles_dir, tmp_path / "backups", data_dir=str(fake_install), running=lambda: False)
-
-
-def test_parse_sources():
-    assert parse_sources("x: Geeetech PLA. Base Generic PLA. Values from: Open Filament Database, SpoolmanDB.") == ["Open Filament Database", "SpoolmanDB"]
-    assert parse_sources("Values from: base profile only.") == []
-    assert parse_sources("no sources") == []
 
 
 def test_catalog_search(profiles_dir):
@@ -149,3 +143,31 @@ def test_update_reloads_catalog(profiles_dir, tmp_path, records, bambu):
     assert not without.state()["can_update"] and without.state()["catalog_built"] is None
     with pytest.raises(InstallError, match="not available"):
         without.update()
+
+
+def test_catalog_sources_come_from_build_info(profiles_dir):
+    item = next(i for i in load_catalog(profiles_dir) if i.brand == "Geeetech" and i.product == "PLA")
+    assert "Open Filament Database" in item.sources
+    (profiles_dir / "BUILD.json").unlink()
+    assert all(i.sources == [] for i in load_catalog(profiles_dir))
+
+
+def test_existing_search_needs_every_word(session):
+    assert [p["name"] for p in session.existing(text="old pla")["presets"]] == ["Old PLA"]
+    assert session.existing(text="old petg")["presets"] == []  # not "old" OR "petg"
+
+
+def test_update_runs_once_and_swaps_under_the_lock(profiles_dir, tmp_path):
+    import threading
+
+    lock = threading.Lock()
+    seen = []
+
+    def updater(log):
+        seen.append(lock.locked())  # the slow part runs without the server lock
+        with pytest.raises(InstallError, match="already running"):
+            session.update(lock)
+
+    session = AppSession(profiles_dir, tmp_path / "bk", installations=[], updater=updater)
+    assert session.update(lock)["catalog_size"] == len(session.catalog)
+    assert seen == [False] and not lock.locked()

@@ -232,8 +232,34 @@ def test_assign_filament_id(presets_dir):
 def test_assign_filament_id_avoids_collision(tmp_path):
     from bambu_filament_profiles.generate import filament_id_for
 
-    taken = UserPreset("Fremd @X", tmp_path, True, "", "", filament_id_for("Neu", "1"), "", False)
-    assert assign_filament_id("Neu @X", "1", [taken]) != taken.filament_id
+    taken = UserPreset("Other @X", tmp_path, True, "", "", filament_id_for("New", "1"), "", False)
+    assert assign_filament_id("New @X", "1", [taken]) != taken.filament_id
+    # IDs handed out earlier in the same run count as taken too
+    reserved = {filament_id_for("New", "1"): "Other"}
+    assert assign_filament_id("New @X", "1", [], reserved) != filament_id_for("New", "1")
+    assert assign_filament_id("New @X", "1", [], {filament_id_for("New", "1"): "New"}) == filament_id_for("New", "1")
+
+
+def test_plan_install_reserves_ids_within_a_run(fake_install, presets_dir, tmp_path, monkeypatch):
+    from bambu_filament_profiles import install
+
+    monkeypatch.setattr(install, "filament_id_for", lambda text, uid="": "Pdup" + text.partition("#")[2])
+    system = BambuProfiles.from_installation(fake_install)
+    specs = tmp_path / "specs"
+    specs.mkdir()
+    one = spec_file(specs, "One PLA @Bambu Lab P1S 0.4 nozzle")
+    two = spec_file(specs, "Two PLA @Bambu Lab P1S 0.4 nozzle")
+    actions, _ = plan_install([one, two], presets_dir, [], system, "123")
+    assert [a.data["filament_id"] for a in actions] == ["Pdup", "Pdup1"]
+
+
+def test_plan_install_rejects_unsafe_names(fake_install, presets_dir, tmp_path):
+    system = BambuProfiles.from_installation(fake_install)
+    specs = tmp_path / "specs"
+    specs.mkdir()
+    bad = spec_file(specs, "Inslogic Nylon PA6/66 @Bambu Lab P1S 0.4 nozzle")
+    actions, errors = plan_install([bad], presets_dir, [], system, "123")
+    assert actions == [] and "file name" in errors[0]
 
 
 def test_plan_and_write_install(fake_install, presets_dir, tmp_path):
@@ -241,14 +267,14 @@ def test_plan_and_write_install(fake_install, presets_dir, tmp_path):
     presets, _ = scan_user_presets(presets_dir)
     specs = tmp_path / "specs"
     specs.mkdir()
-    new_spec = spec_file(specs, "Neu PLA @Bambu Lab P1S 0.4 nozzle", nozzle_temperature=205)
+    new_spec = spec_file(specs, "New PLA @Bambu Lab P1S 0.4 nozzle", nozzle_temperature=205)
     conflict_spec = spec_file(specs, "Acme PLA @Bambu Lab P1S 0.4 nozzle", nozzle_temperature=210)
     bad = specs / "bad.json"
     bad.write_text(json.dumps({"name": "Broken @X", "inherits": "Missing"}), encoding="utf-8")
     actions, errors = plan_install([new_spec, conflict_spec, bad], presets_dir, presets, system, "123")
     assert [a.kind for a in actions] == ["new", "conflict"] and "Broken" in errors[0]
     new = actions[0]
-    assert new.target == presets_dir / "base" / "Neu PLA @Bambu Lab P1S 0.4 nozzle.json"
+    assert new.target == presets_dir / "base" / "New PLA @Bambu Lab P1S 0.4 nozzle.json"
     assert new.data["inherits"] == "" and new.data["version"] == "2.9.0.81"
     write_profile(new, "123", now=1_700_000_000)
     written = json.loads(new.target.read_text(encoding="utf-8"))
@@ -258,6 +284,22 @@ def test_plan_and_write_install(fake_install, presets_dir, tmp_path):
     presets, _ = scan_user_presets(presets_dir)
     again, _ = plan_install([new_spec], presets_dir, presets, system, "123")
     assert again[0].kind == "same"
+
+
+def test_overwrite_keeps_cloud_link(fake_install, presets_dir, tmp_path):
+    system = BambuProfiles.from_installation(fake_install)
+    presets, _ = scan_user_presets(presets_dir)
+    specs = tmp_path / "specs"
+    specs.mkdir()
+    spec = spec_file(specs, "eSUN PETG Basic @Bambu Lab P1S 0.4 nozzle", nozzle_temperature=240)
+    (action,), _ = plan_install([spec], presets_dir, presets, system, "123")
+    assert action.kind == "conflict"
+    info_path = action.target.with_suffix(".info")
+    info_path.write_text("sync_info = \nuser_id = 123\nsetting_id = PFUS2\nbase_id = GFSL99\nupdated_time = 1\n", encoding="utf-8")
+    write_profile(action, "999", now=1_800_000_000)
+    info = read_info(info_path)
+    assert info == {"sync_info": "update", "user_id": "123", "setting_id": "PFUS2", "base_id": "", "updated_time": "1800000000"}
+    assert action.data["filament_id"] == "P18f7b94"  # existing ID kept
 
 
 def test_write_profile_default_user(tmp_path):
@@ -274,7 +316,7 @@ def test_backup_and_delete(presets_dir, tmp_path):
     presets, _ = scan_user_presets(presets_dir)
     by_name = {p.name: p for p in presets}
     delete_local(by_name["My PETG"])
-    assert not (presets_dir / "Mein PETG.json").exists()
+    assert not (presets_dir / "My PETG.json").exists() and not (presets_dir / "My PETG.info").exists()
     with pytest.raises(InstallError, match="cloud"):
         delete_local(by_name["SUNLU PLA"])
     assert (presets_dir / "SUNLU PLA.json").exists()
@@ -332,3 +374,20 @@ def test_bambu_running_ignores_shells_mentioning_bambu(tmp_path):
     fake_proc(tmp_path, "22", "kworker", [])
     fake_proc(tmp_path, "23", "no-cmdline")
     assert not bambu_running("linux", tmp_path)
+
+
+def test_backups_in_the_same_second_do_not_overwrite(presets_dir, tmp_path, monkeypatch):
+    import datetime as real_dt
+
+    from bambu_filament_profiles import install
+
+    class Frozen(real_dt.datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return cls(2026, 11, 16, 12, 0, 0)
+
+    monkeypatch.setattr(install._dt, "datetime", Frozen)
+    first = backup(presets_dir, tmp_path / "backups", "123")
+    second = backup(presets_dir, tmp_path / "backups", "123")
+    assert first != second and first.exists() and second.exists()
+    assert second.name == "filament-123-20261116-120000-2.zip"

@@ -25,7 +25,7 @@ from pathlib import Path
 
 from . import MARKER
 from .generate import ExpandError, expand, filament_id_for
-from .matching import alias_of
+from .matching import UNSAFE_FILENAME_CHARS, alias_of
 from .sources.bambu import BambuProfiles
 
 APP_DIR = "BambuStudio"
@@ -186,7 +186,7 @@ def _pick(options, title: str, ask, label):
     if ask is None:
         raise InstallError(title + ": " + ", ".join(label(o) for o in options) + ". Please choose one with an option.")
     lines = [title + ":"] + [f"  {i + 1}) {label(o)}" for i, o in enumerate(options)]
-    answer = ask("\n".join(lines) + "\nNummer [1]: ").strip() or "1"
+    answer = ask("\n".join(lines) + "\nNumber [1]: ").strip() or "1"
     if not answer.isdigit() or not 1 <= int(answer) <= len(options):
         raise InstallError("invalid choice")
     return options[int(answer) - 1]
@@ -307,14 +307,21 @@ def plan_install(profile_files: list[Path], filament_dir: Path, existing: list[U
     by_name = {p.name: p for p in existing}
     actions: list[Action] = []
     errors: list[str] = []
+    reserved: dict[str, str] = {}
     for source in profile_files:
         spec = json.loads(Path(source).read_text(encoding="utf-8"))
         name = spec["name"]
+        if UNSAFE_FILENAME_CHARS.search(name):
+            # Bambu Studio stores the preset as <name>.json; "/" would create a subfolder.
+            errors.append(f"{name}: name cannot be used as a file name; run \"bfp update\"")
+            continue
+        filament_id = assign_filament_id(name, user_id, existing, reserved)
         try:
-            data = expand(spec, bambu, assign_filament_id(name, user_id, existing))
+            data = expand(spec, bambu, filament_id)
         except ExpandError as exc:
             errors.append(f"{name}: {exc.args[0]}")
             continue
+        reserved[filament_id] = alias_of(name)
         target = filament_dir / "base" / f"{name}.json"
         current = by_name.get(name)
         if current is None:
@@ -330,8 +337,11 @@ def plan_install(profile_files: list[Path], filament_dir: Path, existing: list[U
     return actions, errors
 
 
-def assign_filament_id(name: str, user_id: str, existing: list[UserPreset]) -> str:
-    """Like the Bambu wizard: same name → same ID, otherwise a new one without collision."""
+def assign_filament_id(name: str, user_id: str, existing: list[UserPreset], reserved: dict[str, str] | None = None) -> str:
+    """Like the Bambu wizard: same name → same ID, otherwise a new one without collision.
+
+    ``reserved`` maps IDs already handed out in the same run to their alias.
+    """
     alias = alias_of(name)
     taken: dict[str, set[str]] = {}
     for preset in existing:
@@ -339,6 +349,8 @@ def assign_filament_id(name: str, user_id: str, existing: list[UserPreset]) -> s
             taken.setdefault(preset.filament_id, set()).add(alias_of(preset.name))
             if preset.root and alias_of(preset.name) == alias:
                 return preset.filament_id
+    for filament_id, other in (reserved or {}).items():
+        taken.setdefault(filament_id, set()).add(other)
     uid = user_id if user_id.isdigit() else ""
     candidate = filament_id_for(alias, uid)
     counter = 0
@@ -352,7 +364,11 @@ def backup(filament_dir: Path, backup_dir: Path, label: str) -> Path:
     backup_dir.mkdir(parents=True, exist_ok=True)
     stamp = _dt.datetime.now().strftime("%Y%m%d-%H%M%S")
     target = backup_dir / f"filament-{label}-{stamp}.zip"
-    with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as archive:
+    counter = 1
+    while target.exists():  # never replace an earlier backup from the same second
+        counter += 1
+        target = backup_dir / f"filament-{label}-{stamp}-{counter}.zip"
+    with zipfile.ZipFile(target, "x", zipfile.ZIP_DEFLATED) as archive:
         if filament_dir.is_dir():
             for path in sorted(filament_dir.rglob("*")):
                 if path.is_file():
@@ -361,17 +377,26 @@ def backup(filament_dir: Path, backup_dir: Path, label: str) -> Path:
 
 
 def write_profile(action: Action, user_id: str, now: float | None = None) -> None:
+    """Write the preset and its ``.info``.
+
+    When an existing preset is overwritten, its cloud link (``setting_id``,
+    ``user_id``) is kept and a synced preset is marked ``sync_info = update``, so
+    Bambu Studio uploads the change to the same cloud preset instead of pulling
+    the old one back or creating a duplicate.
+    """
+    info_path = action.target.with_suffix(".info")
+    old = read_info(info_path) if action.target.exists() else {}
     action.target.parent.mkdir(parents=True, exist_ok=True)
     action.target.write_text(json.dumps(action.data, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
     stamp = int(now if now is not None else time.time())
-    info = [
-        "sync_info = ",
-        f"user_id = {user_id if user_id.isdigit() else ''}",
-        "setting_id = ",
-        "base_id = ",
-        f"updated_time = {stamp}",
-    ]
-    action.target.with_suffix(".info").write_text("\n".join(info) + "\n", encoding="utf-8")
+    info = {
+        "sync_info": "update" if old.get("setting_id") else old.get("sync_info", ""),
+        "user_id": old.get("user_id") or (user_id if user_id.isdigit() else ""),
+        "setting_id": old.get("setting_id", ""),
+        "base_id": "",  # standalone preset: no system parent
+        "updated_time": str(stamp),
+    }
+    info_path.write_text("".join(f"{key} = {value}\n" for key, value in info.items()), encoding="utf-8")
 
 
 def delete_local(preset: UserPreset) -> None:

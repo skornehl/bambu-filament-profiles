@@ -47,7 +47,7 @@ def test_write_output_replaces_old_files(tmp_path, records, bambu):
     (out / "Old" / "PLA").mkdir(parents=True)
     (out / "Old" / "PLA" / "x.json").write_text("{}", encoding="utf-8")
     (out / "note.txt").write_text("stays", encoding="utf-8")
-    (out / "INDEX.md").write_text("old", encoding="utf-8")
+    (out / ".bambu-filament-profiles").write_text("", encoding="utf-8")
     write_output(build(records, bambu, PRINTER), out, LOCK, PRINTER)
     assert not (out / "Old").exists()
     assert (out / "note.txt").exists()
@@ -56,9 +56,18 @@ def test_write_output_replaces_old_files(tmp_path, records, bambu):
 def test_write_output_refuses_foreign_folder(tmp_path, records, bambu):
     out = tmp_path / "foreign"
     (out / "Photos").mkdir(parents=True)
+    (out / "INDEX.md").write_text("my own index", encoding="utf-8")  # a common name is no proof
     with pytest.raises(ValueError, match="not empty"):
         write_output(build(records, bambu, PRINTER), out, LOCK, PRINTER)
-    assert (out / "Photos").exists()
+    assert (out / "Photos").exists() and (out / "INDEX.md").exists()
+
+
+def test_catalog_from_v020_is_still_recognised(tmp_path, records, bambu):
+    out = tmp_path / "profiles"
+    (out / "Old").mkdir(parents=True)
+    (out / "BUILD.json").write_text('{"built": "2026-11-16T00:00:00+00:00"}', encoding="utf-8")
+    write_output(build(records, bambu, PRINTER), out, LOCK, PRINTER)
+    assert not (out / "Old").exists() and (out / ".bambu-filament-profiles").exists()
 
 
 def test_build_info_and_age(tmp_path, records, bambu):
@@ -94,6 +103,32 @@ def test_update_profiles_fetches_newest_then_builds(monkeypatch, tmp_path):
     assert calls[-1][2] is False and calls[-1][1]["ofd"]["commit"] == "f" * 40
 
 
+def test_failed_build_keeps_the_last_good_lock(monkeypatch, tmp_path):
+    monkeypatch.setattr(catalog, "fetch_all", lambda cache, lock, update, log: {"ofd": {"commit": "b" * 40}})
+    lock = tmp_path / "sources.lock.json"
+    lock.write_text('{"ofd": {"commit": "' + "a" * 40 + '"}}', encoding="utf-8")
+    with pytest.raises(FileNotFoundError):  # no Bambu profiles in the cache → build fails
+        update_profiles(tmp_path / "empty-cache", lock, None, tmp_path / "out", PRINTER, log=lambda *a: None)
+    assert json.loads(lock.read_text(encoding="utf-8"))["ofd"]["commit"] == "a" * 40
+
+
+def test_build_info_lists_sources_per_profile(tmp_path, records, bambu):
+    out = tmp_path / "profiles"
+    write_output(build(records, bambu, PRINTER), out, LOCK, PRINTER)
+    info = read_build_info(out)
+    assert info["format"] == catalog.CATALOG_FORMAT
+    assert "Open Filament Database" in info["values_from"]["Geeetech/PLA/PLA.json"]
+
+
+def test_report_counts_error_reasons_by_code(tmp_path, records, bambu):
+    write_output(build(records, bambu, PRINTER), tmp_path, LOCK, PRINTER)
+    report = (tmp_path / "REPORT.md").read_text(encoding="utf-8")
+    assert "- too hot for the nozzle:" in report or "- no matching base profile:" in report
+    from bambu_filament_profiles.generate import Issue
+
+    assert catalog._reason(Issue("error", "something new", "")) == "something new"
+
+
 def test_duplicate_paths_get_suffix(bambu):
     from bambu_filament_profiles.catalog import _dedupe_paths
     from bambu_filament_profiles.generate import generate
@@ -104,11 +139,11 @@ def test_duplicate_paths_get_suffix(bambu):
         e.records.append(Record(source="ofd", brand="Acme", material="PLA", name=name, ref=name))
         return e
 
-    first, second, third = (generate(entry("PLA Rot"), bambu, PRINTER) for _ in range(3))
+    first, second, third = (generate(entry("PLA Red"), bambu, PRINTER) for _ in range(3))
     _dedupe_paths([first, second, third])
-    assert first.relpath == "Acme/PLA/PLA Rot.json"
-    assert second.relpath == "Acme/PLA/PLA Rot (2).json"
-    assert third.profile["name"] == f"Acme PLA Rot (3) @{PRINTER}"
+    assert first.relpath == "Acme/PLA/PLA Red.json"
+    assert second.relpath == "Acme/PLA/PLA Red (2).json"
+    assert third.profile["name"] == f"Acme PLA Red (3) @{PRINTER}"
 
 
 def test_duplicate_names_in_different_folders(bambu):

@@ -30,3 +30,13 @@ def to_number(value) -> float | None:
 def read_json(path: Path):
     with open(path, encoding="utf-8") as fh:
         return json.load(fh)
+
+
+#: Errors a single malformed upstream file can cause while it is read or mapped.
+DATA_ERRORS = (OSError, ValueError, TypeError, AttributeError, KeyError, IndexError)
+
+
+def skip(problems: list[str] | None, path: Path, exc: Exception) -> None:
+    """Note an unreadable file instead of aborting the whole build."""
+    if problems is not None:
+        problems.append(f"{path.name}: {exc}")

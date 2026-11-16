@@ -9,7 +9,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from ..model import Record
-from . import read_json, to_number
+from . import DATA_ERRORS, read_json, skip, to_number
 
 DATA_DIR = Path("data")
 
@@ -32,23 +32,35 @@ SLICER_MAP = {
 }
 
 
-def load(root: Path) -> list[Record]:
+def load(root: Path, problems: list[str] | None = None) -> list[Record]:
     records = []
     data_dir = Path(root) / DATA_DIR
+    if not data_dir.is_dir():
+        return records
     for brand_dir in sorted(p for p in data_dir.iterdir() if p.is_dir()):
         brand_file = brand_dir / "brand.json"
         if not brand_file.exists():
             continue
-        brand = read_json(brand_file).get("name") or brand_dir.name
+        try:
+            brand = read_json(brand_file).get("name") or brand_dir.name
+        except DATA_ERRORS as exc:
+            skip(problems, brand_file, exc)
+            continue
         for material_dir in sorted(p for p in brand_dir.iterdir() if p.is_dir()):
             material_file = material_dir / "material.json"
             material = material_dir.name
             if material_file.exists():
-                material = read_json(material_file).get("material") or material
+                try:
+                    material = read_json(material_file).get("material") or material
+                except DATA_ERRORS as exc:
+                    skip(problems, material_file, exc)
             for filament_dir in sorted(p for p in material_dir.iterdir() if p.is_dir()):
                 filament_file = filament_dir / "filament.json"
                 if filament_file.exists():
-                    records.append(_record(filament_file, brand, material, data_dir))
+                    try:
+                        records.append(_record(filament_file, brand, material, data_dir))
+                    except DATA_ERRORS as exc:
+                        skip(problems, filament_file, exc)
     return records
 
 

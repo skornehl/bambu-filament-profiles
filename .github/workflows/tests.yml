@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Users always fetch the newest sources, so check them weekly even without commits.
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
 
 permissions:
   contents: read

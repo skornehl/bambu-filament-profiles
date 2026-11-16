@@ -11,15 +11,19 @@ from pathlib import Path
 
 from ..matching import alias_of
 from ..model import VALUE_KEYS, Record
-from . import read_json, to_number
+from . import DATA_ERRORS, read_json, skip, to_number
 
 LIBRARY_DIR = Path("resources/profiles/OrcaFilamentLibrary/filament")
 
 
-def _load_presets(root: Path) -> dict[str, dict]:
+def _load_presets(root: Path, problems: list[str] | None = None) -> dict[str, dict]:
     presets: dict[str, dict] = {}
     for path in sorted((root / LIBRARY_DIR).rglob("*.json")):
-        data = read_json(path)
+        try:
+            data = read_json(path)
+        except DATA_ERRORS as exc:
+            skip(problems, path, exc)
+            continue
         if isinstance(data, dict) and data.get("name"):
             presets[data["name"]] = data
     return presets
@@ -45,8 +49,8 @@ def _resolve(chain: list[dict], key: str):
     return None
 
 
-def load(root: Path, printer: str) -> list[Record]:
-    presets = _load_presets(Path(root))
+def load(root: Path, printer: str, problems: list[str] | None = None) -> list[Record]:
+    presets = _load_presets(Path(root), problems)
     candidates: dict[str, list[tuple[dict, list[dict]]]] = {}
     for name, preset in presets.items():
         if preset.get("instantiation") != "true" or name.startswith("Generic"):

@@ -222,7 +222,7 @@ def test_other_profile_folder_is_not_built_implicitly(tmp_path):
     assert code == 1 and "bfp update --out" in text
 
 
-def test_hint_for_old_or_unknown_catalog(profiles):
+def test_hint_for_old_or_outdated_catalog(profiles):
     info = json.loads((profiles / "BUILD.json").read_text(encoding="utf-8"))
     info["built"] = "2020-01-01T00:00:00+00:00"
     (profiles / "BUILD.json").write_text(json.dumps(info), encoding="utf-8")
@@ -230,7 +230,19 @@ def test_hint_for_old_or_unknown_catalog(profiles):
     assert code == 0 and "days old" in text
     (profiles / "BUILD.json").unlink()
     code, text = run(["list", "--profiles", str(profiles), "--vendor", "geeetech"])
-    assert code == 0 and "age of the profiles is unknown" in text
+    assert code == 0 and "older version" in text and "Geeetech / PLA / PLA" in text
+
+
+def test_outdated_default_catalog_is_rebuilt(monkeypatch):
+    seen = []
+    monkeypatch.setattr(cli, "update_profiles", fake_update(seen))
+    run(["list"])
+    build_file = default_data_dir() / "profiles" / "BUILD.json"
+    info = json.loads(build_file.read_text(encoding="utf-8"))
+    info["format"] = 1  # catalog from v0.2.0
+    build_file.write_text(json.dumps(info), encoding="utf-8")
+    code, text = run(["list", "--vendor", "geeetech"])
+    assert code == 0 and "older version: rebuilding" in text and len(seen) == 2
 
 
 def test_fetch_errors_are_reported(monkeypatch):

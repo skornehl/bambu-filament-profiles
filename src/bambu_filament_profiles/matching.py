@@ -79,6 +79,9 @@ TOKEN_SYNONYMS = {
     "clear": "transparent",
 }
 
+#: Characters that cannot appear in file names on Windows (and "/" nowhere).
+UNSAFE_FILENAME_CHARS = re.compile(r'[<>:"/\\|?*\x00-\x1f]')
+
 STOP_TOKENS = frozenset({"filament", "filaments", "175", "mm", "1", "75", "the", "3d", "system", "fiber", "fibre", "reinforced"})
 WINDOWS_RESERVED = frozenset({"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))})
 
@@ -169,6 +172,14 @@ def match_key(brand: str, material: str, name: str) -> tuple[str, str, frozenset
     return (norm_brand(brand), fam, name_tokens(name, brand, material))
 
 
+def clean_name(text: str) -> str:
+    """Preset name that works as a file name: Bambu Studio saves presets as ``<name>.json``."""
+    t = re.sub(r"[/\\]", "-", text or "")
+    t = re.sub(r"[:|]", " ", t)
+    t = re.sub(r'[<>"?*\x00-\x1f]', "", t)
+    return re.sub(r"\s+", " ", t).strip().rstrip(". ")
+
+
 def alias_of(profile_name: str) -> str:
     """Profile name without the " @printer" suffix."""
     return re.sub(r"\s*@.*$", "", profile_name or "").strip()
@@ -180,7 +191,7 @@ def norm_alias(profile_name: str) -> str:
 
 def safe_filename(text: str) -> str:
     """File and folder names for Linux and Windows."""
-    cleaned = re.sub(r'[<>:"/\\|?*]', "-", text).strip().rstrip(". ")
+    cleaned = UNSAFE_FILENAME_CHARS.sub("-", text).strip().rstrip(". ")
     cleaned = re.sub(r"\s+", " ", cleaned)
     if cleaned.split(".")[0].upper() in WINDOWS_RESERVED:
         cleaned += "_"

@@ -8,7 +8,9 @@ written while Bambu Studio is running, cloud profiles are not deleted locally.
 
 from __future__ import annotations
 
+import contextlib
 import json
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -71,18 +73,13 @@ class CatalogItem:
         }
 
 
-def parse_sources(description: str) -> list[str]:
-    """"… Values from: OrcaSlicer, SpoolmanDB." → ["OrcaSlicer", "SpoolmanDB"]."""
-    if "Values from:" not in description:
-        return []
-    tail = description.split("Values from:", 1)[1].strip().rstrip(".")
-    return [s.strip() for s in tail.split(",") if s.strip() and s.strip() != "base profile only"]
-
-
 def load_catalog(profiles_dir: Path) -> list[CatalogItem]:
+    profiles_dir = Path(profiles_dir)
+    values_from = (read_build_info(profiles_dir) or {}).get("values_from") or {}
     items = []
     for index, entry in enumerate(list_profiles(profiles_dir)):
         spec = json.loads(entry["path"].read_text(encoding="utf-8"))
+        relpath = entry["path"].relative_to(profiles_dir).as_posix()
         items.append(
             CatalogItem(
                 id=index,
@@ -91,7 +88,7 @@ def load_catalog(profiles_dir: Path) -> list[CatalogItem]:
                 product=entry["product"],
                 name=spec["name"],
                 path=entry["path"],
-                sources=parse_sources(spec.get("description", "")),
+                sources=list(values_from.get(relpath, [])),
             )
         )
     return items
@@ -157,6 +154,7 @@ class AppSession:
     ):
         self.profiles_dir = Path(profiles_dir)
         self._updater = updater
+        self._updating = threading.Lock()
         self._load_catalog()
         self.backup_dir = Path(backup_dir)
         self._running = running
@@ -250,7 +248,9 @@ class AppSession:
 
     def existing(self, generic: bool = False, not_for: str = "", text: str = "") -> dict:
         presets, problems = self._presets()
-        selected = filter_presets(presets, names=text.split() if text else (), generic_only=generic, not_for=not_for or None, system=self.system)
+        selected = filter_presets(presets, generic_only=generic, not_for=not_for or None, system=self.system)
+        words = text.lower().split()  # every word must match, like the search in "Find profiles"
+        selected = [p for p in selected if all(w in p.name.lower() for w in words)]
         rows = [
             {
                 "name": p.name,
@@ -314,14 +314,24 @@ class AppSession:
             result["deleted"].append(preset.name)
         return result
 
-    def update(self) -> dict:
-        """Fetch the sources again and rebuild the catalog (writes nothing into Bambu Studio)."""
+    def update(self, lock=None) -> dict:
+        """Fetch the sources again and rebuild the catalog (writes nothing into Bambu Studio).
+
+        The slow fetch and build run without ``lock``; only swapping in the new
+        catalog holds it. A second update while one is running is refused.
+        """
         if self._updater is None:
             raise InstallError("updating is not available here")
-        log: list[str] = []
-        self._updater(log.append)
-        self._load_catalog()
-        return {"catalog_size": len(self.catalog), "catalog_built": self.catalog_built, "log": log[-8:]}
+        if not self._updating.acquire(blocking=False):
+            raise InstallError("an update is already running")
+        try:
+            log: list[str] = []
+            self._updater(log.append)
+            with lock if lock is not None else contextlib.nullcontext():
+                self._load_catalog()
+                return {"catalog_size": len(self.catalog), "catalog_built": self.catalog_built, "log": log[-8:]}
+        finally:
+            self._updating.release()
 
     def checklist(self, names) -> str:
         wanted = set(names)
