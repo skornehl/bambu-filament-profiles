@@ -131,3 +131,11 @@ def test_run_app_opens_browser_and_stops(monkeypatch, tmp_path, records, bambu, 
     assert webapp.run_app(session, port=0, out=lines.append) == 0
     assert opened and opened[0].startswith("http://127.0.0.1:") and "beendet" in lines[-1]
     assert webapp.run_app(session, port=0, open_browser=False, out=lines.append) == 0
+
+
+def test_server_does_not_share_ports(server):
+    import socket
+
+    assert server.socket.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) == 0
+    if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # nur Windows
+        assert server.socket.getsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE) == 1

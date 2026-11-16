@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import secrets
+import socket
 import threading
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -28,7 +29,15 @@ MAX_BODY = 1_000_000
 
 class AppServer(ThreadingHTTPServer):
     daemon_threads = True
-    allow_reuse_address = True
+    # HTTPServer setzt sonst SO_REUSEADDR. Unter Windows darf damit ein zweiter
+    # Prozess einen belegten Port noch einmal öffnen; dann teilen sich zwei
+    # Server still denselben Port.
+    allow_reuse_address = False
+
+    def server_bind(self):
+        if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # pragma: no cover - nur Windows
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
 
     def __init__(self, session: AppSession, host: str = "127.0.0.1", port: int = 0):
         super().__init__((host, port), Handler)
