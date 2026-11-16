@@ -1,0 +1,1137 @@
+# Bericht zum letzten Lauf
+
+- erzeugt: 2517
+- übersprungen, weil Bambu Studio schon ein Systemprofil hat: 69
+- übersprungen wegen Fehlern: 197
+- erzeugt mit Warnungen: 189
+- erzeugt mit abgeleiteten Werten: 608
+- ohne erkennbares Material (nicht zugeordnet): 44
+
+## Fehlergründe
+
+- zu heiß fürs Bett: 105
+- kein passendes Basisprofil: 85
+- falscher Durchmesser: 6
+- zu heiß für die Düse: 1
+
+## Übersprungen (Fehler)
+
+- **3DEA PC-CF** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **3DHoJor ABS+** (spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DJAKE ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech ABS 3DXStat ESD** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech ABS 3DXTech** (ofd, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech ABS CF** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech ABS GF** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech ABS-CF CarbonX™** (spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech Carbonx CF PC** (ofd, spoolman): hot_plate_temp = 115 °C über der Druckergrenze 100 °C
+- **3DXTech HIPS 3DXMax** (ofd, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **3DXTech PC 3DXMax** (ofd, spoolman): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **3DXTech PC 3DXStat ESD** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **3DXTech PC+ABS 3DXMAX™** (spoolman): hot_plate_temp = 115 °C über der Druckergrenze 100 °C
+- **3DXTech PEEK** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEEK CF** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEEK GF** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEI 3DXStat ESD** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEI CF** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEI GF** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEKK** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEKK 3DXStat ESD** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PEKK CF** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PES** (ofd): kein passendes Basisprofil für PES auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PPS** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PPSU** (ofd): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech PVDF** (ofd): kein passendes Basisprofil für PVDF auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech Thermax PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **3DXTech Thermax Psu** (ofd): kein passendes Basisprofil für PSU auf „Bambu Lab P1S 0.4 nozzle“
+- **Add-North ABS rABS** (ofd, orca, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Add-North PA12 Adura X** (ofd, prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Add-North PVDF** (ofd): kein passendes Basisprofil für PVDF auf „Bambu Lab P1S 0.4 nozzle“
+- **Add-North PVDF Adamant S1** (ofd, orca, spoolman): kein passendes Basisprofil für PVDF auf „Bambu Lab P1S 0.4 nozzle“
+- **Add-North PVDF+GRAPHENE Koltron G1 -** (spoolman): kein passendes Basisprofil für PVDF auf „Bambu Lab P1S 0.4 nozzle“
+- **Atomic Filament ABS** (ofd): braucht mindestens 105 °C am Bett, der Drucker schafft 100 °C
+- **Atomic Filament ABS CF** (ofd): braucht mindestens 105 °C am Bett, der Drucker schafft 100 °C
+- **Atomic Filament ASA CF** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **AURAPOL ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **AURAPOL ASA** (ofd, spoolman): braucht mindestens 105 °C am Bett, der Drucker schafft 100 °C
+- **AzureFilm ABS Plus** (ofd, spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **AzureFilm PC-ABS** (ofd, spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **BASF Ultrafuse PC-ABS-FR** (prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **CR3D ABS** (spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **DREMC ASA** (orca): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **DREMC ASA CF** (orca): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **DREMC ASA GF** (orca): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **EasyPrint PVB** (ofd): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **eMotionTech PC** (cura): hot_plate_temp = 120 °C über der Druckergrenze 100 °C
+- **eMotionTech PEKK** (cura): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **Eolas Prints ABS** (ofd, orca): hot_plate_temp_initial_layer = 105 °C über der Druckergrenze 100 °C
+- **Eolas Prints ASA** (ofd, orca): hot_plate_temp_initial_layer = 105 °C über der Druckergrenze 100 °C
+- **Eryone ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **eSUN 3D ABS+CF** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **eSUN 3D ABS+HS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **eSUN 3D HIPS** (spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **extrudr ASA-CF DuraPro -** (spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **extrudr Basic PLA** (ofd, spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **extrudr DuraPro ABS** (ofd, spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **extrudr DuraPro ASA GF** (ofd, spoolman): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **extrudr DuraPro CF PA12** (ofd, spoolman): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **extrudr DuraPro PA12** (ofd, spoolman): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **extrudr DuraPro PBT PC** (ofd, spoolman): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **extrudr PCPBT-CF DuraPro -** (spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **extrudr PCTG** (ofd, spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **FDplast HIPS** (orca): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Fiberlogy 9085 PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Fiberlogy CPE HT** (ofd, prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Fiberlogy Fibersmooth PVB** (ofd): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **Fiberlogy Nylon PA12** (ofd, prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Fiberlogy Nylon PA12+CF15** (ofd, prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Fiberlogy Nylon PA12+GF15** (ofd, prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Fiberon PPS-CF10** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **Fiberon PPS-GF20** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **FiberThree PC F3 CF 150** (ofd): braucht mindestens 310 °C an der Düse, der Drucker schafft 300 °C
+- **FilamentPM PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **FilamentPM PP** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **FilamentPM TPE88 RubberJet** (prusa): Durchmesser 1.68 mm, der Drucker braucht 1,75 mm
+- **Filatech PA** (prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Filatech PC** (prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Filatech PC-ABS** (prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **FLASHFORGE ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **FormFutura ABS TitanX** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **FormFutura ABSpro** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **FormFutura ABSpro Flame Retardant** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **FormFutura LUVOCOM 3F PEEK 9581** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura LUVOCOM 3F PEEK CF 9676** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura LUVOCOM 3F PEI 50236** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura LUVOCOM 3F PEKK 50082** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura PEI ULTEM 1010** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura PEI ULTEM 9085** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura PPS CF** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **FormFutura PPSU** (ofd): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **FusRock ABS-GF** (orca): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Geeetech ABS+** (ofd, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Gizmo Dorks ABS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Gizmo Dorks ABS CF** (ofd): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Gizmo Dorks Color Change ABS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Gizmo Dorks Fluorescent ABS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Gizmo Dorks Glow HIPS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Gizmo Dorks HIPS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Gizmo Dorks Thermochromic ABS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Goofoo ABS** (orca): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Goofoo PA** (cura, orca): hot_plate_temp = 120 °C über der Druckergrenze 100 °C
+- **Goofoo PA-CF** (cura, orca): hot_plate_temp = 120 °C über der Druckergrenze 100 °C
+- **Goofoo PEEK** (cura): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **IC3D ABS** (ofd): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **IEMAI CF-ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **IEMAI CF-PPS** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **IEMAI PEEK** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **IEMAI PEI 1010** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **IEMAI PEI 9085** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **IEMAI PEKK** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **IEMAI PPSU** (ofd): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **Inslogic PEEK** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **Paramount 3D ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Paramount 3D ABS CF** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Polymaker PC-Max** (prusa): hot_plate_temp = 115 °C über der Druckergrenze 100 °C
+- **Polymaker PPS CF** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **Polymaker PVB** (ofd): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **Polymaker PVB PolyCast™** (spoolman): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **Polymaker PVB PolySmooth** (ofd, spoolman): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator PEEK** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator PEEK CF** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator PEKK** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator PPSU** (ofd): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator Primaselect PEEK** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator Primaselect PEEK CF** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator Primaselect PEKK** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator Primaselect PPSU** (ofd): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **PrimaCreator Ultem Primaselect PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Printy Please ABS** (spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Proteor Print CPX-PP** (ofd): Durchmesser 2.85 mm, der Drucker braucht 1,75 mm
+- **Proteor Print EVA+** (ofd): Durchmesser 2.85 mm, der Drucker braucht 1,75 mm
+- **Proteor Print EVA-FORM** (ofd): Durchmesser 2.85 mm, der Drucker braucht 1,75 mm
+- **Proteor Print PETG** (ofd): Durchmesser 2.85 mm, der Drucker braucht 1,75 mm
+- **Proteor Print PP CPX-KyronMax** (ofd): Durchmesser 2.85 mm, der Drucker braucht 1,75 mm
+- **Prusament ASA** (ofd, prusa, spoolman): braucht mindestens 105 °C am Bett, der Drucker schafft 100 °C
+- **Prusament ASA (NFC)** (spoolman): braucht mindestens 105 °C am Bett, der Drucker schafft 100 °C
+- **Prusament PA11-CF** (ofd, prusa): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Prusament PA11-CF (NFC)** (spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Prusament PC Blend** (ofd, prusa, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Prusament PC Blend (NFC)** (spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Prusament PC-CF Space Grade (NFC)** (spoolman): braucht mindestens 110 °C am Bett, der Drucker schafft 100 °C
+- **Prusament PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Prusament PEI 1010** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Prusament PEI 1010 (NFC)** (spoolman): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Prusament Prusament PC Blend Carbon Fiber** (prusa, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Prusament PVB** (ofd, prusa, spoolman): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **Prusament PVB (NFC)** (spoolman): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **Push Plastic ABS** (ofd): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Push Plastic CF ABS** (ofd): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Push Plastic PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Push Plastic PEI 1010** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **QIDI Tech ABS Rapido** (ofd, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **QIDI Tech ABS-GF25** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **QIDI Tech ABS-GF25** (spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **QIDI Tech Odorless ABS Rapido** (ofd, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **QIDI Tech PPA UltraPA** (ofd, spoolman): kein passendes Basisprofil für PPA auf „Bambu Lab P1S 0.4 nozzle“
+- **QIDI Tech PPA UltraPA-CF25** (ofd): kein passendes Basisprofil für PPA auf „Bambu Lab P1S 0.4 nozzle“
+- **QIDI Tech PPS-CF** (ofd, spoolman): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **QIDI Tech PPS-GF20** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **QIDI Tech PPS-GF20** (spoolman): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **RatRig ABS Punkfil** (spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **RatRig ASA Punkfil** (spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **REDD ABS** (cura): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **REDD ASA** (cura): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **REDD HIPS** (cura): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Sakata 3D ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Siddament ASA** (ofd): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Siddament ASA V2** (ofd): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Siraya Tech Fibreheart ABS HT HF** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Siraya Tech Fibreheart ABS-CF Core** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Siraya Tech Fibreheart ABS-GF** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Siraya Tech Fibreheart PPA** (ofd): kein passendes Basisprofil für PPA auf „Bambu Lab P1S 0.4 nozzle“
+- **SMART MATERIALS 3D PEEK** (ofd): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **SMART MATERIALS 3D PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **SMART MATERIALS 3D PVB** (ofd): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **SMART MATERIALS 3D PVDF** (ofd): kein passendes Basisprofil für PVDF auf „Bambu Lab P1S 0.4 nozzle“
+- **Spectrum PETG HT100** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **Spectrum PP** (ofd): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Spectrum PPS AM230** (ofd): kein passendes Basisprofil für PPS auf „Bambu Lab P1S 0.4 nozzle“
+- **SUNLU ABS** (ofd, spoolman): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **SUNLU PC-ABS** (ofd): hot_plate_temp = 105 °C über der Druckergrenze 100 °C
+- **SUNLU PEEK** (ofd, spoolman): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **SUNLU PVB** (ofd): kein passendes Basisprofil für PVB auf „Bambu Lab P1S 0.4 nozzle“
+- **Taulman PA Bridge** (prusa): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Tectonic 3D PEEK CF** (ofd, spoolman): kein passendes Basisprofil für PEEK auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D PEI** (ofd): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D PEKK** (ofd): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D PPSU** (ofd): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D Vulcan 1010 PEI** (ofd, spoolman): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D Vulcan 9085 PEI** (ofd, spoolman): kein passendes Basisprofil für PEI auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D Vulcan A PEKK** (ofd, spoolman): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D Vulcan PPSU** (ofd, spoolman): kein passendes Basisprofil für PPSU auf „Bambu Lab P1S 0.4 nozzle“
+- **Tectonic 3D Vulcan SC PEKK** (ofd, spoolman): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+- **TEQStone ABS** (ofd, spoolman): hot_plate_temp = 110 °C über der Druckergrenze 100 °C
+- **Volumic PEKK Carbone** (cura): kein passendes Basisprofil für PEKK auf „Bambu Lab P1S 0.4 nozzle“
+
+## Systemprofil vorhanden
+
+- **Bambu Lab ABS** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu ABS“ mit
+- **Bambu Lab ABS Support for** (spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu Support for ABS“ mit
+- **Bambu Lab ABS-GF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu ABS-GF“ mit
+- **Bambu Lab ASA** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu ASA“ mit
+- **Bambu Lab ASA Aero** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu ASA-Aero“ mit
+- **Bambu Lab ASA-CF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu ASA-CF“ mit
+- **Bambu Lab Bambu PLA Dynamic** (orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Dynamic“ mit
+- **Bambu Lab Bambu PLA Impact** (orca): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab Matte ASA CF** (ofd): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PA Bambu Support G** (orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu Support G“ mit
+- **Bambu Lab PA Support for** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PA12 CF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PAHT-CF“ mit
+- **Bambu Lab PA6-GF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PA6-GF“ mit
+- **Bambu Lab Palette** (spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Palette“ mit
+- **Bambu Lab PC** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PC“ mit
+- **Bambu Lab PC FR** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PC FR“ mit
+- **Bambu Lab PET-CF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PET-CF“ mit
+- **Bambu Lab PETG** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PETG Basic** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PETG Basic“ mit
+- **Bambu Lab PETG HF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PETG HF“ mit
+- **Bambu Lab PETG Matte** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PETG Matte“ mit
+- **Bambu Lab PETG Translucent** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PETG Translucent“ mit
+- **Bambu Lab PETG-CF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PETG-CF“ mit
+- **Bambu Lab PLA** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PLA Aero** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Aero“ mit
+- **Bambu Lab PLA Bambu Support W** (orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu Support W“ mit
+- **Bambu Lab PLA Basic** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Basic“ mit
+- **Bambu Lab PLA Basic Gradient** (ofd): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PLA Galaxy** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Galaxy“ mit
+- **Bambu Lab PLA Glow** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Glow“ mit
+- **Bambu Lab PLA Lite** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Lite“ mit
+- **Bambu Lab PLA Marble** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Marble“ mit
+- **Bambu Lab PLA Matte** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Matte“ mit
+- **Bambu Lab PLA Metal** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Metal“ mit
+- **Bambu Lab PLA Metallic** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PLA Pure** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Pure“ mit
+- **Bambu Lab PLA Silk** (ofd, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Silk“ mit
+- **Bambu Lab PLA Silk Dual Color** (ofd, orca): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PLA Silk Multi-Color** (ofd): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PLA Silk+** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Silk+“ mit
+- **Bambu Lab PLA Sparkle** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Sparkle“ mit
+- **Bambu Lab PLA Tough** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Tough“ mit
+- **Bambu Lab PLA Tough+** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Tough+“ mit
+- **Bambu Lab PLA Translucent** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Translucent“ mit
+- **Bambu Lab PLA Wood** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA Wood“ mit
+- **Bambu Lab PLA+WOOD** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PLA-CF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PLA-CF“ mit
+- **Bambu Lab PPA-CF** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu PPA-CF“ mit
+- **Bambu Lab PPS-CF** (ofd, spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab PVA** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu PVA“ mit
+- **Bambu Lab Support for ABS** (ofd, orca): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab Support for PA/PET** (ofd, orca): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab Support for PLA** (ofd, orca): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab Support for PLA/PETG** (ofd, orca): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab Support for PLA/PETG** (spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu Support For PLA/PETG“ mit
+- **Bambu Lab TPU** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab TPU 85A** (ofd, orca, spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **Bambu Lab TPU 90A** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu TPU 90A“ mit
+- **Bambu Lab TPU 95A** (ofd, orca): Bambu Studio bringt dafür schon das Systemprofil „Bambu TPU 95A“ mit
+- **Bambu Lab TPU 95A HF** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu TPU 95A HF“ mit
+- **Bambu Lab TPU for AMS** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Bambu TPU for AMS“ mit
+- **Bambu Lab TPU-75A** (spoolman): Bambu-Lab-Filamente haben Systemprofile in Bambu Studio
+- **eSUN 3D PLA+** (cura, ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „eSUN PLA+“ mit
+- **Overture Matte PLA** (ofd, orca, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Overture Matte PLA“ mit
+- **Overture PLA** (ofd, orca, prusa, spoolman): Bambu Studio bringt dafür schon das Systemprofil „Overture PLA“ mit
+- **Polymaker Polylite ABS** (ofd, spoolman): Bambu Studio bringt dafür schon das Systemprofil „PolyLite ABS“ mit
+- **Polymaker Polylite ASA** (ofd, spoolman): Bambu Studio bringt dafür schon das Systemprofil „PolyLite ASA“ mit
+- **Polymaker Polylite PETG** (ofd, spoolman): Bambu Studio bringt dafür schon das Systemprofil „PolyLite PETG“ mit
+- **Polymaker Polylite PLA** (ofd, spoolman): Bambu Studio bringt dafür schon das Systemprofil „PolyLite PLA“ mit
+
+## Warnungen
+
+- **3D Fuel Pro PETG** (ofd, orca): nozzle_temperature_range_low: Open Filament Database 245 gewählt, abweichend OrcaSlicer 230
+- **3DXTech PA12** (ofd): _bed_min: Open Filament Database 60 gewählt, abweichend Open Filament Database 80; nozzle_temperature_range_low: Open Filament Database 275 gewählt, abweichend Open Filament Database 250
+- **3DXTech PA12 CF** (ofd): nozzle_temperature_range_low: Open Filament Database 265 gewählt, abweichend Open Filament Database 250
+- **3DXTech PA12 GF** (ofd): nozzle_temperature_range_low: Open Filament Database 265 gewählt, abweichend Open Filament Database 250
+- **3DXTech PA12-CF CarbonX™** (spoolman): nozzle_temperature: SpoolmanDB 275 gewählt, abweichend SpoolmanDB 255
+- **3DXTech PPE** (ofd): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **Add-North E PLA** (ofd, orca, prusa, spoolman): nozzle_temperature: OrcaSlicer 240 gewählt, abweichend PrusaSlicer 215, SpoolmanDB 215; nozzle_temperature_initial_layer: OrcaSlicer 235 gewählt, abweichend PrusaSlicer 215; nozzle_temperature_range_high: Open Filament Database 225 gewählt, abweichend OrcaSlicer 240; nozzle_temperature_range_low: Open Filament Database 205 gewählt, abweichend OrcaSlicer 190; nozzle_temperature = 240 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 235 °C liegt außerhalb des Herstellerbereichs
+- **Add-North ESD PETG** (ofd, orca, prusa, spoolman): nozzle_temperature: OrcaSlicer 290 gewählt, abweichend PrusaSlicer 265, SpoolmanDB 260; nozzle_temperature_initial_layer: OrcaSlicer 290 gewählt, abweichend PrusaSlicer 245; nozzle_temperature = 290 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 290 °C liegt außerhalb des Herstellerbereichs
+- **Add-North HT-PLA Pro Matte** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 240 gewählt, abweichend SpoolmanDB 220; nozzle_temperature_range_high: Open Filament Database 230 gewählt, abweichend OrcaSlicer 245; nozzle_temperature = 240 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 235 °C liegt außerhalb des Herstellerbereichs
+- **Add-North PETG Economy** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 260 gewählt, abweichend SpoolmanDB 245
+- **Add-North PETG Flame Retardant V0** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 290 gewählt, abweichend SpoolmanDB 245; nozzle_temperature = 290 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 290 °C liegt außerhalb des Herstellerbereichs
+- **Add-North PETG PRO Matte** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 260 gewählt, abweichend SpoolmanDB 245; nozzle_temperature_range_low: Open Filament Database 255 gewählt, abweichend OrcaSlicer 235
+- **Add-North PETG rPETG Matte** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 260 gewählt, abweichend SpoolmanDB 245; nozzle_temperature_range_low: Open Filament Database 240 gewählt, abweichend OrcaSlicer 225
+- **Add-North PETG-CF Rigid X** (orca, spoolman): nozzle_temperature: OrcaSlicer 270 gewählt, abweichend SpoolmanDB 255
+- **Add-North PLA CF** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 235 gewählt, abweichend SpoolmanDB 200; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend OrcaSlicer 190
+- **Add-North PLA Economy** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 240 gewählt, abweichend SpoolmanDB 215; nozzle_temperature = 240 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 235 °C liegt außerhalb des Herstellerbereichs
+- **Add-North PLA Premium Silk** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 250 gewählt, abweichend SpoolmanDB 230; nozzle_temperature_range_low: Open Filament Database 210 gewählt, abweichend OrcaSlicer 235; nozzle_temperature = 250 °C liegt außerhalb des Herstellerbereichs
+- **Add-North PLA rPLA RE-ADD** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 240 gewählt, abweichend SpoolmanDB 215; nozzle_temperature_range_low: Open Filament Database 215 gewählt, abweichend OrcaSlicer 190
+- **Add-North PLA Textura** (orca, prusa, spoolman): nozzle_temperature: OrcaSlicer 235 gewählt, abweichend PrusaSlicer 215, SpoolmanDB 215; nozzle_temperature_initial_layer: OrcaSlicer 235 gewählt, abweichend PrusaSlicer 215
+- **Add-North X-PLA** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 235 gewählt, abweichend SpoolmanDB 200; nozzle_temperature_range_high: Open Filament Database 220 gewählt, abweichend OrcaSlicer 240; nozzle_temperature = 235 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 230 °C liegt außerhalb des Herstellerbereichs
+- **Add-North X-PLA High Speed** (ofd, orca, spoolman): nozzle_temperature: OrcaSlicer 240 gewählt, abweichend SpoolmanDB 200
+- **AURAPOL PETG** (ofd, spoolman): _bed_min: Open Filament Database 70 gewählt, abweichend SpoolmanDB 85
+- **AURAPOL PLA** (ofd, spoolman): _bed_min: Open Filament Database 0 gewählt, abweichend SpoolmanDB 40
+- **BASF Ultrafuse PET** (prusa): Düsentemperatur 215 °C liegt außerhalb des geerbten Bereichs 220–270 °C
+- **Best Filament BF ABS** (cura): Düsentemperatur 232 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **COEX 3D COEX PCTG PRIME** (orca): Düsentemperatur 275 °C liegt außerhalb des geerbten Bereichs 240–270 °C
+- **COEX 3D PLA** (ofd, orca): nozzle_temperature_initial_layer = 235 °C liegt außerhalb des Herstellerbereichs
+- **colorFabb nGen flex** (prusa): Düsentemperatur 260 °C liegt außerhalb des geerbten Bereichs 200–250 °C
+- **colorFabb PLA bronzeFill** (prusa): filament_density = 3.9 unplausibel, verworfen
+- **colorFabb PLA copperFill** (prusa): filament_density = 3.9 unplausibel, verworfen
+- **Devil Design ABS+** (spoolman): Düsentemperatur 235 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **DREMC PA12-CF** (orca): nozzle_temperature: OrcaSlicer 290 gewählt, abweichend OrcaSlicer 270; nozzle_temperature_initial_layer: OrcaSlicer 290 gewählt, abweichend OrcaSlicer 270
+- **Elas ASA** (orca): cool_plate_temp = 110 °C verworfen (Druckergrenze 100 °C); cool_plate_temp_initial_layer = 110 °C verworfen (Druckergrenze 100 °C)
+- **ELEGOO PETG** (ofd, orca): nozzle_temperature_range_high: Open Filament Database 250 gewählt, abweichend OrcaSlicer 270
+- **ELEGOO RAPID PETG** (ofd, orca, spoolman): nozzle_temperature_range_high: Open Filament Database 250 gewählt, abweichend OrcaSlicer 270
+- **eMotionTech PA6CF** (cura): Düsentemperatur 285 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **eMotionTech PA6GF** (cura): Düsentemperatur 290 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **eMotionTech PVA-S** (cura): Düsentemperatur 245 °C liegt außerhalb des geerbten Bereichs 190–240 °C
+- **Eolas Prints Flex 93A TPU** (ofd, orca, prusa): nozzle_temperature: OrcaSlicer 220 gewählt, abweichend PrusaSlicer 235; nozzle_temperature_initial_layer: OrcaSlicer 225 gewählt, abweichend PrusaSlicer 240
+- **Eolas Prints PETG** (ofd, orca, prusa): nozzle_temperature_range_high: Open Filament Database 245 gewählt, abweichend OrcaSlicer 260
+- **Eolas Prints PETG UV Resistant** (orca, prusa): nozzle_temperature_initial_layer: OrcaSlicer 250 gewählt, abweichend PrusaSlicer 232
+- **Eryone PLA** (cura, ofd, spoolman): nozzle_temperature: SpoolmanDB 210 gewählt, abweichend Cura 195
+- **eSUN 3D PETG-Basic** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 250 gewählt, abweichend SpoolmanDB 265; nozzle_temperature = 260 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 260 °C liegt außerhalb des Herstellerbereichs
+- **eSUN 3D PLA-AERO ePLA-LW** (orca): filament_flow_ratio = 0.48 unplausibel, verworfen
+- **extrudr DuraPro ASA** (ofd, prusa, spoolman): _bed: PrusaSlicer 90 gewählt, abweichend SpoolmanDB 110; nozzle_temperature: PrusaSlicer 220 gewählt, abweichend SpoolmanDB 250
+- **extrudr FLEX Hard TPU** (ofd, prusa, spoolman): _bed: PrusaSlicer 50 gewählt, abweichend SpoolmanDB 90; nozzle_temperature: PrusaSlicer 240 gewählt, abweichend SpoolmanDB 260
+- **extrudr FLEX Medium TPU** (ofd, prusa, spoolman): _bed: PrusaSlicer 50 gewählt, abweichend SpoolmanDB 90
+- **extrudr FLEX Semisoft TPU** (ofd, prusa, spoolman): _bed: PrusaSlicer 50 gewählt, abweichend SpoolmanDB 90
+- **extrudr PETG** (ofd, prusa, spoolman): _bed: PrusaSlicer 70 gewählt, abweichend SpoolmanDB 90
+- **extrudr PETG XPETG CF** (prusa): Düsentemperatur 235 °C liegt außerhalb des geerbten Bereichs 240–270 °C
+- **extrudr PETG XPETG Matt** (prusa, spoolman): _bed: PrusaSlicer 70 gewählt, abweichend SpoolmanDB 90
+- **extrudr PLA NX2 Matt** (ofd, prusa, spoolman): nozzle_temperature: PrusaSlicer 205 gewählt, abweichend SpoolmanDB 230
+- **Fiberlogy PLA FiberWood** (ofd, prusa): nozzle_temperature = 185 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 185 °C liegt außerhalb des Herstellerbereichs
+- **Fiberlogy TPU FiberFlex 30D** (ofd, prusa): nozzle_temperature = 240 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 240 °C liegt außerhalb des Herstellerbereichs
+- **Fiberlogy TPU FiberFlex 40D** (ofd, prusa): nozzle_temperature = 230 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 230 °C liegt außerhalb des Herstellerbereichs
+- **FiberThree F3 PA CF Lite** (ofd): Düsen-Obergrenze 310 °C auf 300 °C begrenzt
+- **FiberThree F3 PA ESD** (ofd): Düsen-Obergrenze 310 °C auf 300 °C begrenzt
+- **FiberThree F3 PA Pure Pro** (prusa): Düsentemperatur 285 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **FiberThree F3 PA-GF30 Pro** (prusa): Düsentemperatur 285 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **FiberThree PA12** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **FiberThree PA12 CF** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **FilamentPM ABS** (ofd, prusa): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **FilamentPM PA12** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **FilamentPM PA12 CF** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **FILL3D PLA Basic** (orca): Max. Volumenfluss 54 mm³/s unplausibel, verworfen
+- **FILL3D PP** (orca): Düsentemperatur 300 °C liegt außerhalb des geerbten Bereichs 220–250 °C
+- **FILL3D PPCF** (orca): Düsentemperatur 300 °C liegt außerhalb des geerbten Bereichs 220–250 °C
+- **Fillamentum CPE** (prusa): Düsentemperatur 275 °C liegt außerhalb des geerbten Bereichs 220–270 °C
+- **FLASHFORGE High Speed PETG** (ofd): _bed_max: Open Filament Database 90 gewählt, abweichend Open Filament Database 60; _bed_min: Open Filament Database 70 gewählt, abweichend Open Filament Database 0; nozzle_temperature_range_high: Open Filament Database 250 gewählt, abweichend Open Filament Database 270
+- **FormFutura EasyFil PLA - Glow in the Dark** (ofd): _bed_min: Open Filament Database 50 gewählt, abweichend Open Filament Database 0
+- **FormFutura Kratos PC** (ofd): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **FormFutura Kratos PC CF10** (ofd): Düsen-Obergrenze 310 °C auf 300 °C begrenzt
+- **FormFutura PLA EasyFil ePLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 275 gewählt, abweichend SpoolmanDB 220
+- **Fusion ASA** (spoolman): Düsentemperatur 290 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **Goofoo HIPS** (cura): Düsentemperatur 210 °C liegt außerhalb des geerbten Bereichs 220–270 °C
+- **Goofoo PA-GF10** (orca): Düsentemperatur 230 °C liegt außerhalb des geerbten Bereichs 260–300 °C
+- **Goofoo PC** (cura): Düsentemperatur 250 °C liegt außerhalb des geerbten Bereichs 260–290 °C
+- **Goofoo PETG** (cura, orca): nozzle_temperature: OrcaSlicer 240 gewählt, abweichend Cura 210
+- **Goofoo PLA WOOD** (cura): Düsentemperatur 180 °C liegt außerhalb des geerbten Bereichs 190–240 °C
+- **Hatchbox ABS** (ofd, prusa, spoolman): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Inland High Speed PLA+** (ofd, spoolman): nozzle_temperature = 240 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 240 °C liegt außerhalb des Herstellerbereichs
+- **Inland Silk PLA** (ofd, spoolman): nozzle_temperature = 230 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 230 °C liegt außerhalb des Herstellerbereichs
+- **Inslogic PLA Pro** (ofd, orca, spoolman): nozzle_temperature_range_high: Open Filament Database 220 gewählt, abweichend OrcaSlicer 245
+- **Jabil TPE SEBS 1300 95A** (cura): Düsentemperatur 260 °C liegt außerhalb des geerbten Bereichs 200–250 °C
+- **JAYO PETG** (ofd, orca, spoolman): nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend OrcaSlicer 240
+- **JAYO PLA** (ofd, orca, spoolman): nozzle_temperature_range_high: Open Filament Database 210 gewählt, abweichend OrcaSlicer 240; nozzle_temperature = 215 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 215 °C liegt außerhalb des Herstellerbereichs
+- **LDO ASA-CF** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 260 gewählt, abweichend SpoolmanDB 230
+- **Leapfrog ABS** (cura): Düsentemperatur 230 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **Matter3D Inc Glitter Silk PLA** (ofd, spoolman): _bed_min: Open Filament Database 65 gewählt, abweichend SpoolmanDB 50; nozzle_temperature_range_high: Open Filament Database 210 gewählt, abweichend SpoolmanDB 230
+- **Matter3D Inc Matte PETG** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 235 gewählt, abweichend SpoolmanDB 220
+- **Matter3D Inc Matte PLA** (ofd, spoolman): _bed_min: Open Filament Database 65 gewählt, abweichend SpoolmanDB 50; nozzle_temperature_range_high: Open Filament Database 210 gewählt, abweichend SpoolmanDB 230
+- **Matter3D Inc Performance PLA** (ofd, spoolman): _bed_min: Open Filament Database 65 gewählt, abweichend SpoolmanDB 50; nozzle_temperature_range_low: Open Filament Database 215 gewählt, abweichend SpoolmanDB 190
+- **Matter3D Inc PETG** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 235 gewählt, abweichend SpoolmanDB 220
+- **Matter3D Inc PETG CF** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 235 gewählt, abweichend SpoolmanDB 220
+- **Matter3D Inc PLA** (ofd, spoolman): _bed_min: Open Filament Database 65 gewählt, abweichend SpoolmanDB 50; nozzle_temperature_range_low: Open Filament Database 205 gewählt, abweichend SpoolmanDB 190
+- **Numakers PLA+** (ofd, orca, spoolman): nozzle_temperature_range_high: Open Filament Database 220 gewählt, abweichend OrcaSlicer 255; nozzle_temperature = 225 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 225 °C liegt außerhalb des Herstellerbereichs
+- **Overture PETG** (ofd, spoolman): _bed_max: Open Filament Database 70 gewählt, abweichend SpoolmanDB 90; _bed_min: Open Filament Database 65 gewählt, abweichend SpoolmanDB 80
+- **Polar Filament PETG** (ofd, spoolman): _bed_max: Open Filament Database 90 gewählt, abweichend SpoolmanDB 65; _bed_min: Open Filament Database 70 gewählt, abweichend SpoolmanDB 55
+- **Polar Filament PLA** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 190 gewählt, abweichend SpoolmanDB 205
+- **Polymaker Fiberon PA12-CF** (orca): nozzle_temperature_range_low: OrcaSlicer 260 gewählt, abweichend OrcaSlicer 280
+- **Polymaker PA12 CF** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **Polymaker Polymax PETG** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 260 gewählt, abweichend SpoolmanDB 240
+- **Polymaker Polysonic PLA** (ofd, spoolman): _bed_min: Open Filament Database 50 gewählt, abweichend SpoolmanDB 25; nozzle_temperature_range_low: Open Filament Database 190 gewählt, abweichend SpoolmanDB 210
+- **PrimaCreator PA12 CF** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **PrimaCreator Primaselect PA12 CF** (ofd): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290
+- **PrimaSelect PLA METAL** (ofd): filament_density = 7.23 unplausibel, verworfen
+- **Protopasta Basic PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Fluorescent PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Glitter PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Iron Metal Composite PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 200 gewählt, abweichend SpoolmanDB 215; nozzle_temperature_range_low: Open Filament Database 200 gewählt, abweichend SpoolmanDB 185
+- **Protopasta Marble PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Metallic PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Multicolor PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Opaque PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Pearl PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta PETG CF** (ofd, spoolman): nozzle_temperature = 210 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 210 °C liegt außerhalb des Herstellerbereichs
+- **Protopasta PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta PLA CF** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta PLA Green Glow-in-the-Dark** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Recycled PETG** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 275 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 235 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Recycled PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Satin PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Simply PETG** (ofd, spoolman): nozzle_temperature = 210 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 210 °C liegt außerhalb des Herstellerbereichs
+- **Protopasta Static Dissipative Carbon Fiber PLA** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 210 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Static Dissipative PETG** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 290 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 250 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Static Dissipative PLA** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 210 gewählt, abweichend SpoolmanDB 195
+- **Protopasta Translucent PETG** (ofd, spoolman): nozzle_temperature = 210 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 210 °C liegt außerhalb des Herstellerbereichs
+- **Protopasta Translucent PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 240 gewählt, abweichend SpoolmanDB 225; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 195
+- **Prusament PETG** (ofd, prusa, spoolman): nozzle_temperature_initial_layer = 230 °C liegt außerhalb des Herstellerbereichs
+- **Prusament PETG Tungsten** (ofd): filament_density = 4 unplausibel, verworfen
+- **QIDI Tech ASA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 260 gewählt, abweichend SpoolmanDB 280
+- **QIDI Tech PA12 S-White Support** (ofd, spoolman): _bed_min: Open Filament Database 60 gewählt, abweichend SpoolmanDB 40; nozzle_temperature_range_high: Open Filament Database 280 gewählt, abweichend SpoolmanDB 300; nozzle_temperature_range_low: Open Filament Database 260 gewählt, abweichend SpoolmanDB 280
+- **QIDI Tech PA12-CF** (ofd, spoolman): _bed_max: Open Filament Database 70 gewählt, abweichend SpoolmanDB 90; _bed_min: Open Filament Database 40 gewählt, abweichend SpoolmanDB 70; nozzle_temperature_range_high: Open Filament Database 300 gewählt, abweichend SpoolmanDB 320; nozzle_temperature_range_low: Open Filament Database 280 gewählt, abweichend SpoolmanDB 300
+- **QIDI Tech PAHT-CF** (ofd, spoolman): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **QIDI Tech PAHT-GF** (ofd, spoolman): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **QIDI Tech PET-CF** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 300 gewählt, abweichend SpoolmanDB 320
+- **QIDI Tech PET-GF** (ofd, spoolman): _bed_min: Open Filament Database 60 gewählt, abweichend SpoolmanDB 80; nozzle_temperature_range_low: Open Filament Database 280 gewählt, abweichend SpoolmanDB 260; Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **QIDI Tech PETG-Tough** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 260 gewählt, abweichend SpoolmanDB 280
+- **QIDI Tech PPA-CF25 UltraPA** (spoolman): Düsen-Obergrenze 340 °C auf 300 °C begrenzt
+- **QIDI Tech TPU 95A HF** (ofd, spoolman): _bed_min: Open Filament Database 20 gewählt, abweichend SpoolmanDB 40
+- **Recreus PP 3D** (ofd): nozzle_temperature_range_low: Open Filament Database 240 gewählt, abweichend Open Filament Database 210
+- **SainSmart PA12 CF** (ofd): _bed_max: Open Filament Database 60 gewählt, abweichend Open Filament Database 80; _bed_min: Open Filament Database 45 gewählt, abweichend Open Filament Database 80; nozzle_temperature_range_high: Open Filament Database 300 gewählt, abweichend Open Filament Database 280; nozzle_temperature_range_low: Open Filament Database 280 gewählt, abweichend Open Filament Database 260
+- **Siddament ABS** (ofd, spoolman): nozzle_temperature: Open Filament Database 270 gewählt, abweichend SpoolmanDB 250; nozzle_temperature = 270 °C liegt außerhalb des Herstellerbereichs
+- **Siddament ABS V2** (ofd): nozzle_temperature = 270 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Matte PETG** (ofd, spoolman): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Matte PETG V2** (ofd, spoolman): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Siddament PETG** (ofd, spoolman): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Siddament PETG V2** (ofd, spoolman): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Siddament PLA** (ofd): nozzle_temperature = 225 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 225 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Silk PLA** (ofd): nozzle_temperature = 225 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 225 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Silk PLA V2** (ofd): nozzle_temperature = 225 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 225 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Translucent PETG** (ofd): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Translucent PETG V2** (ofd): nozzle_temperature = 255 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 255 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Translucent PLA V2** (ofd): nozzle_temperature = 225 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 225 °C liegt außerhalb des Herstellerbereichs
+- **Siddament Wood PLA** (ofd): nozzle_temperature = 225 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 225 °C liegt außerhalb des Herstellerbereichs
+- **Siraya Tech Fibreheart PET-CF** (ofd): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **Siraya Tech Fibreheart PPA-CF** (ofd): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **Siraya Tech Fibreheart PPA-CF Core** (ofd): Düsen-Obergrenze 320 °C auf 300 °C begrenzt
+- **Spectrum PA12 CF15** (ofd): _bed_max: Open Filament Database 80 gewählt, abweichend Open Filament Database 110
+- **Spectrum PLA CF** (ofd): _bed_max: Open Filament Database 70 gewählt, abweichend Open Filament Database 45; _bed_min: Open Filament Database 50 gewählt, abweichend Open Filament Database 0
+- **SUNLU High Speed Matte PETG** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 240 gewählt, abweichend SpoolmanDB 205
+- **SUNLU PETG** (ofd, orca, spoolman): nozzle_temperature_range_high: Open Filament Database 260 gewählt, abweichend OrcaSlicer 280
+- **Tectonic 3D PA11 CF** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend Open Filament Database 290, SpoolmanDB 290
+- **TINMORRY ABS Pro** (ofd, spoolman): _bed_max: Open Filament Database 95 gewählt, abweichend SpoolmanDB 110; nozzle_temperature_range_low: Open Filament Database 270 gewählt, abweichend SpoolmanDB 220
+- **TINMORRY ASA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 280 gewählt, abweichend SpoolmanDB 260
+- **TINMORRY Frosted GF PETG** (ofd, spoolman): _bed_max: Open Filament Database 75 gewählt, abweichend SpoolmanDB 90; nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend SpoolmanDB 250; nozzle_temperature_range_low: Open Filament Database 240 gewählt, abweichend SpoolmanDB 220
+- **TINMORRY Matte PET CF** (ofd, spoolman): _bed_min: Open Filament Database 90 gewählt, abweichend SpoolmanDB 70; nozzle_temperature_range_high: Open Filament Database 290 gewählt, abweichend SpoolmanDB 250; nozzle_temperature_range_low: Open Filament Database 260 gewählt, abweichend SpoolmanDB 220
+- **TINMORRY Matte PP CF** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 280 gewählt, abweichend SpoolmanDB 240; nozzle_temperature_range_low: Open Filament Database 230 gewählt, abweichend SpoolmanDB 210
+- **TINMORRY PA6 CF** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 280 gewählt, abweichend SpoolmanDB 250
+- **TINMORRY PET GF** (ofd, spoolman): _bed_min: Open Filament Database 90 gewählt, abweichend SpoolmanDB 70; nozzle_temperature_range_high: Open Filament Database 290 gewählt, abweichend SpoolmanDB 250; nozzle_temperature_range_low: Open Filament Database 260 gewählt, abweichend SpoolmanDB 220
+- **TINMORRY PETG CF** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 270 gewählt, abweichend SpoolmanDB 250; nozzle_temperature_range_low: Open Filament Database 240 gewählt, abweichend SpoolmanDB 220
+- **TINMORRY PLA CF** (ofd, spoolman): _bed_min: Open Filament Database 65 gewählt, abweichend SpoolmanDB 50; nozzle_temperature_range_high: Open Filament Database 250 gewählt, abweichend SpoolmanDB 230; nozzle_temperature_range_low: Open Filament Database 220 gewählt, abweichend SpoolmanDB 190
+- **TiZYX ABS TiZYX** (cura): Düsentemperatur 235 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **Verbatim ABS** (ofd, prusa, spoolman): _bed_max: Open Filament Database 90 gewählt, abweichend SpoolmanDB 110
+- **Verbatim PETG** (ofd, prusa, spoolman): _bed_min: Open Filament Database 90 gewählt, abweichend SpoolmanDB 70
+- **Verbatim PP** (ofd, prusa, spoolman): _bed_max: Open Filament Database 80 gewählt, abweichend SpoolmanDB 100; nozzle_temperature_range_low: Open Filament Database 230 gewählt, abweichend SpoolmanDB 210; nozzle_temperature = 220 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 220 °C liegt außerhalb des Herstellerbereichs
+- **Verbatim Tefabloc TPE** (ofd, spoolman): _bed_min: Open Filament Database 60 gewählt, abweichend SpoolmanDB 30
+- **Volumic ABS MEDICAL Ultra** (cura): Düsentemperatur 235 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **Volumic ABS Ultra** (cura): Düsentemperatur 235 °C liegt außerhalb des geerbten Bereichs 240–280 °C
+- **Volumic PLA BUMPER Ultra** (cura): nozzle_temperature: Cura 230 gewählt, abweichend Cura 210
+- **Volumic PVA SUPPORT Ultra** (cura): Düsentemperatur 245 °C liegt außerhalb des geerbten Bereichs 190–240 °C
+- **Voxel PLA PLA** (ofd, spoolman): nozzle_temperature = 215 °C liegt außerhalb des Herstellerbereichs; nozzle_temperature_initial_layer = 215 °C liegt außerhalb des Herstellerbereichs
+- **Winkle Matte PLA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 210 gewählt, abweichend SpoolmanDB 230
+- **Winkle PLA UL94 V0** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 250 gewählt, abweichend SpoolmanDB 230
+- **XYZprinting PC** (cura): Düsentemperatur 250 °C liegt außerhalb des geerbten Bereichs 260–290 °C
+- **Zyltech ASA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 280 gewählt, abweichend SpoolmanDB 260
+- **Zyltech Matte ASA** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 280 gewählt, abweichend SpoolmanDB 260
+- **Zyltech PLA CF** (ofd, spoolman): nozzle_temperature_range_low: Open Filament Database 210 gewählt, abweichend SpoolmanDB 190
+- **Zyltech TPU** (ofd, spoolman): nozzle_temperature_range_high: Open Filament Database 260 gewählt, abweichend SpoolmanDB 240
+
+## Abgeleitete Werte
+
+- **123-3D 123-3D Filament PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3D Fuel Pro ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **3DE ABS Pirate Black** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **3DE PLA Premium** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **3DEA ABS** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **3DEA ASA** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **3DEA PA6-CF** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **3DEA PCTG-CF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **3DEA PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **3DEA PETG Translucent** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **3DEA PP** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DEA TPE 80A** (ofd): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DEA TPE 85A** (ofd): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DEA TPE 92A** (ofd): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DEA TPU 95A** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DEA TPU 95A CF** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DEA TPU 98A** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DHoJor PETG Basic** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **3DHoJor TPU-95A** (spoolman): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DJAKE Easy Matte PETG** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **3DJAKE easy PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **3DJAKE eco PLA** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **3DJAKE Glow PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **3DJAKE TPU A95** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **3DPower ABS** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **3DPower Basic PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **3DPower Basic PLA** (ofd): hot_plate_temp 35 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 35 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DPower HT 150 PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DPower Hyper PA6** (ofd): hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **3DPower Hyper Speed PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DPower Marble PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DPower Matte PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DPower Pastel PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DPower PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **3DXTech ABS 3DXMax** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **3DXTech ASA CF** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **3DXTech PA12** (ofd): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **3DXTech PA12 CF** (ofd): Düsentemperatur 275 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **3DXTech PA12 GF** (ofd): Düsentemperatur 275 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **3DXTech PC** (ofd): Düsentemperatur 265 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **3DXTech PETG 3DXStat ESD** (ofd): Düsentemperatur 270 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **3DXTech PP** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DXTech PP CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 235 °C)
+- **3DXTech PP GF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DXTech PPE** (ofd): Düsentemperatur 295 °C aus dem Bereich abgeleitet (Generic: 235 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **3DXTech Wearx Wear Resistant Nylon Filament PA6** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **4D-Lab PLA+ Plus** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **ACESAY TPU 95A** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Add-North ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Add-North Matte PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Add-North PETG Koltron G1** (ofd): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Add-North PLA Matte Textura** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Alzament PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Ambrosia ABS** (spoolman): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Ambrosia ABS Matte** (ofd, spoolman): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Ambrosia PHA** (ofd, spoolman): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Ambrosia TPU** (ofd, spoolman): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Ambrosia Über ABS** (ofd, spoolman): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Amolen PETG** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Amolen Temperature Color Change PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Amolen Wood PLA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Anycubic PLA Galaxy** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Anycubic Translucent PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Arianeplast PLA CF** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **ATARAXIA ART Flexible 89A PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **ATARAXIA ART PETG** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Atomic Filament PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Atomic Filament PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **AURAPOL ARMY PETG** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **AzureFilm Carbonfiber PET** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **AzureFilm Wood PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Bavaria Filaments HIPS PSflex** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Bavaria Filaments PET-G Glow in the Dark** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PET-G Transparent** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PETG LS** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PETG Neon** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PETG Repro** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PETG Seidenmatt** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PETG Standard** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Bavaria Filaments PP Olefin** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Bavaria Filaments TPU 98 Shore A** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Bavaria Filaments TPU 98 Shore A Ether** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Buddy3D ABS** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Buddy3D Matte ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Buddy3D PLA** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Buddy3D Silk PLA** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Cai Lab PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **CC3D Glow PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **CC3D PC** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **CC3D PCTG** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **CC3D PETG CF** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **CC3D Silk TPU** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **CC3D TPE** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **COEX 3D Coexflex 60A TPU** (ofd, orca): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **colorFabb Silk PLA** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Cookiecad ABS** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Cookiecad PETG** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Creality ABS** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Creality HP-TPU** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Creality Hyper PA6-CF** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Creality PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Creality Soleyin Basic PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Dancyn 3D Prints PETG HF** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Das Filament Glow PLA** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Das Filament Matte PLA** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Das Filament PLA Toms3D** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Das Filament TPU V2 Flexibel** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Devil Design ABS** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Devil Design Galaxy PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Dremel PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **EasyPrint Flex 95A TPU** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **EasyPrint PETG** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **EconoFil Glow PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **EconoFil Matte PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **EconoFil PETG** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **EconoFil PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **EconoFil PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **EconoFil Standard PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **EconoFil Standard Silk PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **ELEGOO PLA PRO** (ofd, orca): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Eolas Prints TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **EPAX 95A TPU** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **EPAX Silk PLA** (ofd): hot_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Eryone ABS+** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Eryone ABS-PC** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C); hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Eryone ASA** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Eryone ASA High-Speed** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Eryone PETG-CF** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Eryone PLA-CF** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Eryone PP** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Eryone PP-CF** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Eryone TPU 90A** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Eryone TPU High-Speed** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Eryone TPU Rainbow** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **eSUN 3D PA12 ePAHT-CF** (ofd): hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **eSUN 3D PA12-CF** (ofd): hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **eSUN 3D PA6 PA** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **eSUN 3D PET** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **eSUN 3D PETG+HS** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **eSUN 3D PLA-Wood** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **eSUN 3D Silk PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **eSUN 3D TPE-83A** (ofd): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **eSUN 3D TPU-LW** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **extrudr Glow PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **extrudr Pearl PLA** (ofd): Düsentemperatur 175 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **extrudr Wood PLA** (ofd): Düsentemperatur 180 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FDplast ABS** (orca): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Fiberlogy ABS** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Fiberlogy ABS ESD** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Fiberlogy Easy PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy HS Clear High Speed PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Fiberlogy Matt PET G Matte PETG** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy Nylon Gf15 GF PA12** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **Fiberlogy PA12 CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **Fiberlogy PET-G ESD** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy PET-G V0 PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Fiberlogy PETG CF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy PP** (ofd, prusa): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Fiberlogy R ABS** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Fiberlogy Refill ABS** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Fiberlogy Refill Easy PET-G** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy Refill PCTG** (ofd): hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Fiberlogy Refill R ABS** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Fiberon PA612-CF15** (ofd, orca): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Fiberon PA612-ESD** (ofd): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA CF** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA CF Lite** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA ESD** (ofd): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA GF** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA Ortho** (ofd): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA Pure** (ofd): Düsentemperatur 275 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA Pure Lite** (ofd): Düsentemperatur 285 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree F3 PA-GF30** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FiberThree PA12 CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **FiberThree PLA F3 GF** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FiberThree PP F3 GF 25** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 235 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FiberThree PP GF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FiberThree TPU F3 80A** (ofd): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **FiberThree TPU F3 98A** (ofd): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **FilaCube PLA** (ofd): hot_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FilaCube PLA Greenery** (ofd): hot_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 20 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Filamentive PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FilamentPM Army Edition PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FilamentPM ESD PETG** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FilamentPM Glow PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FilamentPM MarbleJet PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FilamentPM Matte PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FilamentPM PA12 CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **FilamentPM Pastel Edition PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FilamentPM PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FilamentPM Silk PETG** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FilamentPM Silk PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FilamentPM Skin Edition PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FilamentPM TPE 32 Rubberjet Flex** (ofd): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **FilamentPM TPE 88 Rubberjet Flex** (ofd): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **FilamentPM TPU 96** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Filamentree PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Filamentree PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Filkemp PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **FLASHFORGE Chameleon PETG** (ofd): hot_plate_temp 30 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 30 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FLASHFORGE D Series ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **FLASHFORGE Metallic Rapid Silk PETG** (ofd): hot_plate_temp 30 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 30 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FLASHFORGE PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **FLASHFORGE PETG CF** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **FLASHFORGE Silk PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **FormFutura ABS ReForm - rTitan** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **FormFutura ASA ApolloX Foaming** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura ASA ApolloX Kevlar** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura ASA ReForm – rApollo** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura Bulk PETG** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura BVOH** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FormFutura EasyFil ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **FormFutura EasyFil ABS - Glow in the Dark** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **FormFutura Galaxy PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FormFutura High Precision PET** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura Kratos PC** (ofd): Düsentemperatur 295 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **FormFutura LUVOCOM 3F PAHT 9825** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura LUVOCOM 3F PAHT 9936** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura LUVOCOM 3F PAHT CF 9742** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura LUVOCOM 3F PAHT CF 9891** (ofd): Düsentemperatur 265 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura LUVOCOM 3F PAHT KK 50056 FR** (ofd): Düsentemperatur 285 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **FormFutura PCL BioFil - PCL** (ofd): Düsentemperatur 115 °C aus dem Bereich abgeleitet (Generic: 280 °C); hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura PCL BioFil - Wood** (ofd): Düsentemperatur 190 °C aus dem Bereich abgeleitet (Generic: 280 °C); hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **FormFutura PCTG AthenaX** (ofd): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura PCTG AthenaX CF10** (ofd): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura PCTG AthenaX GF10** (ofd): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura PET** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **FormFutura PETG CarbonFil** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura PETG CarbonFil CF03** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura PETG Hdglass** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura PETG ReForm - rPET** (spoolman): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **FormFutura PP CF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **FormFutura Premium ABS Medical** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **FormFutura Premium PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FormFutura PVA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **FormFutura ReFill PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **FormFutura ReForm r PLA** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Francofil 88A TPE** (ofd): hot_plate_temp 15 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 15 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Francofil 95A TPU** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Francofil PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Geeetech PETG** (ofd, spoolman): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Geeetech PLA Marble** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Geeetech TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Geeetech Upgrade ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **gembird ABS** (spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Gizmo Dorks Glow ABS** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Gizmo Dorks Low Odor ABS** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Gizmo Dorks PETG** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Gizmo Dorks PVA** (ofd): Düsentemperatur 175 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Gizmo Dorks TPU** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Hatchbox Glow ABS** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Hatchbox PLA Max** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Hatchbox TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **iBOSS 3D PETG Light Gray** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **IC3D Matte PLA** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **IC3D PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **IC3D PETG CF** (ofd): Düsentemperatur 270 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **IC3D Recycled Matte PETG** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **IEMAI ABS** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **IEMAI CF-PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **IEMAI ESD-ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **IEMAI TPU** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Inland ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Inland Glow ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Inland PETG+** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Inland PLA Chameleon** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Inland Pla Silk Rainbow** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Inland PLA+** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Inslogic ABS FR V0** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Inslogic PA6-GF25** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Inslogic PETG CF10** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Inslogic PP** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 235 °C)
+- **Inslogic TPU 95A** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **JAYO Jayo ABS Red** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **JAYO Matte PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **JAYO Silk PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **JAYO TPU** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Kimya PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Kingroon High Speed PETG** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Kingroon PETG** (ofd, spoolman): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Kingroon PETG CF** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Kingroon PLA Basic** (ofd, spoolman): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Kingroon TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **KiwiFil PETG** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **KiwiFil PETG Rainbow "Dark Green Ocean"** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **KiwiFil PETG Rainbow "Dark Purple Galaxy"** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Matter3D Inc Glitter Silk PLA** (ofd, spoolman): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Matter3D Inc Matte PETG** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Matter3D Inc Matte PLA** (ofd, spoolman): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Matter3D Inc Performance PLA** (ofd, spoolman): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Matter3D Inc PETG** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Matter3D Inc PETG CF** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Matter3D Inc PLA** (ofd, spoolman): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **MatterHackers ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **MatterHackers CPE** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **MatterHackers PA12 CF** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **MatterHackers PA12 GF** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **MatterHackers PA6** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **MatterHackers PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **MatterHackers TPU** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Mosaic ABS** (ofd): Düsentemperatur 275 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Mosaic ASA** (ofd): Düsentemperatur 265 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **Mosaic PLA** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Nebula ABS Art Glowing** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Nebula ABS Art Marble Gray** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Nebula ABS Art Thermo** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Nebula ABS Tech 702** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Nebula HIPS Tech 404** (ofd): hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Nebula PETG Art Chameleon** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Nebula PETG Premium** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **NinjaTek Chinchilla TPU** (ofd): Düsentemperatur 230 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **NinjaTek TPU** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Nobufil Glow PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Nobufil PCTG** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Nobufil PCTG CF** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Nobufil X CF CF ASA** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **Numakers ABS** (spoolman): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Numakers PETG** (spoolman): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Numakers PETG HS** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Numakers PLA+ CF** (spoolman): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Overture ABS** (ofd, spoolman): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Overture Easy Nylon** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Overture Glow ABS** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Overture PC Professional** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **OWL Filament PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **OWL Filament PLA** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Panchroma PET CoPE** (ofd, orca): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Paramount 3D Matte PLA** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Paramount 3D PA6 CF** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **Paramount 3D PLA Flex** (ofd): hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Paramount 3D PVA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Patron EG Marble PLA** (ofd, spoolman): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Patron EG Matte PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Patron EG PETG HS** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Patron EG PLA+** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Polar Filament Biodegradable Pha** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 0 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Polar Filament PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Polar Filament TPU** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **PolyFlex TPU90** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **PolyFlex TPU95-HF** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **PolyLite ABS** (ofd, orca): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PolyLite LW-PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **PolyLite PC** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **Polymaker ABS** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Polymaker ASA** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Polymaker Fiberon™ PA12-CF10** (spoolman): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Polymaker Fiberon™ PA6-CF20** (spoolman): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Polymaker Fiberon™ PA6-GF25** (spoolman): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Polymaker LW PolyLite PLA** (ofd, spoolman): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Polymaker Metallic Polylite Silk ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Polymaker PA12 CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **Polymaker PC-ABS** (ofd, spoolman): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **Polymaker PET CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Polymaker PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Polymaker Polylite PC** (ofd, spoolman): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **Polymaker PolyMax PC-FR** (ofd, spoolman): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **Polymaker Polymide Copa PA6** (ofd, spoolman): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Polymaker PVA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Polymaker PVA PolySupport for PA12** (ofd): Düsentemperatur 285 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Polymaker Silk ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Polymaker TPU PolyFlex™ TPU90** (spoolman): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Polymaker TPU PolyFlex™ TPU95-HF** (spoolman): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **PolyMide PA6 CoPa** (ofd): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **PrimaCreator ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PrimaCreator Easyprint PETG** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **PrimaCreator Glow ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PrimaCreator Nylonpower Glass Primaselect GF PA12** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **PrimaCreator PA12 CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **PrimaCreator PA12 GF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **PrimaCreator PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **PrimaCreator Primaselect ABS** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PrimaCreator Primaselect Glow ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PrimaCreator Primaselect PA12 CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **PrimaCreator Primaselect PC** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **PrimaCreator Primaselect PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **PrimaCreator Primaselect PVA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **PrimaCreator Primavalue PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **PrimaCreator PVA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **PrimaSelect ABS** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PrimaSelect Solid PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Print With Smile ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Print With Smile Bicolor Metallic PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Print With Smile PA12 CF** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **Print With Smile PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Print With Smile PLA CF** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Print With Smile RE PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Print With Smile Silk PLA** (ofd): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **PrintedSolid ABS CF** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **PrintedSolid PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **PrintedSolid PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Protopasta Conductive PLA** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Protopasta High Speed PLA** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Protopasta Iron Metal Composite PLA** (ofd, spoolman): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Protopasta Metal Composite PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Protopasta PETG** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Protopasta PLA Composite** (spoolman): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Protopasta Silk PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Protopasta Stainless Steel Metal Composite PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Protopasta Steel Metal Composite PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Protopasta TPE Flexible** (spoolman): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Protopasta TPE Rigid** (spoolman): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Prusament Mystic Premium PLA** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Prusament PETG Magnetite** (ofd): Düsentemperatur 270 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Prusament PLA rPLA** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Prusament PLA Woodfill** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Prusament PP-CF** (ofd): Düsentemperatur 270 °C aus dem Bereich abgeleitet (Generic: 235 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Prusament PP-GF** (ofd): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Push Plastic ASA** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 260 °C)
+- **Push Plastic High Heat PLA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Push Plastic Matte ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Push Plastic PC CF** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **Push Plastic PC PBT** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **Push Plastic PCTG** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Push Plastic PETG** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Push Plastic PETG CF** (ofd): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Push Plastic TPU** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **QIDI Tech ABS Metal Rapido** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **QIDI Tech PA12 S-White Support** (ofd, spoolman): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **QIDI Tech PA12-CF** (ofd, spoolman): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **QIDI Tech PAHT-CF** (ofd, spoolman): Düsentemperatur 300 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **QIDI Tech PAHT-GF** (ofd, spoolman): Düsentemperatur 300 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **QIDI Tech PC/ABS-FR** (ofd, spoolman): hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **QIDI Tech PET-CF** (ofd, spoolman): Düsentemperatur 285 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **QIDI Tech PET-GF** (ofd, spoolman): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **QIDI Tech PLA Metal Rapido** (ofd, spoolman): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **QIDI Tech PLA Silk Rapido** (ofd, spoolman): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **QIDI Tech PPA-CF25 UltraPA** (spoolman): Düsentemperatur 300 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **QIDI Tech TPU 95A HF** (ofd, spoolman): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Recreus Conductive Filaflex TPU** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Recreus PET G Hf High Speed PETG** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Recreus PETG CF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Recreus PP 3D** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 235 °C); hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Recreus PP GF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Recreus Sebs Filaflex TPE** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Recreus TPU FilaFlex 60A** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Recreus TPU FilaFlex 95 Foamy** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Recreus TPU FilaFlex 95A Medium Flex** (ofd): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **RecyclingFabrik PETG** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **REDLINE FILAMENT ASA-X** (spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **REDLINE FILAMENT PLA** (spoolman): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **ROSA3D Filaments Impact Abrasive Uv H2O Microbe Resistant ROSA TPU HardTech+ 83D** (ofd): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **ROSA3D Filaments Pet G Structure Hs PETG** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **ROSA3D Filaments PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **ROSA3D Filaments PETG CF** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **ROSA3D Filaments PVA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **ROSA3D Filaments Rosa Tpu Automotive 15 Glass Fiber** (ofd): hot_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 75 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart ABS** (ofd): Düsentemperatur 225 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **SainSmart Flexible 87A TPU** (ofd): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart Flexible 95A Matte TPU** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **SainSmart Flexible Tpu** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart Glossy Gt 3 Silk High Speed PETG** (ofd): Düsentemperatur 260 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **SainSmart Glow PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SainSmart Neon Cyberpunk Color TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart PA12 CF** (ofd): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **SainSmart Pastel 92A Flexible TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SainSmart PVA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **SainSmart Silk PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SainSmart Small Spool Flexible TPU** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart Temperature Sensitive Flexible 95A TPU** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart TPU Liquid Luster** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart TPU Luminous Glow In The Dark** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SainSmart TPU Mango Mojito** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Sakata 3D HIPS** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Sakata 3D PETG** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Sakata 3D PLA 700** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Siddament PCTG V2** (ofd): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Siddament PETG HF V2** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Siddament PETG HS Metallic** (spoolman): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Siddament PLA+ V2** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Siddament TPU 64D V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siddament TPU 70D V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siddament TPU 75D V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siddament TPU 85A V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siddament TPU 90A V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siddament TPU 95A HF V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siddament TPU 98A V2** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siraya Tech Fibreheart PET-CF** (ofd): Düsentemperatur 290 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Siraya Tech Fibreheart PET-GF** (ofd): Düsentemperatur 300 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Siraya Tech Fibreheart PPA-CF** (ofd): Düsentemperatur 300 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Siraya Tech Fibreheart PPA-CF Core** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Siraya Tech Fibreheart TPU-GF** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siraya Tech Flex TPU 64D** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siraya Tech Flex TPU 85A** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Siraya Tech Rebound PEBA 85A** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siraya Tech Rebound PEBA 95A** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Siraya Tech Rebound PEBA Air 95A** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SMART MATERIALS 3D ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **SMART MATERIALS 3D Matte PP CF** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **SMART MATERIALS 3D PET** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SMART MATERIALS 3D PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SMART MATERIALS 3D PP** (ofd): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **SMART MATERIALS 3D PP GF** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 235 °C)
+- **SMART MATERIALS 3D PVA** (ofd): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **SMART MATERIALS 3D TPU CF** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SMART MATERIALS 3D Wood PLA** (ofd): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Snapmaker Basic PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Snapmaker TPU** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **SOVB 3D Fil ABS** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **SOVB 3D Fil PLA** (ofd): Düsentemperatur 190 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **SOVB 3D Glow ABS** (ofd): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Spectrum ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Spectrum ABS FR V0** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Spectrum ABS GP450** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Spectrum ABS Kevlar** (ofd): hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Spectrum ABS Medical** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Spectrum ASA 275** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum Glow PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum High Speed PLA** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Spectrum Huracan PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum LW-PLA UltraFoam** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PA12 CF15** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum PA6 CS20 FR V0** (ofd): Düsentemperatur 280 °C aus dem Bereich abgeleitet (Generic: 260 °C); hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum PA6 GK10** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum PA6 Low Warp CF15S** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum PA6 Low Warp GF30** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum PA6 Neat BK** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum Pa6 Neat Nt** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum Pastello PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Spectrum PCTG CF10** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Spectrum PCTG GF10** (ofd): hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Spectrum PET G Matt Matte PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum PET-G FR V0 PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum PET-G Glitter PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum PET-G Premium PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Spectrum PETG FX120** (ofd): hot_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 80 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Spectrum PETG Premium High Speed** (ofd): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Spectrum PLA AquaPrint** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Spectrum PLA Crystal** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Electrically Conductive** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Glitter** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Glow in the Dark** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA GreenyHT** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA GreenyPro** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA MATT** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Metal** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Nature** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Premium** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Premium HighSpeed** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Thermoactive** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA Tough** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum PLA WOOD** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum R PLA** (ofd): Düsentemperatur 205 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum SafeGuard PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum smart ABS** (ofd): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C); hot_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 100 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **Spectrum Stone Age PLA** (ofd): hot_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 25 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Spectrum ThermaTech PA** (ofd): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **Spectrum TPU S-Flex 85A** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Spectrum TPU S-Flex 90A** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Spectrum TPU S-Flex 98A** (ofd): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Spectrum TPU S-Flex Carbon** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SUNLU ABS-FR** (ofd, spoolman): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **SUNLU High Speed Matte PETG** (ofd, spoolman): Düsentemperatur 250 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **SUNLU Matte PETG CF** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SUNLU PA12-CF** (ofd, spoolman): Düsentemperatur 270 °C aus dem Bereich abgeleitet (Generic: 290 °C); hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **SUNLU PA6 Easy PA** (ofd, spoolman): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **SUNLU PA6-GF** (ofd, spoolman): hot_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C); textured_plate_temp 65 °C aus dem Bettbereich abgeleitet (Generic: 100 °C)
+- **SUNLU PCL** (ofd): Düsentemperatur 80 °C aus dem Bereich abgeleitet (Generic: 280 °C)
+- **SUNLU PETG Carbon Fiber** (ofd, spoolman): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **SUNLU PLA Lightweight** (spoolman): Düsentemperatur 190 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **SUNLU PP** (ofd): Düsentemperatur 220 °C aus dem Bereich abgeleitet (Generic: 235 °C)
+- **SUNLU TPU Silk** (ofd, spoolman): hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **SUNLU TPU95A** (ofd): Düsentemperatur 210 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 55 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **TECBEARS Glow PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **TECBEARS PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Tectonic 3D Aura ABS** (ofd, spoolman): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Tectonic 3D Aura PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Tectonic 3D PA11 CF** (ofd, spoolman): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **Tectonic 3D PET CF** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Tectonic 3D PP CF** (ofd, spoolman): hot_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 90 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Tectonic 3D PVA** (ofd, spoolman): Düsentemperatur 195 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Tectonic 3D Zephyr CF MC CF PA11** (ofd, spoolman): Düsentemperatur 255 °C aus dem Bereich abgeleitet (Generic: 290 °C)
+- **TEQStone PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **TEQStone TPU 95A** (ofd, spoolman): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C); hot_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 50 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **The Filament HT-PLA** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **The Filament PETG Lite** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **The Filament PLA** (ofd): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C); hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **The Filament PLA CF** (ofd): hot_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 40 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **The Filament PLA Lite** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **The Filament PLA Matte** (ofd): hot_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 45 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **The Filament TPU-82A** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **The Filament TPU-87A** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **The Filament TPU-95A** (ofd): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **TINMORRY ABS Pro** (ofd, spoolman): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 90 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 90 °C)
+- **TINMORRY Galaxy PETG** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY Glow PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY Marble PETG** (ofd, spoolman): Düsentemperatur 240 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY Matte PET CF** (ofd, spoolman): Düsentemperatur 275 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY Matte PLA** (ofd, spoolman): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **TINMORRY Matte PP CF** (ofd, spoolman): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **TINMORRY Metallic PETG** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY PET GF** (ofd, spoolman): Düsentemperatur 275 °C aus dem Bereich abgeleitet (Generic: 255 °C); hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY PETG** (ofd): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **TINMORRY PETG CF** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **TINMORRY PLA CF** (ofd, spoolman): hot_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 70 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **TINMORRY Rapid-Eco PETG** (ofd, spoolman): hot_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C); textured_plate_temp 85 °C aus dem Bettbereich abgeleitet (Generic: 70 °C)
+- **Verbatim BVOH** (ofd, spoolman): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **Verbatim Tefabloc TPE** (ofd, spoolman): hot_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C); textured_plate_temp 60 °C aus dem Bettbereich abgeleitet (Generic: 35 °C)
+- **Winkle ABS** (ofd, spoolman): Düsentemperatur 245 °C aus dem Bereich abgeleitet (Generic: 270 °C)
+- **Winkle Matte PLA** (ofd, spoolman): Düsentemperatur 200 °C aus dem Bereich abgeleitet (Generic: 220 °C)
+- **Winkle PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **Winkle PP** (ofd, spoolman): hot_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 55 °C); textured_plate_temp 95 °C aus dem Bettbereich abgeleitet (Generic: 55 °C)
+- **XZN PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+- **XZN TPU 95A** (ofd, spoolman): Düsentemperatur 215 °C aus dem Bereich abgeleitet (Generic: 240 °C)
+- **Zyltech PETG** (ofd, spoolman): Düsentemperatur 235 °C aus dem Bereich abgeleitet (Generic: 255 °C)
+
+## Nicht zugeordnet
+
+- cura: BASF Ultrafuse 316L (Material „Ultrafuse 316L“)
+- cura: DSM Arnitel2045 (Material „TPC“)
+- cura: Eazao Clay (Material „Clay“)
+- cura: eMotionTech Acetate (Material „Acetate“)
+- cura: Extrudr Antracite GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Extrudr Black GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Extrudr Blue GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Extrudr Nature GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Extrudr Red GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Extrudr Silver GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Extrudr White GreenTEC Pro (Material „GreenTEC Pro“)
+- cura: Innofill Innoflex 60 (Material „Innoflex 60“)
+- cura: Leapfrog EPLA (Material „EPLA“)
+- cura: Volumic BRONZE80 Ultra (Material „Metal“)
+- cura: Volumic CUIVRE80 Ultra (Material „Metal“)
+- cura: XYZprinting Carbon Fiber (Material „Carbon Fiber“)
+- ofd: 3DEA PMMA (Material „PMMA“)
+- ofd: 3DEA POM (Material „POM“)
+- ofd: 3DXTech TPI (Material „TPI“)
+- ofd: FilamentPM Vinyl 303 Pvc (Material „PVC“)
+- ofd: FormFutura Flexifil Tpc (Material „TPC“)
+- ofd: Gizmo Dorks Acetal POM (Material „POM“)
+- ofd: Push Plastic PMMA (Material „PMMA“)
+- ofd: Tectonic 3D Anasa Tpc (Material „TPC“)
+- ofd: Tectonic 3D TPI (Material „TPI“)
+- ofd: Tectonic 3D Vulcan Pi TPI (Material „TPI“)
+- orca: FDplast SBS (Material „SBS“)
+- prusa: BASF Ultrafuse Metal (Material „METAL“)
+- prusa: ColorFabb nGen (Material „NGEN“)
+- prusa: E3D Edge (Material „EDGE“)
+- spoolman: AzureFilm Carbon Fiber (Material „CF“)
+- spoolman: Extrudr BIOFUSION (Material „BIOFUSION“)
+- spoolman: Extrudr FLAX (Material „FLAX“)
+- spoolman: Extrudr GREENTEC (Material „GREENTEC“)
+- spoolman: Extrudr Pro (Material „GREENTEC“)
+- spoolman: Extrudr Pro (Material „GREENTEC-CF“)
+- spoolman: Extrudr WOOD (Material „WOOD“)
+- spoolman: Fusion EASYASA (Material „EASYASA“)
+- spoolman: Fusion HTPET+ (Material „HTPET+“)
+- spoolman: Fusion HTPLA+ (Material „HTPLA+“)
+- spoolman: Prusament (NFC) (Material „WOOD“)
+- spoolman: Sunlu WOOD (Material „WOOD“)
+- spoolman: Tectonic 3D Anasa (Material „TPC“)
+- spoolman: Tectonic 3D Vulcan Pi (Material „TPI“)

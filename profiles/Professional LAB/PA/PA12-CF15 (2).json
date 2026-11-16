@@ -1,0 +1,19 @@
+{
+    "name": "Professional LAB PA12-CF15 (2) @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Professional LAB PA12-CF15. Basis Generic PA-CF. Werte aus: SpoolmanDB.",
+    "filament_settings_id": [
+        "Professional LAB PA12-CF15 (2) @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Professional LAB"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.22"
+    ]
+}

@@ -1,0 +1,61 @@
+{
+    "name": "ELEGOO PLA Basic @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: ELEGOO PLA Basic. Basis Generic PLA. Werte aus: OrcaSlicer, Open Filament Database.",
+    "filament_settings_id": [
+        "ELEGOO PLA Basic @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "ELEGOO"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "additional_cooling_fan_speed": [
+        "0"
+    ],
+    "fan_cooling_layer_time": [
+        "80"
+    ],
+    "fan_min_speed": [
+        "50"
+    ],
+    "filament_density": [
+        "1.24"
+    ],
+    "filament_max_volumetric_speed": [
+        "21"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature": [
+        "220"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "220"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "190"
+    ],
+    "slow_down_layer_time": [
+        "4"
+    ],
+    "slow_down_min_speed": [
+        "20"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}

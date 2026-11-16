@@ -1,0 +1,49 @@
+{
+    "name": "Spectrum ABS GP450 @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ABS",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Spectrum ABS GP450. Basis Generic ABS. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Spectrum ABS GP450 @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Spectrum"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "25"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.04"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "245"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "245"
+    ],
+    "nozzle_temperature_range_high": [
+        "255"
+    ],
+    "nozzle_temperature_range_low": [
+        "235"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

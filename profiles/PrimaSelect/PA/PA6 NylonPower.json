@@ -1,0 +1,19 @@
+{
+    "name": "PrimaSelect PA6 NylonPower @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: PrimaSelect PA6 NylonPower. Basis Generic PA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "PrimaSelect PA6 NylonPower @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "PrimaSelect"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1"
+    ]
+}

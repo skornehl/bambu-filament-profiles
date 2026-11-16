@@ -1,0 +1,25 @@
+{
+    "name": "Prusament PC @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PC @BBL P1S",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Prusament PC. Basis Generic PC @BBL P1S. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Prusament PC @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Prusament"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.22"
+    ],
+    "nozzle_temperature_range_high": [
+        "285"
+    ],
+    "nozzle_temperature_range_low": [
+        "265"
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "name": "CR3D ABS FibCR20 @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ABS",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: CR3D ABS FibCR20. Basis Generic ABS. Werte aus: SpoolmanDB.",
+    "filament_settings_id": [
+        "CR3D ABS FibCR20 @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "CR3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.18"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "270"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "270"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

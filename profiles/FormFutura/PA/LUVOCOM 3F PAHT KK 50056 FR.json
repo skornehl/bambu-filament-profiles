@@ -1,0 +1,31 @@
+{
+    "name": "FormFutura LUVOCOM 3F PAHT KK 50056 FR @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FormFutura LUVOCOM 3F PAHT KK 50056 FR. Basis Generic PA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "FormFutura LUVOCOM 3F PAHT KK 50056 FR @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FormFutura"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.49"
+    ],
+    "nozzle_temperature": [
+        "285"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "285"
+    ],
+    "nozzle_temperature_range_high": [
+        "300"
+    ],
+    "nozzle_temperature_range_low": [
+        "270"
+    ]
+}

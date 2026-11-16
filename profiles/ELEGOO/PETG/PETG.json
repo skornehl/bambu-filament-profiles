@@ -1,0 +1,76 @@
+{
+    "name": "ELEGOO PETG @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: ELEGOO PETG. Basis Generic PETG. Werte aus: OrcaSlicer, Open Filament Database.",
+    "filament_settings_id": [
+        "ELEGOO PETG @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "ELEGOO"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "cool_plate_temp": [
+        "0"
+    ],
+    "cool_plate_temp_initial_layer": [
+        "0"
+    ],
+    "eng_plate_temp": [
+        "70"
+    ],
+    "eng_plate_temp_initial_layer": [
+        "70"
+    ],
+    "fan_cooling_layer_time": [
+        "30"
+    ],
+    "fan_max_speed": [
+        "40"
+    ],
+    "fan_min_speed": [
+        "10"
+    ],
+    "filament_density": [
+        "1.29"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "filament_max_volumetric_speed": [
+        "11"
+    ],
+    "hot_plate_temp": [
+        "70"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "70"
+    ],
+    "nozzle_temperature": [
+        "250"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "250"
+    ],
+    "nozzle_temperature_range_high": [
+        "250"
+    ],
+    "nozzle_temperature_range_low": [
+        "220"
+    ],
+    "overhang_fan_speed": [
+        "90"
+    ],
+    "slow_down_layer_time": [
+        "12"
+    ],
+    "textured_plate_temp": [
+        "70"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "70"
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "name": "Polymaker PolyMax™ PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Polymaker PolyMax™ PLA. Basis Generic PLA. Werte aus: Open Filament Database, Cura.",
+    "filament_settings_id": [
+        "Polymaker PolyMax™ PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Polymaker"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.21"
+    ],
+    "nozzle_temperature": [
+        "210"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "210"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "190"
+    ]
+}

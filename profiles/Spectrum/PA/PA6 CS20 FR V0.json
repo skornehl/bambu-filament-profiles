@@ -1,0 +1,49 @@
+{
+    "name": "Spectrum PA6 CS20 FR V0 @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Spectrum PA6 CS20 FR V0. Basis Generic PA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Spectrum PA6 CS20 FR V0 @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Spectrum"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "10"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.49"
+    ],
+    "hot_plate_temp": [
+        "80"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "80"
+    ],
+    "nozzle_temperature": [
+        "280"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "280"
+    ],
+    "nozzle_temperature_range_high": [
+        "290"
+    ],
+    "nozzle_temperature_range_low": [
+        "265"
+    ],
+    "textured_plate_temp": [
+        "80"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "80"
+    ]
+}

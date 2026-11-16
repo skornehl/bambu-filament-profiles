@@ -1,0 +1,37 @@
+{
+    "name": "Polymaker Polylite PC @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PC @BBL P1S",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Polymaker Polylite PC. Basis Generic PC @BBL P1S. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Polymaker Polylite PC @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Polymaker"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "0"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.19"
+    ],
+    "nozzle_temperature": [
+        "260"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "nozzle_temperature_range_high": [
+        "270"
+    ],
+    "nozzle_temperature_range_low": [
+        "250"
+    ]
+}

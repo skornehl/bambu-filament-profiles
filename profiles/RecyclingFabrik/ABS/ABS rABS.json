@@ -1,0 +1,58 @@
+{
+    "name": "RecyclingFabrik ABS rABS @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ABS",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: RecyclingFabrik ABS rABS. Basis Generic ABS. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "RecyclingFabrik ABS rABS @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "RecyclingFabrik"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "close_fan_the_first_x_layers": [
+        "5"
+    ],
+    "fan_max_speed": [
+        "80"
+    ],
+    "fan_min_speed": [
+        "10"
+    ],
+    "filament_density": [
+        "1.04"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ],
+    "filament_max_volumetric_speed": [
+        "15"
+    ],
+    "hot_plate_temp": [
+        "90"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "90"
+    ],
+    "nozzle_temperature": [
+        "260"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "240"
+    ],
+    "textured_plate_temp": [
+        "90"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "90"
+    ]
+}

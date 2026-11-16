@@ -1,0 +1,25 @@
+{
+    "name": "3DXTech Max G PCTG @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PCTG @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: 3DXTech Max G PCTG. Basis Generic PCTG @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "3DXTech Max G PCTG @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "3DXTech"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.23"
+    ],
+    "nozzle_temperature_range_high": [
+        "270"
+    ],
+    "nozzle_temperature_range_low": [
+        "250"
+    ]
+}

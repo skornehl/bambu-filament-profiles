@@ -1,0 +1,31 @@
+{
+    "name": "Kingroon PETG CF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG-CF @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Kingroon PETG CF. Basis Generic PETG-CF @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Kingroon PETG CF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Kingroon"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.25"
+    ],
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "240"
+    ],
+    "nozzle_temperature_range_high": [
+        "250"
+    ],
+    "nozzle_temperature_range_low": [
+        "230"
+    ]
+}

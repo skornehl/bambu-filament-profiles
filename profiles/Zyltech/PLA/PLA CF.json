@@ -1,0 +1,25 @@
+{
+    "name": "Zyltech PLA CF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Zyltech PLA CF. Basis Generic PLA-CF. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Zyltech PLA CF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Zyltech"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.24"
+    ],
+    "nozzle_temperature_range_high": [
+        "240"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ]
+}

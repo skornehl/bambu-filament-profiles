@@ -1,0 +1,25 @@
+{
+    "name": "eMotionTech PVA-M @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PVA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: eMotionTech PVA-M. Basis Generic PVA. Werte aus: Cura.",
+    "filament_settings_id": [
+        "eMotionTech PVA-M @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "eMotionTech"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.22"
+    ],
+    "nozzle_temperature": [
+        "215"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "215"
+    ]
+}

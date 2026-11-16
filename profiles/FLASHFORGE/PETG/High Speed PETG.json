@@ -1,0 +1,25 @@
+{
+    "name": "FLASHFORGE High Speed PETG @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG HF @BBL P1S 0.4 nozzle",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FLASHFORGE High Speed PETG. Basis Generic PETG HF @BBL P1S 0.4 nozzle. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "FLASHFORGE High Speed PETG @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FLASHFORGE"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.27"
+    ],
+    "nozzle_temperature_range_high": [
+        "250"
+    ],
+    "nozzle_temperature_range_low": [
+        "220"
+    ]
+}

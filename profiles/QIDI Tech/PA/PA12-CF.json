@@ -1,0 +1,37 @@
+{
+    "name": "QIDI Tech PA12-CF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: QIDI Tech PA12-CF. Basis Generic PA-CF. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "QIDI Tech PA12-CF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "QIDI Tech"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.09"
+    ],
+    "hot_plate_temp": [
+        "55"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "55"
+    ],
+    "nozzle_temperature_range_high": [
+        "300"
+    ],
+    "nozzle_temperature_range_low": [
+        "280"
+    ],
+    "textured_plate_temp": [
+        "55"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "55"
+    ]
+}

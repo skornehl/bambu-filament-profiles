@@ -1,0 +1,31 @@
+{
+    "name": "BETA HIPS @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic HIPS @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: BETA HIPS. Basis Generic HIPS @BBL X1C. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "BETA HIPS @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "BETA"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_flow_ratio": [
+        "1"
+    ],
+    "filament_max_volumetric_speed": [
+        "8"
+    ],
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "240"
+    ],
+    "slow_down_min_speed": [
+        "20"
+    ]
+}

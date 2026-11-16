@@ -1,0 +1,43 @@
+{
+    "name": "FiberThree F3 PA GF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FiberThree F3 PA GF. Basis Generic PA-CF. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "FiberThree F3 PA GF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FiberThree"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.27"
+    ],
+    "hot_plate_temp": [
+        "40"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "40"
+    ],
+    "nozzle_temperature": [
+        "280"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "280"
+    ],
+    "nozzle_temperature_range_high": [
+        "285"
+    ],
+    "nozzle_temperature_range_low": [
+        "270"
+    ],
+    "textured_plate_temp": [
+        "40"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "40"
+    ]
+}

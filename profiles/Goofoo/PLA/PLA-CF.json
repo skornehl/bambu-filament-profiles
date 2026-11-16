@@ -1,0 +1,34 @@
+{
+    "name": "Goofoo PLA-CF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Goofoo PLA-CF. Basis Generic PLA-CF. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "Goofoo PLA-CF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Goofoo"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "filament_max_volumetric_speed": [
+        "12"
+    ],
+    "hot_plate_temp": [
+        "40"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "40"
+    ],
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "240"
+    ]
+}

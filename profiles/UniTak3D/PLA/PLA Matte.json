@@ -1,0 +1,25 @@
+{
+    "name": "UniTak3D PLA Matte @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: UniTak3D PLA Matte. Basis Generic PLA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "UniTak3D PLA Matte @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "UniTak3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.26"
+    ],
+    "nozzle_temperature_range_high": [
+        "220"
+    ],
+    "nozzle_temperature_range_low": [
+        "190"
+    ]
+}

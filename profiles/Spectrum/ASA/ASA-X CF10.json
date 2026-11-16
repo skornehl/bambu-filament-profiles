@@ -1,0 +1,31 @@
+{
+    "name": "Spectrum ASA-X CF10 @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ASA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Spectrum ASA-X CF10. Basis Generic ASA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Spectrum ASA-X CF10 @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Spectrum"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "20"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.1"
+    ],
+    "nozzle_temperature_range_high": [
+        "260"
+    ],
+    "nozzle_temperature_range_low": [
+        "235"
+    ]
+}

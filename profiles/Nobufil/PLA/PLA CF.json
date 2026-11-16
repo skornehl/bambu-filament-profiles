@@ -1,0 +1,43 @@
+{
+    "name": "Nobufil PLA CF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Nobufil PLA CF. Basis Generic PLA-CF. Werte aus: Open Filament Database, SpoolmanDB.",
+    "filament_settings_id": [
+        "Nobufil PLA CF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Nobufil"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.19"
+    ],
+    "hot_plate_temp": [
+        "65"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "65"
+    ],
+    "nozzle_temperature": [
+        "225"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "225"
+    ],
+    "nozzle_temperature_range_high": [
+        "235"
+    ],
+    "nozzle_temperature_range_low": [
+        "215"
+    ],
+    "textured_plate_temp": [
+        "65"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "65"
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "name": "Overture Super PLA+ @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Overture Super PLA+. Basis Generic PLA. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "Overture Super PLA+ @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Overture"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "fan_min_speed": [
+        "100"
+    ],
+    "filament_density": [
+        "1.21"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "filament_max_volumetric_speed": [
+        "16"
+    ],
+    "nozzle_temperature": [
+        "220"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "220"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "190"
+    ],
+    "slow_down_layer_time": [
+        "21"
+    ],
+    "temperature_vitrification": [
+        "63"
+    ]
+}

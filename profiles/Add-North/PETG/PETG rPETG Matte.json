@@ -1,0 +1,94 @@
+{
+    "name": "Add-North PETG rPETG Matte @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Add-North PETG rPETG Matte. Basis Generic PETG. Werte aus: OrcaSlicer, Open Filament Database, SpoolmanDB.",
+    "filament_settings_id": [
+        "Add-North PETG rPETG Matte @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Add-North"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "additional_cooling_fan_speed": [
+        "0"
+    ],
+    "close_fan_the_first_x_layers": [
+        "3"
+    ],
+    "cool_plate_temp": [
+        "0"
+    ],
+    "cool_plate_temp_initial_layer": [
+        "0"
+    ],
+    "eng_plate_temp": [
+        "70"
+    ],
+    "eng_plate_temp_initial_layer": [
+        "70"
+    ],
+    "fan_cooling_layer_time": [
+        "30"
+    ],
+    "fan_max_speed": [
+        "90"
+    ],
+    "fan_min_speed": [
+        "40"
+    ],
+    "filament_density": [
+        "1.25"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ],
+    "filament_max_volumetric_speed": [
+        "10"
+    ],
+    "hot_plate_temp": [
+        "80"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "80"
+    ],
+    "nozzle_temperature": [
+        "260"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "255"
+    ],
+    "nozzle_temperature_range_high": [
+        "265"
+    ],
+    "nozzle_temperature_range_low": [
+        "240"
+    ],
+    "overhang_fan_speed": [
+        "90"
+    ],
+    "slow_down_layer_time": [
+        "8"
+    ],
+    "slow_down_min_speed": [
+        "20"
+    ],
+    "supertack_plate_temp": [
+        "70"
+    ],
+    "supertack_plate_temp_initial_layer": [
+        "70"
+    ],
+    "temperature_vitrification": [
+        "50"
+    ],
+    "textured_plate_temp": [
+        "75"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "75"
+    ]
+}

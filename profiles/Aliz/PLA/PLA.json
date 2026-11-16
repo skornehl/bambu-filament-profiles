@@ -1,0 +1,37 @@
+{
+    "name": "Aliz PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Aliz PLA. Basis Generic PLA. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "Aliz PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Aliz"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_cooling_layer_time": [
+        "100"
+    ],
+    "filament_density": [
+        "1.27"
+    ],
+    "hot_plate_temp": [
+        "55"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "55"
+    ],
+    "slow_down_layer_time": [
+        "4"
+    ],
+    "textured_plate_temp": [
+        "55"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "55"
+    ]
+}

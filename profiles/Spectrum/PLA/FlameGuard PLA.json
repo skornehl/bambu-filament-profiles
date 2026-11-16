@@ -1,0 +1,28 @@
+{
+    "name": "Spectrum FlameGuard PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Spectrum FlameGuard PLA. Basis Generic PLA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Spectrum FlameGuard PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Spectrum"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "filament_density": [
+        "1.26"
+    ],
+    "nozzle_temperature_range_high": [
+        "240"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ]
+}

@@ -1,0 +1,94 @@
+{
+    "name": "Add-North PA-CF Adura X @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA-CF",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Add-North PA-CF Adura X. Basis Generic PA-CF. Werte aus: OrcaSlicer, SpoolmanDB.",
+    "filament_settings_id": [
+        "Add-North PA-CF Adura X @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Add-North"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "additional_cooling_fan_speed": [
+        "0"
+    ],
+    "close_fan_the_first_x_layers": [
+        "3"
+    ],
+    "cool_plate_temp": [
+        "0"
+    ],
+    "cool_plate_temp_initial_layer": [
+        "0"
+    ],
+    "eng_plate_temp": [
+        "100"
+    ],
+    "eng_plate_temp_initial_layer": [
+        "100"
+    ],
+    "fan_cooling_layer_time": [
+        "5"
+    ],
+    "fan_max_speed": [
+        "30"
+    ],
+    "fan_min_speed": [
+        "10"
+    ],
+    "filament_density": [
+        "1.2"
+    ],
+    "filament_flow_ratio": [
+        "0.99"
+    ],
+    "filament_max_volumetric_speed": [
+        "8"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "280"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "275"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "260"
+    ],
+    "overhang_fan_speed": [
+        "90"
+    ],
+    "slow_down_layer_time": [
+        "2"
+    ],
+    "slow_down_min_speed": [
+        "20"
+    ],
+    "supertack_plate_temp": [
+        "0"
+    ],
+    "supertack_plate_temp_initial_layer": [
+        "0"
+    ],
+    "temperature_vitrification": [
+        "120"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

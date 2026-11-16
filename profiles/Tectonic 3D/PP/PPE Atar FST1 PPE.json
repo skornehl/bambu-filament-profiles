@@ -1,0 +1,19 @@
+{
+    "name": "Tectonic 3D PPE Atar FST1 PPE @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PP @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Tectonic 3D PPE Atar FST1 PPE. Basis Generic PP @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Tectonic 3D PPE Atar FST1 PPE @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Tectonic 3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.11"
+    ]
+}

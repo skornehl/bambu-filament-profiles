@@ -1,0 +1,40 @@
+{
+    "name": "Spectrum PLA GreenyPro @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Spectrum PLA GreenyPro. Basis Generic PLA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Spectrum PLA GreenyPro @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Spectrum"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "filament_density": [
+        "1.34"
+    ],
+    "hot_plate_temp": [
+        "25"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "25"
+    ],
+    "nozzle_temperature_range_high": [
+        "220"
+    ],
+    "nozzle_temperature_range_low": [
+        "190"
+    ],
+    "textured_plate_temp": [
+        "25"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "25"
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "name": "PolyLite ASA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ASA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: PolyLite ASA. Basis Generic ASA. Werte aus: OrcaSlicer, Open Filament Database.",
+    "filament_settings_id": [
+        "PolyLite ASA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "PolyLite"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "eng_plate_temp": [
+        "100"
+    ],
+    "eng_plate_temp_initial_layer": [
+        "100"
+    ],
+    "fan_max_speed": [
+        "0"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.13"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ],
+    "filament_max_volumetric_speed": [
+        "12"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature_range_high": [
+        "260"
+    ],
+    "nozzle_temperature_range_low": [
+        "230"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

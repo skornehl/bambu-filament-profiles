@@ -1,0 +1,25 @@
+{
+    "name": "eMotionTech HIPS @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic HIPS @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: eMotionTech HIPS. Basis Generic HIPS @BBL X1C. Werte aus: Cura.",
+    "filament_settings_id": [
+        "eMotionTech HIPS @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "eMotionTech"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.19"
+    ],
+    "nozzle_temperature": [
+        "245"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "245"
+    ]
+}

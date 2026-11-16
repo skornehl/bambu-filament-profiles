@@ -1,0 +1,31 @@
+{
+    "name": "Polymaker PETG @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Polymaker PETG. Basis Generic PETG. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Polymaker PETG @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Polymaker"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "60"
+    ],
+    "fan_min_speed": [
+        "20"
+    ],
+    "filament_density": [
+        "1.3"
+    ],
+    "nozzle_temperature_range_high": [
+        "260"
+    ],
+    "nozzle_temperature_range_low": [
+        "240"
+    ]
+}
