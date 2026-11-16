@@ -2,7 +2,11 @@ import json
 
 import pytest
 
-from bambu_filament_profiles import cli
+from bambu_filament_profiles import catalog, cli
+from bambu_filament_profiles.catalog import build, load_records, write_output
+from bambu_filament_profiles.fetch import FetchError
+from bambu_filament_profiles.install import default_data_dir
+from bambu_filament_profiles.sources.bambu import BambuProfiles
 
 from .conftest import FIXTURES
 
@@ -175,11 +179,67 @@ def test_fetch_command(monkeypatch, tmp_path):
 
     monkeypatch.setattr(cli, "fetch_all", fake_fetch_all)
     lock = tmp_path / "lock.json"
-    code, text = run(["fetch", "--cache", str(tmp_path), "--lock", str(lock)])
-    assert code == 0 and not lock.exists()
-    code, text = run(["fetch", "--cache", str(tmp_path), "--lock", str(lock), "--update", "--only", "x"])
+    code, text = run(["fetch", "--cache", str(tmp_path), "--lock", str(lock), "--pinned"])
+    assert code == 0 and not lock.exists() and calls[-1][2] is False
+    code, text = run(["fetch", "--cache", str(tmp_path), "--lock", str(lock), "--only", "x"])
     assert "Lock-Datei aktualisiert" in text and json.loads(lock.read_text())["x"]["commit"] == "1"
-    assert calls[-1][3] == {"x"}
+    assert calls[-1][2] is True and calls[-1][3] == {"x"}
+
+
+def test_update_command(monkeypatch, tmp_path):
+    monkeypatch.setattr(catalog, "fetch_all", lambda cache, lock, update, log: {"ofd": {"commit": "a" * 40, "license": "MIT"}})
+    out = tmp_path / "p"
+    args = ["update", "--cache", str(FIXTURES), "--lock", str(tmp_path / "lock.json"), "--manual", str(tmp_path / "manual"), "--out", str(out)]
+    code, text = run(args)
+    assert code == 0 and "Profile unter" in text and (out / "BUILD.json").exists()
+    code, text = run(["list", "--profiles", str(out), "--vendor", "geeetech"])
+    assert code == 0 and "Hinweis" not in text and "Geeetech / PLA / PLA" in text
+
+
+def fake_update(seen):
+    def update(cache, lock, manual, out_dir, printer, log):
+        seen.append((cache, lock, out_dir))
+        result = build(load_records(FIXTURES, None, printer, log=log), BambuProfiles(FIXTURES / "bambu"), printer)
+        write_output(result, out_dir, {}, printer)
+        return result
+
+    return update
+
+
+def test_first_use_builds_catalog_locally(monkeypatch):
+    seen = []
+    monkeypatch.setattr(cli, "update_profiles", fake_update(seen))
+    code, text = run(["list", "--vendor", "geeetech"])
+    data = default_data_dir()
+    assert code == 0 and "Noch keine Profile" in text and "Geeetech / PLA / PLA" in text
+    assert seen == [(data / "sources", data / "sources.lock.json", data / "profiles")]
+    code, text = run(["list", "--vendor", "geeetech"])
+    assert len(seen) == 1 and "Noch keine" not in text and "Hinweis" not in text
+
+
+def test_other_profile_folder_is_not_built_implicitly(tmp_path):
+    code, text = run(["list", "--profiles", str(tmp_path / "leer")])
+    assert code == 1 and "bfp update --out" in text
+
+
+def test_hint_for_old_or_unknown_catalog(profiles):
+    info = json.loads((profiles / "BUILD.json").read_text(encoding="utf-8"))
+    info["built"] = "2020-01-01T00:00:00+00:00"
+    (profiles / "BUILD.json").write_text(json.dumps(info), encoding="utf-8")
+    code, text = run(["list", "--profiles", str(profiles), "--vendor", "geeetech"])
+    assert code == 0 and "Tage alt" in text
+    (profiles / "BUILD.json").unlink()
+    code, text = run(["list", "--profiles", str(profiles), "--vendor", "geeetech"])
+    assert code == 0 and "Stand der Profile unbekannt" in text
+
+
+def test_fetch_errors_are_reported(monkeypatch):
+    def broken(*args, **kwargs):
+        raise FetchError("git nicht gefunden")
+
+    monkeypatch.setattr(cli, "update_profiles", broken)
+    code, text = run(["update"])
+    assert code == 1 and "Fehler: git nicht gefunden" in text
 
 
 def test_cleanup_listing_ignores_running_bambu(fake_install, user_presets, monkeypatch):
@@ -217,9 +277,14 @@ def test_app_command(monkeypatch, profiles, fake_install, tmp_path):
     seen = {}
 
     def fake_run(session, port, open_browser, out):
-        seen.update(port=port, open_browser=open_browser, catalog=len(session.catalog), user=session.user)
+        seen.update(port=port, open_browser=open_browser, catalog=len(session.catalog), user=session.user, session=session)
         return 0
 
     monkeypatch.setattr(webapp, "run_app", fake_run)
     code, _ = run(["app", "--profiles", str(profiles), "--data-dir", str(fake_install), "--port", "9999", "--no-browser", "--backup-dir", str(tmp_path / "bk")])
+    session = seen.pop("session")
     assert code == 0 and seen == {"port": 9999, "open_browser": False, "catalog": seen["catalog"], "user": "123"} and seen["catalog"] > 0
+    assert session.state()["can_update"]
+    updates = []
+    monkeypatch.setattr(cli, "update_profiles", fake_update(updates))
+    assert session.update()["catalog_size"] == seen["catalog"] and updates[0][2] == profiles

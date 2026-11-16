@@ -13,7 +13,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from .catalog import list_profiles
+from .catalog import list_profiles, read_build_info
 from .install import (
     InstallError,
     Installation,
@@ -147,9 +147,18 @@ def details(item: CatalogItem, system: BambuProfiles | None) -> dict:
 class AppSession:
     """Zustand der App: Katalog, gewählte Installation und Benutzer."""
 
-    def __init__(self, profiles_dir: Path, backup_dir: Path, data_dir: str | None = None, installations=None, running=bambu_running):
-        self.catalog = load_catalog(profiles_dir)
-        self.by_id = {item.id: item for item in self.catalog}
+    def __init__(
+        self,
+        profiles_dir: Path,
+        backup_dir: Path,
+        data_dir: str | None = None,
+        installations=None,
+        running=bambu_running,
+        updater=None,
+    ):
+        self.profiles_dir = Path(profiles_dir)
+        self._updater = updater
+        self._load_catalog()
         self.backup_dir = Path(backup_dir)
         self._running = running
         if data_dir:
@@ -161,6 +170,15 @@ class AppSession:
         self.system: BambuProfiles | None = None
         if self.installations:
             self.select(0)
+
+    def _load_catalog(self) -> None:
+        self.catalog = load_catalog(self.profiles_dir)
+        self.by_id = {item.id: item for item in self.catalog}
+        self.build_info = read_build_info(self.profiles_dir)
+
+    @property
+    def catalog_built(self) -> str | None:
+        return self.build_info["built"] if self.build_info else None
 
     # ------------------------------------------------------------- Auswahl
 
@@ -213,6 +231,8 @@ class AppSession:
             "running": self.running(),
             "system_version": self.system.bundle_version if self.system else None,
             "catalog_size": len(self.catalog),
+            "catalog_built": self.catalog_built,
+            "can_update": self._updater is not None,
         }
 
     def _presets(self):
@@ -294,6 +314,15 @@ class AppSession:
             delete_local(preset)
             result["deleted"].append(preset.name)
         return result
+
+    def update(self) -> dict:
+        """Quellen neu holen und den Katalog neu erzeugen (schreibt nichts in Bambu Studio)."""
+        if self._updater is None:
+            raise InstallError("Aktualisieren ist hier nicht verfügbar")
+        log: list[str] = []
+        self._updater(log.append)
+        self._load_catalog()
+        return {"catalog_size": len(self.catalog), "catalog_built": self.catalog_built, "log": log[-8:]}
 
     def checklist(self, names) -> str:
         wanted = set(names)

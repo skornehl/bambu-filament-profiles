@@ -73,3 +73,17 @@ def test_lock_roundtrip(tmp_path):
 def test_all_sources_have_licenses():
     assert set(fetch.SOURCES) == {"bambu", "orca", "ofd", "prusa", "spoolman", "cura"}
     assert all(s.license and s.patterns for s in fetch.SOURCES.values())
+
+
+def test_missing_git_is_explained(tmp_path):
+    def no_git(*args, **kwargs):
+        raise FileNotFoundError("git")
+
+    with pytest.raises(FetchError, match="Git installieren"):
+        fetch._git(["status"], tmp_path, run=no_git)
+
+
+def test_write_lock_creates_folder(tmp_path):
+    path = tmp_path / "neu" / "lock.json"
+    write_lock(path, {"a": {"commit": "1"}})
+    assert read_lock(path) == {"a": {"commit": "1"}}

@@ -10,3 +10,6 @@ build/
 dist/
 # Lokaler Quellen-Cache, falls jemand --cache auf das Repo zeigt
 .cache/
+# Erzeugte Profile liegen im Datenordner, nie im Repo
+/profiles/
+/sources.lock.json

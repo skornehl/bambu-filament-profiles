@@ -25,5 +25,16 @@ jobs:
         run: python -m pip install -e ".[dev]"
       - name: Tests mit Abdeckung
         run: python -m pytest --cov --cov-report=term-missing --cov-report=xml
-      - name: Profile im Repo sind lesbar
+
+  live:
+    # Holt die echten Quellen und erzeugt die Profile so wie bei Benutzern.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Quellen holen und Profile erzeugen
+        run: python bfp.py update
+      - name: Profile sind lesbar
         run: python bfp.py list --vendor Geeetech

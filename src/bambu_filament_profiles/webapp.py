@@ -21,6 +21,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from .appmodel import AppSession
+from .fetch import FetchError
 from .install import InstallError
 
 INDEX_HTML = Path(__file__).parent / "web" / "index.html"
@@ -144,13 +145,15 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, session.install([int(i) for i in body.get("ids", [])], body.get("overwrite", [])))
                 if path == "/api/delete-local":
                     return self._json(200, session.delete_local(body.get("names", [])))
+                if path == "/api/update":
+                    return self._json(200, session.update())
                 if path == "/api/checklist":
                     return self._json(200, {"markdown": session.checklist(body.get("names", []))})
                 if path == "/api/shutdown":
                     self._json(200, {"ok": True})
                     threading.Thread(target=self.server.shutdown, daemon=True).start()
                     return None
-        except (InstallError, ValueError) as exc:
+        except (InstallError, FetchError, OSError, ValueError) as exc:
             return self._json(400, {"error": str(exc)})
         return self._json(404, {"error": "Nicht gefunden"})
 

@@ -1,4 +1,4 @@
-"""Kommandozeile: ``bfp fetch | build | list | install | cleanup``."""
+"""Kommandozeile: ``bfp update | list | install | export | cleanup | app | fetch | build``."""
 
 from __future__ import annotations
 
@@ -8,8 +8,17 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .catalog import build, list_profiles, load_records, select_profiles, write_output
-from .fetch import fetch_all, read_lock, write_lock
+from .catalog import (
+    build,
+    catalog_age_days,
+    list_profiles,
+    load_records,
+    read_build_info,
+    select_profiles,
+    update_profiles,
+    write_output,
+)
+from .fetch import FetchError, fetch_all, read_lock, write_lock
 from .generate import DEFAULT_PRINTER, ExpandError, expand, filament_id_for
 from .matching import alias_of, safe_filename
 from .install import (
@@ -31,6 +40,8 @@ from .install import (
 from .sources.bambu import BambuProfiles
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+#: Ab diesem Alter (Tage) weist das Tool auf ``bfp update`` hin.
+MAX_AGE_DAYS = 30
 CLOUD_HINT = (
     "Mit der Cloud synchronisierte Profile bitte in Bambu Studio löschen: "
     "Datei → Verwaltung von Batch-Profilen (engl. Batch Preset Management), Profile anhaken, Löschen. "
@@ -45,7 +56,7 @@ def main(argv: list[str] | None = None, ask=None, out=print) -> int:
         ask = input
     try:
         return args.func(args, ask, out)
-    except (InstallError, OSError, ValueError) as exc:
+    except (InstallError, FetchError, OSError, ValueError) as exc:
         out(f"Fehler: {exc}")
         return 1
 
@@ -54,19 +65,26 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="bfp", description="Bambu-Studio-Filamentprofile erzeugen und installieren")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
+    data = default_data_dir()
 
-    p = sub.add_parser("fetch", help="Quell-Repos in den Cache holen (Stände aus sources.lock.json)")
-    p.add_argument("--cache", type=Path, default=default_data_dir() / "sources")
-    p.add_argument("--lock", type=Path, default=REPO_ROOT / "sources.lock.json")
-    p.add_argument("--update", action="store_true", help="neueste Stände holen und Lock-Datei aktualisieren")
+    p = sub.add_parser("update", help="neueste Quellen holen und die Profile lokal neu erzeugen")
+    _source_args(p, data)
+    p.add_argument("--manual", type=Path, default=REPO_ROOT / "manual")
+    p.add_argument("--out", type=Path, default=data / "profiles")
+    p.add_argument("--printer", default=DEFAULT_PRINTER)
+    p.add_argument("--pinned", action="store_true", help="Stände aus der Lock-Datei statt der neuesten holen")
+    p.set_defaults(func=cmd_update)
+
+    p = sub.add_parser("fetch", help="nur die Quell-Repos holen (neuester Stand)")
+    _source_args(p, data)
+    p.add_argument("--pinned", action="store_true", help="Stände aus der Lock-Datei statt der neuesten holen")
     p.add_argument("--only", action="append", default=[], help="nur diese Quelle (mehrfach möglich)")
     p.set_defaults(func=cmd_fetch)
 
-    p = sub.add_parser("build", help="Profile aus dem Cache erzeugen und unter profiles/ ablegen")
-    p.add_argument("--cache", type=Path, default=default_data_dir() / "sources")
-    p.add_argument("--lock", type=Path, default=REPO_ROOT / "sources.lock.json")
+    p = sub.add_parser("build", help="nur die Profile aus den schon geholten Quellen erzeugen")
+    _source_args(p, data)
     p.add_argument("--manual", type=Path, default=REPO_ROOT / "manual")
-    p.add_argument("--out", type=Path, default=REPO_ROOT / "profiles")
+    p.add_argument("--out", type=Path, default=data / "profiles")
     p.add_argument("--printer", default=DEFAULT_PRINTER)
     p.set_defaults(func=cmd_build)
 
@@ -76,7 +94,7 @@ def _parser() -> argparse.ArgumentParser:
         ("export", "eigenständige Profile zum Importieren von Hand in einen Ordner schreiben"),
     ):
         p = sub.add_parser(name, help=helptext)
-        p.add_argument("--profiles", type=Path, default=REPO_ROOT / "profiles")
+        p.add_argument("--profiles", type=Path, default=data / "profiles")
         p.add_argument("--vendor", action="append", default=[], help="Hersteller (Teilstring, mehrfach möglich)")
         p.add_argument("--material", action="append", default=[], help="Material, z. B. PLA (mehrfach möglich)")
         p.add_argument("--name", action="append", default=[], help="Sorte (Teilstring, mehrfach möglich)")
@@ -88,15 +106,15 @@ def _parser() -> argparse.ArgumentParser:
         elif name == "export":
             p.add_argument("--out", type=Path, required=True, help="Zielordner")
             p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
-            p.add_argument("--cache", type=Path, default=default_data_dir() / "sources", help="Fallback: Quellen-Cache")
+            p.add_argument("--cache", type=Path, default=data / "sources", help="Fallback: Quellen-Cache")
             p.set_defaults(func=cmd_export)
         else:
             p.set_defaults(func=cmd_list)
 
     p = sub.add_parser("app", help="Begleit-App im Browser öffnen: suchen, installieren, aufräumen")
-    p.add_argument("--profiles", type=Path, default=REPO_ROOT / "profiles")
+    p.add_argument("--profiles", type=Path, default=data / "profiles")
     p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
-    p.add_argument("--backup-dir", type=Path, default=default_data_dir() / "backups")
+    p.add_argument("--backup-dir", type=Path, default=data / "backups")
     p.add_argument("--port", type=int, default=8765, help="Port auf 127.0.0.1 (belegt → freier Port)")
     p.add_argument("--no-browser", action="store_true", help="Browser nicht automatisch öffnen")
     p.set_defaults(func=cmd_app)
@@ -114,6 +132,11 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _source_args(p: argparse.ArgumentParser, data: Path) -> None:
+    p.add_argument("--cache", type=Path, default=data / "sources", help="Ablage der Quell-Repos")
+    p.add_argument("--lock", type=Path, default=data / "sources.lock.json", help="geholte Quellen-Stände")
+
+
 def _target_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
     p.add_argument("--user", help="Benutzerordner (Bambu-Konto-ID oder „default“)")
@@ -126,9 +149,39 @@ def _target_args(p: argparse.ArgumentParser) -> None:
 # ----------------------------------------------------------------------- Befehle
 
 
+def _update(profiles: Path, out) -> None:
+    """Quellen holen und Profile neu erzeugen, mit den Standardorten im Datenordner."""
+    data = default_data_dir()
+    result = update_profiles(data / "sources", data / "sources.lock.json", REPO_ROOT / "manual", profiles, DEFAULT_PRINTER, log=out)
+    out(f"{len(result.ok)} Profile unter {profiles} abgelegt")
+
+
+def _catalog(args, out) -> list[dict]:
+    """Abgelegte Profile; fehlen sie am Standardort, holt und erzeugt das Tool sie zuerst."""
+    items = list_profiles(args.profiles)
+    if not items:
+        if Path(args.profiles) != default_data_dir() / "profiles":
+            raise InstallError(f"Keine Profile in {args.profiles}. Erst erzeugen: bfp update --out {args.profiles}")
+        out("Noch keine Profile auf diesem Rechner: hole die Quellen und erzeuge die Profile (einmalig, dauert einen Moment) …")
+        _update(args.profiles, out)
+        return list_profiles(args.profiles)
+    age = catalog_age_days(read_build_info(args.profiles))
+    if age is None:
+        out("Hinweis: Stand der Profile unbekannt. „bfp update“ holt den neuesten Stand.")
+    elif age > MAX_AGE_DAYS:
+        out(f"Hinweis: Die Profile sind {age} Tage alt. „bfp update“ holt den neuesten Stand.")
+    return items
+
+
+def cmd_update(args, ask, out) -> int:
+    result = update_profiles(args.cache, args.lock, args.manual, args.out, args.printer, pinned=args.pinned, log=out)
+    out(f"{len(result.ok)} Profile unter {args.out} abgelegt; Details in {args.out / 'REPORT.md'}")
+    return 0
+
+
 def cmd_fetch(args, ask, out) -> int:
     lock = read_lock(args.lock)
-    new_lock = fetch_all(args.cache, lock, update=args.update, names=set(args.only) or None, log=out)
+    new_lock = fetch_all(args.cache, lock, update=not args.pinned, names=set(args.only) or None, log=out)
     if new_lock != lock:
         write_lock(args.lock, new_lock)
         out(f"Lock-Datei aktualisiert: {args.lock}")
@@ -146,7 +199,7 @@ def cmd_build(args, ask, out) -> int:
 
 
 def cmd_list(args, ask, out) -> int:
-    items = select_profiles(list_profiles(args.profiles), args.vendor, args.material, args.name)
+    items = select_profiles(_catalog(args, out), args.vendor, args.material, args.name)
     for item in items:
         out(f"{item['brand']} / {item['material']} / {item['product']}")
     out(f"{len(items)} Profile")
@@ -157,12 +210,13 @@ def cmd_app(args, ask, out) -> int:
     from .appmodel import AppSession
     from .webapp import run_app
 
-    session = AppSession(args.profiles, args.backup_dir, data_dir=args.data_dir)
+    _catalog(args, out)
+    session = AppSession(args.profiles, args.backup_dir, data_dir=args.data_dir, updater=lambda log: _update(args.profiles, log))
     return run_app(session, port=args.port, open_browser=not args.no_browser, out=out)
 
 
 def cmd_export(args, ask, out) -> int:
-    items = select_profiles(list_profiles(args.profiles), args.vendor, args.material, args.name)
+    items = select_profiles(_catalog(args, out), args.vendor, args.material, args.name)
     if not items:
         out("Keine passenden Profile gefunden")
         return 1
@@ -212,9 +266,9 @@ def _confirm(args, ask, question: str) -> bool:
 
 
 def cmd_install(args, ask, out) -> int:
-    items = select_profiles(list_profiles(args.profiles), args.vendor, args.material, args.name)
     if not (args.vendor or args.material or args.name or args.all):
         raise InstallError("Bitte mit --vendor, --material oder --name auswählen (oder --all für alle)")
+    items = select_profiles(_catalog(args, out), args.vendor, args.material, args.name)
     if not items:
         out("Keine passenden Profile gefunden")
         return 1

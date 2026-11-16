@@ -6,8 +6,10 @@ import json
 import shutil
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 
+from .fetch import fetch_all, read_lock, write_lock
 from .generate import DEFAULT_PRINTER, SOURCE_LABELS, Generated, generate
 from .merge import build_catalog
 from .model import Record
@@ -21,6 +23,9 @@ LOADERS = {
     "spoolman": lambda root, printer: spoolman.load(root),
     "cura": lambda root, printer: cura.load(root),
 }
+
+#: Stand des Katalogs (Zeitpunkt, Drucker, Quellen-Commits), liegt neben den Profilen.
+BUILD_INFO = "BUILD.json"
 
 
 @dataclass
@@ -78,8 +83,40 @@ def _dedupe_paths(generated: list[Generated]) -> None:
         names.add(g.name.lower())
 
 
-def write_output(result: BuildResult, out_dir: Path, lock: dict, printer: str) -> None:
+def update_profiles(cache_dir: Path, lock_path: Path, manual_dir: Path | None, out_dir: Path, printer: str = DEFAULT_PRINTER, pinned: bool = False, log=print) -> BuildResult:
+    """Quellen holen (neuester Stand, mit ``pinned`` die Stände der Lock-Datei) und Profile neu erzeugen."""
+    lock = fetch_all(Path(cache_dir), read_lock(lock_path), update=not pinned, log=log)
+    write_lock(lock_path, lock)
+    records = load_records(cache_dir, manual_dir, printer, log=log)
+    result = build(records, BambuProfiles(Path(cache_dir) / "bambu"), printer)
+    write_output(result, out_dir, lock, printer)
+    return result
+
+
+def read_build_info(profiles_dir: Path) -> dict | None:
+    """Inhalt von BUILD.json oder ``None``, wenn es fehlt oder kaputt ist."""
+    try:
+        info = json.loads((Path(profiles_dir) / BUILD_INFO).read_text(encoding="utf-8"))
+        datetime.fromisoformat(info["built"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    return info
+
+
+def catalog_age_days(info: dict | None, now: datetime | None = None) -> int | None:
+    if not info:
+        return None
+    built = datetime.fromisoformat(info["built"])
+    if built.tzinfo is None:
+        built = built.replace(tzinfo=timezone.utc)
+    return ((now or datetime.now(timezone.utc)) - built).days
+
+
+def write_output(result: BuildResult, out_dir: Path, lock: dict, printer: str, now: datetime | None = None) -> None:
     out_dir = Path(out_dir)
+    if out_dir.exists() and any(out_dir.iterdir()) and not any((out_dir / n).exists() for n in (BUILD_INFO, "INDEX.md")):
+        # Der Ordner wird gleich geleert; nie einen fremden Ordner leeren.
+        raise ValueError(f"{out_dir} ist nicht leer und enthält keine erzeugten Profile; bitte einen leeren Ordner angeben")
     if out_dir.exists():
         for child in out_dir.iterdir():
             if child.is_dir():
@@ -91,6 +128,9 @@ def write_output(result: BuildResult, out_dir: Path, lock: dict, printer: str) -
         path = out_dir / g.relpath
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(g.profile, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+    built = (now or datetime.now(timezone.utc)).replace(microsecond=0)
+    info = {"built": built.isoformat(), "printer": printer, "profiles": len(result.ok), "sources": lock}
+    (out_dir / BUILD_INFO).write_text(json.dumps(info, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (out_dir / "INDEX.md").write_text(render_index(result, lock, printer), encoding="utf-8")
     (out_dir / "REPORT.md").write_text(render_report(result), encoding="utf-8")
 
@@ -105,7 +145,7 @@ def render_index(result: BuildResult, lock: dict, printer: str) -> str:
         f"Für **{printer}**, {len(result.ok)} Profile von {len(by_brand)} Herstellern. "
         "Erzeugt mit `bfp build`; nicht von Hand bearbeiten.",
         "",
-        "Quellen-Stände (sources.lock.json):",
+        "Quellen-Stände:",
         "",
     ]
     for name in sorted(lock):

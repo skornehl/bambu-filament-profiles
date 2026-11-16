@@ -5,6 +5,7 @@ import threading
 import pytest
 
 from bambu_filament_profiles import webapp
+from bambu_filament_profiles.fetch import FetchError
 from bambu_filament_profiles.appmodel import AppSession
 from bambu_filament_profiles.catalog import build, write_output
 
@@ -26,9 +27,9 @@ def server(tmp_path, records, bambu, fake_install):
     srv.server_close()
 
 
-def call(srv, method, path, body=None, token=True, host=None, content_type="application/json"):
+def call(srv, method, path, body=None, token=True, host=None, content_type="application/json", extra=None):
     conn = http.client.HTTPConnection("127.0.0.1", srv.port, timeout=10)
-    headers = {"Host": host or f"127.0.0.1:{srv.port}"}
+    headers = {"Host": host or f"127.0.0.1:{srv.port}", **(extra or {})}
     if token:
         headers["X-BFP-Token"] = srv.token if token is True else token
     data = None
@@ -98,8 +99,8 @@ def test_post_validation(server):
     assert call(server, "POST", "/api/plan", b"[1, 2]")[0] == 400
     assert call(server, "POST", "/api/plan", b"{}", content_type="text/plain")[0] == 400
     assert call(server, "POST", "/api/plan", {"ids": []})[0] == 400
-    big = b"{" + b" " * (webapp.MAX_BODY + 1) + b"}"
-    assert call(server, "POST", "/api/plan", big)[0] == 400
+    # Nur die angekündigte Länge zählt; den Rest liest der Server gar nicht erst.
+    assert call(server, "POST", "/api/plan", b"{}", extra={"Content-Length": str(webapp.MAX_BODY + 1)})[0] == 400
 
 
 def test_shutdown_endpoint(tmp_path, records, bambu, fake_install):
@@ -139,3 +140,17 @@ def test_server_does_not_share_ports(server):
     assert server.socket.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR) == 0
     if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):  # nur Windows
         assert server.socket.getsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE) == 1
+
+
+def test_update_endpoint(server):
+    assert call(server, "POST", "/api/update", {})[0] == 400  # ohne Updater
+    server.session._updater = lambda log: log("ok")
+    status, result = call(server, "POST", "/api/update", {})
+    assert status == 200 and result["log"] == ["ok"] and result["catalog_size"] > 0
+
+    def broken(log):
+        raise FetchError("git nicht gefunden")
+
+    server.session._updater = broken
+    status, result = call(server, "POST", "/api/update", {})
+    assert status == 400 and "git" in result["error"]

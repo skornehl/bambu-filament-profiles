@@ -1,7 +1,8 @@
 # Fremde Daten und Lizenzen
 
-Die Profile unter `profiles/` sind aus den folgenden Quellen abgeleitet. Die genauen Stände stehen in
-`sources.lock.json`. Die Testdaten unter `tests/fixtures/` sind kleine unveränderte Auszüge daraus.
+Das Tool holt die folgenden Quellen auf dem Rechner des Benutzers und erzeugt daraus die Profile; das Repo
+enthält keine erzeugten Profile. Welche Stände geholt wurden, steht im Datenordner in `sources.lock.json` und
+`profiles/BUILD.json`. Die Testdaten unter `tests/fixtures/` sind kleine unveränderte Auszüge aus den Quellen.
 
 | Quelle | Lizenz | Copyright |
 |---|---|---|
@@ -18,9 +19,8 @@ Die Profile unter `profiles/` sind aus den folgenden Quellen abgeleitet. Die gen
   Copyright- und Lizenzhinweis beilegen (diese Datei).
 - **CC0** (Cura): keine Bedingungen.
 - **AGPL-3.0** (OrcaSlicer, Bambu Studio, PrusaSlicer-settings): Pflichten entstehen erst bei Weitergabe.
-  Solange das Repo privat ist und nur selbst genutzt wird, gibt es nichts weiter zu tun. Wird es veröffentlicht,
-  sollten die Profile und Testdaten, die Werte aus diesen Quellen enthalten, unter AGPL-3.0 mit Quellenhinweis
-  stehen. Einzelne Zahlenwerte sind kaum schutzfähig, die Profildateien als Ganzes aber schon.
+  Die erzeugten Profile entstehen lokal und werden nicht weitergegeben. Im Repo betrifft das nur die Testdaten:
+  Wird es veröffentlicht, sollten sie unter AGPL-3.0 mit Quellenhinweis stehen.
 
 Das ist eine vorsichtige Einschätzung, keine Rechtsberatung.
 

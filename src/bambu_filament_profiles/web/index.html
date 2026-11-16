@@ -84,7 +84,9 @@ dialog .foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px
     <span id="instText"></span>
     <label>Benutzer <select id="userSel"></select></label>
     <span id="runBadge" class="badge ok">Bambu Studio geschlossen</span>
+    <span id="catText"></span>
   </div>
+  <button id="updBtn" type="button" class="hidden" title="Neueste Quellen holen und die Profile neu erzeugen">Profile aktualisieren</button>
   <button id="reloadBtn" type="button">Neu laden</button>
   <button id="quitBtn" type="button">Beenden</button>
 </header>
@@ -187,7 +189,19 @@ function renderState() {
   const b = $("runBadge");
   b.textContent = i.running ? "Bambu Studio läuft: bitte schließen" : "Bambu Studio geschlossen";
   b.className = "badge " + (i.running ? "warn" : "ok");
+  const built = i.catalog_built ? new Date(i.catalog_built) : null;
+  $("catText").textContent = built ? `Profile vom ${built.toLocaleDateString("de-DE")}` : "Stand der Profile unbekannt";
+  $("updBtn").classList.toggle("hidden", !i.can_update);
   updateActions();
+}
+async function updateCatalog() {
+  dialog("Profile aktualisieren", el("p", {}, "Hole die neuesten Quellen und erzeuge die Profile neu. Das dauert einen Moment …"), []);
+  try {
+    const r = await api("/api/update", {});
+    S.sel.clear();
+    await loadState(); await loadProfiles();
+    dialog("Profile aktualisiert", el("p", {}, `${num(r.catalog_size, "Profil", "Profile")} auf dem neuesten Stand.`), [closeBtn()]);
+  } catch (err) { fail(err); }
 }
 async function loadState() { S.info = await api("/api/state"); renderState(); }
 async function refreshRunning() {
@@ -344,6 +358,7 @@ $("clearSel").onclick = () => { S.sel.clear(); renderFind(); updateActions(); };
 $("installBtn").onclick = startInstall;
 $("listBtn").onclick = downloadList;
 $("delBtn").onclick = startDelete;
+$("updBtn").onclick = updateCatalog;
 $("reloadBtn").onclick = async () => { await loadState(); await loadProfiles(); if (!$("paneMine").classList.contains("hidden")) await loadMine(); };
 $("instSel").onchange = async (e) => { try { S.info = await api("/api/select", { installation: Number(e.target.value) }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };
 $("userSel").onchange = async (e) => { try { S.info = await api("/api/select", { user: e.target.value }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };

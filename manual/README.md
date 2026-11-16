@@ -27,4 +27,4 @@ Erlaubte Schlüssel: die Bambu-Studio-Namen `filament_density`, `nozzle_temperat
 `filament_retraction_length`, `filament_retraction_speed`, `temperature_vitrification` sowie
 `_bed` und `_bed_first` (Bett für Textured PEI und Smooth PEI) und `_bed_min` / `_bed_max`.
 
-Danach `python bfp.py build` ausführen.
+Danach `python3 bfp.py update` ausführen (ohne Netz: `python3 bfp.py build`).

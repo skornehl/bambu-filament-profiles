@@ -129,3 +129,23 @@ def test_existing_delete_and_checklist(session):
     result = session.delete_local(["Alt PLA", "Wolke PETG"])
     assert result["deleted"] == ["Alt PLA"] and result["refused"] == ["Wolke PETG"] and result["backup"]
     assert session.delete_local(["Wolke PETG"]) == {"deleted": [], "refused": ["Wolke PETG"], "backup": None}
+
+
+def test_update_reloads_catalog(profiles_dir, tmp_path, records, bambu):
+    calls = []
+
+    def updater(log):
+        log("geholt")
+        calls.append(1)
+        write_output(build(records, bambu, PRINTER), profiles_dir, {}, PRINTER)
+
+    session = AppSession(profiles_dir, tmp_path / "bk", installations=[], updater=updater)
+    state = session.state()
+    assert state["can_update"] and state["catalog_built"]
+    result = session.update()
+    assert calls == [1] and result["log"] == ["geholt"] and result["catalog_size"] == len(session.catalog) > 0
+    (profiles_dir / "BUILD.json").unlink()
+    without = AppSession(profiles_dir, tmp_path / "bk", installations=[])
+    assert not without.state()["can_update"] and without.state()["catalog_built"] is None
+    with pytest.raises(InstallError, match="nicht verfügbar"):
+        without.update()

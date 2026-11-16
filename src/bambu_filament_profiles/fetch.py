@@ -1,8 +1,8 @@
 """Quell-Repos flach und sparse in einen Cache klonen.
 
-Welche Commits genutzt werden, steht in ``sources.lock.json``. ``fetch`` holt
-genau diese Stände, ``fetch --update`` den neuesten Stand und schreibt die
-Lock-Datei neu. Die Quellen werden nicht ins Repo eingecheckt.
+``fetch`` holt den neuesten Stand und merkt sich die Commits in
+``sources.lock.json`` im Datenordner dieses Tools; ``fetch --pinned`` holt
+wieder genau diese Stände. Weder Quellen noch erzeugte Profile liegen im Repo.
 """
 
 from __future__ import annotations
@@ -82,7 +82,10 @@ class FetchError(RuntimeError):
 
 
 def _git(args: list[str], cwd: Path, run=subprocess.run) -> str:
-    proc = run(["git", *args], cwd=cwd, capture_output=True, text=True, check=False)
+    try:
+        proc = run(["git", *args], cwd=cwd, capture_output=True, text=True, check=False)
+    except FileNotFoundError as exc:
+        raise FetchError("git nicht gefunden. Bitte Git installieren (Windows: winget install Git.Git)") from exc
     if proc.returncode != 0:
         raise FetchError(f"git {' '.join(args)} fehlgeschlagen: {proc.stderr.strip()}")
     return proc.stdout.strip()
@@ -95,6 +98,7 @@ def read_lock(path: Path) -> dict:
 
 
 def write_lock(path: Path, lock: dict) -> None:
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 

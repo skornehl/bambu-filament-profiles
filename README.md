@@ -1,15 +1,16 @@
 # bambu-filament-profiles
 
 Filamentprofile für Bambu Studio, **nach Hersteller sortiert** statt alles unter „Generic“.
-Erzeugt aus offenen Filamentdatenbanken, abgelegt als `profiles/<Hersteller>/<Material>/<Sorte>.json`,
-dazu ein Installer, der die lokale Bambu-Studio-Installation findet (Linux, Flatpak, Windows, macOS).
+Das Tool holt offene Filamentdatenbanken **auf deinem Rechner** in ihrem neuesten Stand, erzeugt daraus die
+Profile und installiert sie in die lokale Bambu-Studio-Installation (Linux, Flatpak, Windows, macOS).
+Im Repo liegen keine fertigen Profile, die veralten könnten.
 
-Zielgerät ist der **Bambu Lab P1S mit 0,4-mm-Düse**. Übersicht aller Profile: [profiles/INDEX.md](profiles/INDEX.md),
-Bericht zum letzten Lauf (übersprungene Filamente, Warnungen): [profiles/REPORT.md](profiles/REPORT.md).
+Zielgerät ist der **Bambu Lab P1S mit 0,4-mm-Düse**.
 
 ## Schnellstart
 
-Voraussetzung: Python 3.11 oder neuer. Weitere Pakete braucht das Tool nicht.
+Voraussetzungen: Python 3.11 oder neuer und Git (Windows: `winget install Git.Git`). Weitere Pakete braucht
+das Tool nicht.
 
 ```bash
 git clone https://github.com/skornehl/bambu-filament-profiles.git
@@ -17,7 +18,8 @@ cd bambu-filament-profiles
 python3 bfp.py app
 ```
 
-`app` öffnet die Begleit-App im Browser (siehe unten). Dasselbe geht auf der Kommandozeile:
+Beim ersten Aufruf holt das Tool die Quellen und erzeugt die Profile (einmalig, rund 15 Sekunden und gut 100 MB).
+`app` öffnet dann die Begleit-App im Browser (siehe unten). Dasselbe geht auf der Kommandozeile:
 
 ```bash
 python3 bfp.py list --vendor SUNLU --material PLA
@@ -48,6 +50,9 @@ Beenden über den Knopf „Beenden“ oder mit Strg+C.
 - **Schutz:** Der Server lauscht nur auf 127.0.0.1, jede Aktion braucht ein Zufalls-Token der Sitzung, und der
   Host-Header wird geprüft. So kann keine fremde Webseite über deinen Browser installieren oder löschen.
 
+- **Profile aktualisieren:** Oben steht, von wann die Profile sind; der Knopf holt die neuesten Quellen und
+  erzeugt die Profile neu. In Bambu Studio ändert das nichts.
+
 Optionen: `--port`, `--data-dir`, `--no-browser`.
 
 ## Warum bisher alles unter „Generic“ landet
@@ -61,19 +66,20 @@ in Bambu Studio: `inherits` leer, alle Werte ausgeschrieben, Hersteller gesetzt,
 („P“ + 7 Zeichen MD5 aus Name und Konto-ID). Die Basiswerte stammen aus den Systemprofilen der
 **lokal installierten** Bambu-Studio-Version, passen also immer zur Version.
 
-Im Repo liegen die Profile schlank: Sie erben vom passenden Generic-Profil und enthalten nur die Werte aus den
-Quellen. Diese Dateien kann man auch direkt importieren, dann erscheinen sie aber wieder unter „Generic“.
+Im lokalen Katalog liegen die Profile schlank: Sie erben vom passenden Generic-Profil und enthalten nur die Werte
+aus den Quellen. Diese Dateien kann man auch direkt importieren, dann erscheinen sie aber wieder unter „Generic“.
 
 ## Befehle
 
 | Befehl | Zweck |
 |---|---|
-| `list` | Profile im Repo anzeigen, filterbar mit `--vendor`, `--material`, `--name` |
+| `update` | neueste Quellen holen und die Profile neu erzeugen |
+| `list` | Profile anzeigen, filterbar mit `--vendor`, `--material`, `--name` |
 | `install` | ausgewählte Profile in Bambu Studio installieren |
 | `cleanup` | vorhandene eigene Filamentprofile auflisten und aufräumen |
 | `export` | eigenständige Profile in einen Ordner schreiben (für den Import von Hand) |
-| `fetch` | Quell-Repos in den Cache holen (Stände aus `sources.lock.json`) |
-| `build` | Profile aus dem Cache neu erzeugen |
+| `fetch` | nur die Quellen holen (Teil von `update`) |
+| `build` | nur die Profile aus den geholten Quellen erzeugen (Teil von `update`) |
 
 Filter sind Teilstrings und lassen sich wiederholen: `--vendor eSUN --vendor SUNLU --material PLA --material PETG`.
 
@@ -189,19 +195,25 @@ Lizenzhinweise: [THIRD_PARTY.md](THIRD_PARTY.md).
 ## Eigene Werte
 
 Eine TOML-Datei je Filament in `manual/` hat die höchste Priorität, siehe [manual/README.md](manual/README.md).
-Danach `python bfp.py build`.
+Danach `python3 bfp.py update` (oder ohne Netz `python3 bfp.py build`).
 
-## Profile neu erzeugen
+## Profile aktualisieren
 
 ```bash
-python3 bfp.py fetch            # Stände aus sources.lock.json holen
-python3 bfp.py fetch --update   # neueste Stände holen und Lock-Datei aktualisieren
-python3 bfp.py build
+python3 bfp.py update            # neueste Quellen holen und Profile neu erzeugen
+python3 bfp.py update --pinned   # dieselben Quellen-Stände wie beim letzten Mal
 ```
 
-Die Quell-Repos landen flach und nur mit den nötigen Dateien im Cache
-(`~/.local/share/bambu-filament-profiles/sources`), nicht im Repo. `build --printer` erzeugt Profile für ein
-anderes Bambu-Druckerprofil; die Basisprofil-Regeln sind aber auf den P1S abgestimmt.
+Alles landet im Datenordner des Tools, nicht im Repo (Linux: `~/.local/share/bambu-filament-profiles`,
+Windows: `%LOCALAPPDATA%\bambu-filament-profiles`):
+
+- `sources/`: die Quell-Repos, flach und nur mit den nötigen Dateien,
+- `sources.lock.json`: welche Commits zuletzt geholt wurden,
+- `profiles/`: die erzeugten Profile, dazu `INDEX.md` (Übersicht), `REPORT.md` (übersprungene Filamente,
+  Warnungen) und `BUILD.json` (Zeitpunkt und Quellen-Stände).
+
+Sind die Profile älter als 30 Tage, weisen `list`, `install` und `export` darauf hin. `update --printer` erzeugt
+Profile für ein anderes Bambu-Druckerprofil; die Basisprofil-Regeln sind aber auf den P1S abgestimmt.
 
 ## Entwicklung
 
