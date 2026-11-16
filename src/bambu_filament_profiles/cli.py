@@ -16,6 +16,7 @@ from .install import (
     InstallError,
     backup,
     bambu_running,
+    checklist_markdown,
     choose_installation,
     choose_user,
     default_data_dir,
@@ -23,6 +24,7 @@ from .install import (
     filter_presets,
     find_installations,
     plan_install,
+    printers_label,
     scan_user_presets,
     write_profile,
 )
@@ -91,6 +93,14 @@ def _parser() -> argparse.ArgumentParser:
         else:
             p.set_defaults(func=cmd_list)
 
+    p = sub.add_parser("app", help="Begleit-App im Browser öffnen: suchen, installieren, aufräumen")
+    p.add_argument("--profiles", type=Path, default=REPO_ROOT / "profiles")
+    p.add_argument("--data-dir", help="Bambu-Studio-Datenordner (sonst automatisch gesucht)")
+    p.add_argument("--backup-dir", type=Path, default=default_data_dir() / "backups")
+    p.add_argument("--port", type=int, default=8765, help="Port auf 127.0.0.1 (belegt → freier Port)")
+    p.add_argument("--no-browser", action="store_true", help="Browser nicht automatisch öffnen")
+    p.set_defaults(func=cmd_app)
+
     p = sub.add_parser("cleanup", help="vorhandene eigene Filamentprofile auflisten und aufräumen")
     _target_args(p)
     p.add_argument("--vendor", action="append", default=[], help="Hersteller oder Namensteil (mehrfach möglich)")
@@ -141,6 +151,14 @@ def cmd_list(args, ask, out) -> int:
         out(f"{item['brand']} / {item['material']} / {item['product']}")
     out(f"{len(items)} Profile")
     return 0
+
+
+def cmd_app(args, ask, out) -> int:
+    from .appmodel import AppSession
+    from .webapp import run_app
+
+    session = AppSession(args.profiles, args.backup_dir, data_dir=args.data_dir)
+    return run_app(session, port=args.port, open_browser=not args.no_browser, out=out)
 
 
 def cmd_export(args, ask, out) -> int:
@@ -282,26 +300,8 @@ def cmd_cleanup(args, ask, out) -> int:
     return 0
 
 
-def _printers(preset, system) -> str:
-    printers = preset.printers(system)
-    if printers is None:
-        return "unbekannt"
-    if not printers:
-        return "alle"
-    short = [p.replace("Bambu Lab ", "") for p in printers]
-    return ", ".join(short[:3]) + (f" (+{len(short) - 3})" if len(short) > 3 else "")
-
-
-def _cleanup_list(presets, user: str) -> str:
-    lines = [
-        f"# Filamentprofile zum Löschen (Benutzer {user})",
-        "",
-        "In Bambu Studio: Datei → Verwaltung von Batch-Profilen → Filament, diese Profile anhaken, Löschen.",
-        "",
-    ]
-    for p in sorted(presets, key=lambda x: x.name.lower()):
-        lines.append(f"- [ ] {p.name} ({'Cloud' if p.synced else 'lokal'}, {p.kind}, Hersteller: {p.shown_vendor})")
-    return "\n".join(lines) + "\n"
+_printers = printers_label
+_cleanup_list = checklist_markdown
 
 
 if __name__ == "__main__":  # pragma: no cover
