@@ -224,3 +224,11 @@ python -m venv .venv
 .venv/bin/pip install -e '.[dev]'
 .venv/bin/pytest --cov
 ```
+
+## License
+
+Copyright (C) 2026 Sebastian Kornehl
+
+Licensed under the GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later), see
+[LICENSE](LICENSE). The test data in `tests/fixtures/` are excerpts from the sources above and keep their own
+licenses (AGPL-3.0, MIT, CC0-1.0), see [THIRD_PARTY.md](THIRD_PARTY.md).
