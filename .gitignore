@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+build/
+dist/
+# Lokaler Quellen-Cache, falls jemand --cache auf das Repo zeigt
+.cache/
