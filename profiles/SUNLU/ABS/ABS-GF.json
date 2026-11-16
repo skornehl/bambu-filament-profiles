@@ -1,0 +1,25 @@
+{
+    "name": "SUNLU ABS-GF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ABS",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: SUNLU ABS-GF. Basis Generic ABS. Werte aus: SpoolmanDB.",
+    "filament_settings_id": [
+        "SUNLU ABS-GF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "SUNLU"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.016"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "260"
+    ]
+}

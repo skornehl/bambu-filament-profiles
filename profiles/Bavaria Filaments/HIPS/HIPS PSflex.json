@@ -1,0 +1,43 @@
+{
+    "name": "Bavaria Filaments HIPS PSflex @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic HIPS @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Bavaria Filaments HIPS PSflex. Basis Generic HIPS @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Bavaria Filaments HIPS PSflex @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Bavaria Filaments"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.02"
+    ],
+    "hot_plate_temp": [
+        "75"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "75"
+    ],
+    "nozzle_temperature": [
+        "225"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "225"
+    ],
+    "nozzle_temperature_range_high": [
+        "235"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ],
+    "textured_plate_temp": [
+        "75"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "75"
+    ]
+}

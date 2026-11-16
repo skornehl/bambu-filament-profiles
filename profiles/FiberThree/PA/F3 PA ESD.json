@@ -1,0 +1,43 @@
+{
+    "name": "FiberThree F3 PA ESD @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FiberThree F3 PA ESD. Basis Generic PA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "FiberThree F3 PA ESD @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FiberThree"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.2"
+    ],
+    "hot_plate_temp": [
+        "0"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "0"
+    ],
+    "nozzle_temperature": [
+        "290"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "290"
+    ],
+    "nozzle_temperature_range_high": [
+        "300"
+    ],
+    "nozzle_temperature_range_low": [
+        "280"
+    ],
+    "textured_plate_temp": [
+        "0"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "0"
+    ]
+}

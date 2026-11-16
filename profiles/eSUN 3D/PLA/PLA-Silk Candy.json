@@ -1,0 +1,25 @@
+{
+    "name": "eSUN 3D PLA-Silk Candy @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA Silk",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: eSUN 3D PLA-Silk Candy. Basis Generic PLA Silk. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "eSUN 3D PLA-Silk Candy @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "eSUN 3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.21"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ]
+}

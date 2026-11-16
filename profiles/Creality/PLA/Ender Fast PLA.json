@@ -1,0 +1,19 @@
+{
+    "name": "Creality Ender Fast PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Creality Ender Fast PLA. Basis Generic PLA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Creality Ender Fast PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Creality"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.25"
+    ]
+}

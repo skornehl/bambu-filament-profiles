@@ -1,0 +1,43 @@
+{
+    "name": "BASF Ultrafuse PP-GF30 @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PP @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: BASF Ultrafuse PP-GF30. Basis Generic PP @BBL X1C. Werte aus: PrusaSlicer.",
+    "filament_settings_id": [
+        "BASF Ultrafuse PP-GF30 @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "BASF"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "75"
+    ],
+    "fan_min_speed": [
+        "40"
+    ],
+    "filament_density": [
+        "1.07"
+    ],
+    "hot_plate_temp": [
+        "40"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "90"
+    ],
+    "nozzle_temperature": [
+        "250"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "textured_plate_temp": [
+        "40"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "90"
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "name": "BASF Ultrafuse PA6 GF30 @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: BASF Ultrafuse PA6 GF30. Basis Generic PA. Werte aus: PrusaSlicer.",
+    "filament_settings_id": [
+        "BASF Ultrafuse PA6 GF30 @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "BASF"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "50"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.17"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "270"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "270"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

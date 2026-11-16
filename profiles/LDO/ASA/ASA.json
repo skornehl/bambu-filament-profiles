@@ -1,0 +1,31 @@
+{
+    "name": "LDO ASA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ASA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: LDO ASA. Basis Generic ASA. Werte aus: Open Filament Database, SpoolmanDB.",
+    "filament_settings_id": [
+        "LDO ASA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "LDO"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.14"
+    ],
+    "nozzle_temperature": [
+        "260"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "nozzle_temperature_range_high": [
+        "260"
+    ],
+    "nozzle_temperature_range_low": [
+        "230"
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "name": "Fiberlogy HIPS @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic HIPS @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Fiberlogy HIPS. Basis Generic HIPS @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Fiberlogy HIPS @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Fiberlogy"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.04"
+    ],
+    "nozzle_temperature_range_high": [
+        "245"
+    ],
+    "nozzle_temperature_range_low": [
+        "230"
+    ]
+}

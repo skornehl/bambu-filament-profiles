@@ -1,0 +1,46 @@
+{
+    "name": "FDplast TPU @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic TPU",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FDplast TPU. Basis Generic TPU. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "FDplast TPU @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FDplast"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.26"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature": [
+        "180"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "180"
+    ],
+    "nozzle_temperature_range_high": [
+        "190"
+    ],
+    "nozzle_temperature_range_low": [
+        "175"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}

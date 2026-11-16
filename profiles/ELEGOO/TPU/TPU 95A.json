@@ -1,0 +1,40 @@
+{
+    "name": "ELEGOO TPU 95A @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic TPU",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: ELEGOO TPU 95A. Basis Generic TPU. Werte aus: OrcaSlicer, Open Filament Database.",
+    "filament_settings_id": [
+        "ELEGOO TPU 95A @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "ELEGOO"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "additional_cooling_fan_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "1.16"
+    ],
+    "filament_flow_ratio": [
+        "0.96"
+    ],
+    "filament_max_volumetric_speed": [
+        "3.2"
+    ],
+    "nozzle_temperature": [
+        "225"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "225"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ]
+}

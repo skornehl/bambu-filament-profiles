@@ -1,0 +1,19 @@
+{
+    "name": "AzureFilm TPU/TPE @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic TPU",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: AzureFilm TPU/TPE. Basis Generic TPU. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "AzureFilm TPU/TPE @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "AzureFilm"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.2"
+    ]
+}

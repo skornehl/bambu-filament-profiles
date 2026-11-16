@@ -1,0 +1,52 @@
+{
+    "name": "extrudr PLA GreenTEC Pro @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: extrudr PLA GreenTEC Pro. Basis Generic PLA. Werte aus: PrusaSlicer, Open Filament Database.",
+    "filament_settings_id": [
+        "extrudr PLA GreenTEC Pro @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "extrudr"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "80"
+    ],
+    "fan_min_speed": [
+        "30"
+    ],
+    "filament_density": [
+        "1.35"
+    ],
+    "filament_max_volumetric_speed": [
+        "16"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature": [
+        "215"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "215"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "210"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}

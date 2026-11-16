@@ -1,0 +1,37 @@
+{
+    "name": "Protopasta Recycled PETG @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Protopasta Recycled PETG. Basis Generic PETG. Werte aus: Open Filament Database, SpoolmanDB.",
+    "filament_settings_id": [
+        "Protopasta Recycled PETG @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Protopasta"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.27"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature_range_high": [
+        "275"
+    ],
+    "nozzle_temperature_range_low": [
+        "235"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}

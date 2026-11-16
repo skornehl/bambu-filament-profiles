@@ -1,0 +1,43 @@
+{
+    "name": "FilamentPM PPJet @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PP @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FilamentPM PPJet. Basis Generic PP @BBL X1C. Werte aus: PrusaSlicer.",
+    "filament_settings_id": [
+        "FilamentPM PPJet @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FilamentPM"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "40"
+    ],
+    "fan_min_speed": [
+        "20"
+    ],
+    "filament_density": [
+        "0.89"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "230"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "235"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

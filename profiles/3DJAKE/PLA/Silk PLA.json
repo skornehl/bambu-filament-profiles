@@ -1,0 +1,43 @@
+{
+    "name": "3DJAKE Silk PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA Silk",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: 3DJAKE Silk PLA. Basis Generic PLA Silk. Werte aus: Open Filament Database, SpoolmanDB.",
+    "filament_settings_id": [
+        "3DJAKE Silk PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "3DJAKE"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.24"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature": [
+        "230"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "230"
+    ],
+    "nozzle_temperature_range_high": [
+        "230"
+    ],
+    "nozzle_temperature_range_low": [
+        "190"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}

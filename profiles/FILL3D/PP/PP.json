@@ -1,0 +1,55 @@
+{
+    "name": "FILL3D PP @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PP @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FILL3D PP. Basis Generic PP @BBL X1C. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "FILL3D PP @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FILL3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "additional_cooling_fan_speed": [
+        "0"
+    ],
+    "close_fan_the_first_x_layers": [
+        "5"
+    ],
+    "fan_max_speed": [
+        "60"
+    ],
+    "fan_min_speed": [
+        "0"
+    ],
+    "filament_density": [
+        "0.93"
+    ],
+    "filament_flow_ratio": [
+        "1.045"
+    ],
+    "filament_max_volumetric_speed": [
+        "14"
+    ],
+    "filament_retraction_length": [
+        "0.2"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "300"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "295"
+    ],
+    "slow_down_layer_time": [
+        "10"
+    ]
+}

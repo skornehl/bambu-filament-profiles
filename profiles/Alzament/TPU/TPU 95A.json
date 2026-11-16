@@ -1,0 +1,19 @@
+{
+    "name": "Alzament TPU 95A @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic TPU",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Alzament TPU 95A. Basis Generic TPU. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Alzament TPU 95A @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Alzament"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.22"
+    ]
+}

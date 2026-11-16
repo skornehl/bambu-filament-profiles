@@ -1,0 +1,64 @@
+{
+    "name": "Overture ASA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ASA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Overture ASA. Basis Generic ASA. Werte aus: OrcaSlicer, Open Filament Database.",
+    "filament_settings_id": [
+        "Overture ASA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Overture"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_cooling_layer_time": [
+        "45"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "fan_min_speed": [
+        "100"
+    ],
+    "filament_density": [
+        "1.14"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "filament_max_volumetric_speed": [
+        "10"
+    ],
+    "hot_plate_temp": [
+        "100"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "100"
+    ],
+    "nozzle_temperature": [
+        "270"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "270"
+    ],
+    "nozzle_temperature_range_high": [
+        "270"
+    ],
+    "nozzle_temperature_range_low": [
+        "240"
+    ],
+    "slow_down_layer_time": [
+        "2"
+    ],
+    "temperature_vitrification": [
+        "106"
+    ],
+    "textured_plate_temp": [
+        "100"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "100"
+    ]
+}

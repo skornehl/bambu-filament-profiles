@@ -1,0 +1,43 @@
+{
+    "name": "colorFabb nGen flex @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic TPU",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: colorFabb nGen flex. Basis Generic TPU. Werte aus: PrusaSlicer.",
+    "filament_settings_id": [
+        "colorFabb nGen flex @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "colorFabb"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "35"
+    ],
+    "fan_min_speed": [
+        "20"
+    ],
+    "filament_density": [
+        "1"
+    ],
+    "hot_plate_temp": [
+        "85"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "85"
+    ],
+    "nozzle_temperature": [
+        "260"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "textured_plate_temp": [
+        "85"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "85"
+    ]
+}

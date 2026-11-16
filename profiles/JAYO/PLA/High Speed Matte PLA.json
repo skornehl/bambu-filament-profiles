@@ -1,0 +1,19 @@
+{
+    "name": "JAYO High Speed Matte PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA High Speed @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: JAYO High Speed Matte PLA. Basis Generic PLA High Speed @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "JAYO High Speed Matte PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "JAYO"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.24"
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "name": "FormFutura ASA ApolloX Foaming @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ASA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: FormFutura ASA ApolloX Foaming. Basis Generic ASA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "FormFutura ASA ApolloX Foaming @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "FormFutura"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.07"
+    ],
+    "hot_plate_temp": [
+        "70"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "70"
+    ],
+    "nozzle_temperature_range_high": [
+        "285"
+    ],
+    "nozzle_temperature_range_low": [
+        "220"
+    ],
+    "textured_plate_temp": [
+        "70"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "70"
+    ]
+}

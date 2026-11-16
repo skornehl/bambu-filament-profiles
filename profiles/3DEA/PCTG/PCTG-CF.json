@@ -1,0 +1,37 @@
+{
+    "name": "3DEA PCTG-CF @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PCTG @BBL X1C",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: 3DEA PCTG-CF. Basis Generic PCTG @BBL X1C. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "3DEA PCTG-CF @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "3DEA"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.24"
+    ],
+    "hot_plate_temp": [
+        "90"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "90"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "250"
+    ],
+    "textured_plate_temp": [
+        "90"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "90"
+    ]
+}

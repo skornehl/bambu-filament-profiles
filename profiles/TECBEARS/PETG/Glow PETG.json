@@ -1,0 +1,31 @@
+{
+    "name": "TECBEARS Glow PETG @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: TECBEARS Glow PETG. Basis Generic PETG. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "TECBEARS Glow PETG @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "TECBEARS"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.27"
+    ],
+    "nozzle_temperature": [
+        "235"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "235"
+    ],
+    "nozzle_temperature_range_high": [
+        "250"
+    ],
+    "nozzle_temperature_range_low": [
+        "220"
+    ]
+}

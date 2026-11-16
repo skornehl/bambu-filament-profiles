@@ -1,0 +1,37 @@
+{
+    "name": "Filament Unger PLA+ @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Filament Unger PLA+. Basis Generic PLA. Werte aus: SpoolmanDB.",
+    "filament_settings_id": [
+        "Filament Unger PLA+ @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Filament Unger"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.28"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature": [
+        "220"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "220"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}

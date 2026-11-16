@@ -1,0 +1,43 @@
+{
+    "name": "Prusament PLA Blend (NFC) @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Prusament PLA Blend (NFC). Basis Generic PLA. Werte aus: SpoolmanDB.",
+    "filament_settings_id": [
+        "Prusament PLA Blend (NFC) @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Prusament"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.24"
+    ],
+    "hot_plate_temp": [
+        "50"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "50"
+    ],
+    "nozzle_temperature": [
+        "225"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "225"
+    ],
+    "nozzle_temperature_range_high": [
+        "225"
+    ],
+    "nozzle_temperature_range_low": [
+        "205"
+    ],
+    "textured_plate_temp": [
+        "50"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "50"
+    ]
+}

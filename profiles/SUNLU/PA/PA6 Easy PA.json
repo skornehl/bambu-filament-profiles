@@ -1,0 +1,37 @@
+{
+    "name": "SUNLU PA6 Easy PA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: SUNLU PA6 Easy PA. Basis Generic PA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "SUNLU PA6 Easy PA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "SUNLU"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.1"
+    ],
+    "hot_plate_temp": [
+        "40"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "40"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "250"
+    ],
+    "textured_plate_temp": [
+        "40"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "40"
+    ]
+}

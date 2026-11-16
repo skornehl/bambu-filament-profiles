@@ -1,0 +1,43 @@
+{
+    "name": "extrudr PETG XPETG Matt @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PETG",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: extrudr PETG XPETG Matt. Basis Generic PETG. Werte aus: PrusaSlicer, SpoolmanDB.",
+    "filament_settings_id": [
+        "extrudr PETG XPETG Matt @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "extrudr"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "50"
+    ],
+    "fan_min_speed": [
+        "30"
+    ],
+    "filament_density": [
+        "1.41"
+    ],
+    "hot_plate_temp": [
+        "70"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "70"
+    ],
+    "nozzle_temperature": [
+        "230"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "230"
+    ],
+    "textured_plate_temp": [
+        "70"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "70"
+    ]
+}

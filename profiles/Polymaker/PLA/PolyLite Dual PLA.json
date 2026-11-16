@@ -1,0 +1,19 @@
+{
+    "name": "Polymaker PolyLite Dual PLA @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Polymaker PolyLite Dual PLA. Basis Generic PLA. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "Polymaker PolyLite Dual PLA @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Polymaker"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ]
+}

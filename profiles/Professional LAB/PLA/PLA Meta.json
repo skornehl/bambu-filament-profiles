@@ -1,0 +1,19 @@
+{
+    "name": "Professional LAB PLA Meta @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Professional LAB PLA Meta. Basis Generic PLA. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Professional LAB PLA Meta @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Professional LAB"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.25"
+    ]
+}

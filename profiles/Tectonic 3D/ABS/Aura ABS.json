@@ -1,0 +1,31 @@
+{
+    "name": "Tectonic 3D Aura ABS @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic ABS",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: Tectonic 3D Aura ABS. Basis Generic ABS. Werte aus: Open Filament Database.",
+    "filament_settings_id": [
+        "Tectonic 3D Aura ABS @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "Tectonic 3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_density": [
+        "1.04"
+    ],
+    "nozzle_temperature": [
+        "245"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "245"
+    ],
+    "nozzle_temperature_range_high": [
+        "260"
+    ],
+    "nozzle_temperature_range_low": [
+        "230"
+    ]
+}

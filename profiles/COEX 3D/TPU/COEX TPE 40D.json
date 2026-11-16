@@ -1,0 +1,52 @@
+{
+    "name": "COEX 3D COEX TPE 40D @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic TPU",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: COEX 3D COEX TPE 40D. Basis Generic TPU. Werte aus: OrcaSlicer.",
+    "filament_settings_id": [
+        "COEX 3D COEX TPE 40D @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "COEX 3D"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "fan_min_speed": [
+        "100"
+    ],
+    "filament_density": [
+        "1.18"
+    ],
+    "filament_flow_ratio": [
+        "1"
+    ],
+    "filament_max_volumetric_speed": [
+        "5.5"
+    ],
+    "filament_retraction_length": [
+        "0.4"
+    ],
+    "filament_retraction_speed": [
+        "20"
+    ],
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "240"
+    ],
+    "slow_down_layer_time": [
+        "10"
+    ],
+    "slow_down_min_speed": [
+        "5"
+    ],
+    "temperature_vitrification": [
+        "60"
+    ]
+}

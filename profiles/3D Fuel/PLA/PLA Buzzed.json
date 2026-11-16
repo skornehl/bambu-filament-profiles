@@ -1,0 +1,43 @@
+{
+    "name": "3D Fuel PLA Buzzed @Bambu Lab P1S 0.4 nozzle",
+    "from": "User",
+    "inherits": "Generic PLA",
+    "version": "2.9.0.74",
+    "description": "bambu-filament-profiles 0.1.0: 3D Fuel PLA Buzzed. Basis Generic PLA. Werte aus: PrusaSlicer.",
+    "filament_settings_id": [
+        "3D Fuel PLA Buzzed @Bambu Lab P1S 0.4 nozzle"
+    ],
+    "filament_vendor": [
+        "3D Fuel"
+    ],
+    "compatible_printers": [
+        "Bambu Lab P1S 0.4 nozzle"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "fan_min_speed": [
+        "100"
+    ],
+    "filament_density": [
+        "1.24"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "60"
+    ],
+    "nozzle_temperature": [
+        "195"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "210"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "60"
+    ]
+}
