@@ -190,7 +190,7 @@ function renderState() {
   b.textContent = i.running ? "Bambu Studio is running: please close it" : "Bambu Studio closed";
   b.className = "badge " + (i.running ? "warn" : "ok");
   const built = i.catalog_built ? new Date(i.catalog_built) : null;
-  $("catText").textContent = built ? `Profiles from ${built.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}` : "Age of the profiles unknown";
+  $("catText").textContent = built ? `Profiles from ${built.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}` : "Age of the profiles unknown";
   $("updBtn").classList.toggle("hidden", !i.can_update);
   updateActions();
 }
@@ -198,7 +198,8 @@ async function updateCatalog() {
   dialog("Update profiles", el("p", {}, "Fetching the newest sources and rebuilding the profiles. This takes a moment …"), []);
   try {
     const r = await api("/api/update", {});
-    S.sel.clear();
+    S.sel.clear(); S.current = null;
+    $("detail").replaceChildren(el("div", { class: "empty" }, "Click a profile to see its values."));
     await loadState(); await loadProfiles();
     dialog("Profiles updated", el("p", {}, `${num(r.catalog_size, "profile", "profiles")}, up to date.`), [closeBtn()]);
   } catch (err) { fail(err); }

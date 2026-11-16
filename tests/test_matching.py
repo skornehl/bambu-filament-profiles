@@ -106,3 +106,12 @@ def test_safe_filename_windows_reserved():
 
 def test_carbon_fiber_matches_cf():
     assert name_tokens("PLA Carbon Fiber", "Sunlu", "PLA") == name_tokens("PLA CF", "Sunlu", "PLA") == {"cf"}
+
+
+def test_clean_name():
+    from bambu_filament_profiles.matching import clean_name
+
+    assert clean_name("Nylon PA6/66") == "Nylon PA6-66"
+    assert clean_name('PLA "Sparkly Green Ocean"') == "PLA Sparkly Green Ocean"
+    assert clean_name("grillon3 PLA |") == "grillon3 PLA"
+    assert clean_name("PLA: Silk?*  <x>.") == "PLA Silk x"

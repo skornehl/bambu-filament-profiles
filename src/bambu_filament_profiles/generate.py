@@ -15,7 +15,7 @@ import math
 from dataclasses import dataclass, field
 
 from . import MARKER, __version__
-from .matching import family_of, match_key, safe_filename
+from .matching import clean_name, family_of, match_key, safe_filename
 from .merge import Merged, merge
 from .model import Entry
 from .sources import to_number
@@ -145,6 +145,7 @@ SOURCE_LABELS = {
 class Issue:
     level: str  # "error" | "warning" | "info"
     message: str
+    code: str = ""  # for errors: "diameter" | "base_profile" | "nozzle" | "bed"
 
 
 @dataclass
@@ -169,8 +170,8 @@ class Generated:
     def relpath(self) -> str:
         return f"{safe_filename(self.brand)}/{safe_filename(self.family)}/{safe_filename(self.product)}.json"
 
-    def error(self, message: str) -> Generated:
-        self.issues.append(Issue("error", message))
+    def error(self, message: str, code: str = "") -> Generated:
+        self.issues.append(Issue("error", message, code))
         self.profile = None
         return self
 
@@ -207,7 +208,7 @@ def product_name(entry: Entry) -> str:
     if family_of(name) is None:
         material = (entry.material or entry.family).strip()
         name = f"{material} {name}".strip() if name.lower() != material.lower() else material
-    return name.replace("@", " at ")
+    return clean_name(name.replace("@", " at "))
 
 
 def filament_id_for(alias: str, user_id: str = "") -> str:
@@ -229,7 +230,7 @@ def round5(value: float) -> float:
 def generate(entry: Entry, bambu: BambuProfiles, printer: str = DEFAULT_PRINTER, system_keys: dict | None = None) -> Generated:
     brand = entry.brand.strip()
     product = product_name(entry)
-    alias = f"{brand} {product}".strip()
+    alias = clean_name(f"{brand} {product}")
     result = Generated(entry=entry, brand=brand, family=entry.family, product=product, alias=alias, name=f"{alias} @{printer}")
     merged = merge(entry)
     result.merged = merged
@@ -247,11 +248,11 @@ def generate(entry: Entry, bambu: BambuProfiles, printer: str = DEFAULT_PRINTER,
         return result
 
     if merged.diameter is not None and abs(merged.diameter - 1.75) > 0.02:
-        return result.error(f"diameter {merged.diameter:g} mm, the printer needs 1.75 mm")
+        return result.error(f"diameter {merged.diameter:g} mm, the printer needs 1.75 mm", "diameter")
 
     parent = choose_parent(entry.family, entry.tokens, bambu, printer)
     if parent is None:
-        return result.error(f"no matching base profile for {entry.family} on \"{printer}\"")
+        return result.error(f"no matching base profile for {entry.family} on \"{printer}\"", "base_profile")
     result.parent = parent
     base = bambu.flatten(parent)
     limits = limits_for(printer)
@@ -278,7 +279,7 @@ def generate(entry: Entry, bambu: BambuProfiles, printer: str = DEFAULT_PRINTER,
         "from": "User",
         "inherits": parent,
         "version": bambu.version,
-        "description": _description(alias, parent, merged, provenance),
+        "description": "",  # filled in below from the values actually used
         "filament_settings_id": [result.name],
         "filament_vendor": [brand],
         "compatible_printers": [printer],
@@ -286,8 +287,10 @@ def generate(entry: Entry, bambu: BambuProfiles, printer: str = DEFAULT_PRINTER,
     for key in sorted(values):
         if not key.startswith("_"):
             profile[key] = [fmt(key, values[key])]
+    # Only values that made it into the profile count; dropped ones credit no source.
+    result.provenance = {k: v for k, v in provenance.items() if k in profile}
+    profile["description"] = _description(alias, parent, result.provenance)
     result.profile = profile
-    result.provenance = {k: v for k, v in provenance.items() if not k.startswith("_")}
     return result
 
 
@@ -344,14 +347,14 @@ def _nozzle(result: Generated, values: dict, provenance: dict, base: dict, limit
         values.pop("nozzle_temperature_range_high")
         low = high = None
     if low is not None and low > limits.nozzle_max:
-        result.error(f"needs at least {low:g} °C at the nozzle, the printer reaches {limits.nozzle_max:g} °C")
+        result.error(f"needs at least {low:g} °C at the nozzle, the printer reaches {limits.nozzle_max:g} °C", "nozzle")
         return False
     if high is not None and high > limits.nozzle_max:
         result.warn(f"nozzle maximum {high:g} °C capped at {limits.nozzle_max:g} °C")
         values["nozzle_temperature_range_high"] = high = float(limits.nozzle_max)
     for key in ("nozzle_temperature", "nozzle_temperature_initial_layer"):
         if key in values and values[key] > limits.nozzle_max:
-            result.error(f"{key} = {values[key]:g} °C above the printer limit {limits.nozzle_max:g} °C")
+            result.error(f"{key} = {values[key]:g} °C above the printer limit {limits.nozzle_max:g} °C", "nozzle")
             return False
     lo = low if low is not None else -math.inf
     hi = high if high is not None else math.inf
@@ -386,8 +389,12 @@ def _bed(result: Generated, values: dict, provenance: dict, base: dict, limits: 
         result.warn(f"bed range {bmin:g}–{bmax:g} °C reversed, dropped")
         bmin = bmax = None
     if bmin is not None and bmin > limits.bed_max:
-        result.error(f"needs at least {bmin:g} °C on the bed, the printer reaches {limits.bed_max:g} °C")
+        result.error(f"needs at least {bmin:g} °C on the bed, the printer reaches {limits.bed_max:g} °C", "bed")
         return False
+    if bmax is not None and bmax > limits.bed_max:
+        # Like the nozzle: a range reaching beyond the printer is usable up to its limit.
+        # The range itself is not written to the profile, so no warning is needed.
+        bmax = float(limits.bed_max)
     lo = bmin if bmin is not None else -math.inf
     hi = bmax if bmax is not None else math.inf
     for plate in PLATES:
@@ -412,7 +419,7 @@ def _bed(result: Generated, values: dict, provenance: dict, base: dict, limits: 
                 provenance[first] = provenance.get(key, "derived")
         for k in (key, first):
             if k in values and values[k] > limits.bed_max:
-                result.error(f"{k} = {values[k]:g} °C above the printer limit {limits.bed_max:g} °C")
+                result.error(f"{k} = {values[k]:g} °C above the printer limit {limits.bed_max:g} °C", "bed")
                 return False
     for plate in OTHER_PLATES:
         for k in (f"{plate}_plate_temp", f"{plate}_plate_temp_initial_layer"):
@@ -422,10 +429,12 @@ def _bed(result: Generated, values: dict, provenance: dict, base: dict, limits: 
     return True
 
 
-def _description(alias: str, parent: str, merged: Merged, provenance: dict) -> str:
-    used = []
-    for source in ("manual", "orca", "prusa", "ofd", "spoolman", "cura"):
-        if source in provenance.values() or source in {p for p in merged.provenance.values()}:
-            used.append(SOURCE_LABELS[source])
-    sources = ", ".join(used) if used else "base profile only"
+def used_sources(provenance: dict[str, str]) -> list[str]:
+    """Labels of the sources whose values are in the profile, in priority order."""
+    used = set(provenance.values())
+    return [SOURCE_LABELS[s] for s in ("manual", "orca", "prusa", "ofd", "spoolman", "cura") if s in used]
+
+
+def _description(alias: str, parent: str, provenance: dict) -> str:
+    sources = ", ".join(used_sources(provenance)) or "base profile only"
     return f"{MARKER} {__version__}: {alias}. Base {parent}. Values from: {sources}."

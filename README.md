@@ -96,7 +96,8 @@ Safety net:
 - **Backup** of the whole filament folder as a ZIP before anything is written
   (Linux: `~/.local/share/bambu-filament-profiles/backups`, Windows: `%LOCALAPPDATA%\bambu-filament-profiles\backups`).
 - **No silent overwrites**: if a profile with the same name exists, the tool asks for each one; when it cannot
-  ask, the profile is skipped, unless you pass `--overwrite`.
+  ask, the profile is skipped, unless you pass `--overwrite`. An overwritten profile keeps its cloud link, so
+  Bambu Studio updates the cloud copy instead of restoring the old one or creating a duplicate.
 - **Bambu Studio must be closed**: if it is running, the tool aborts (unless `--force`), because Bambu Studio
   only sees new files after a restart and may overwrite them when it exits.
 - **Several installations or users**: the tool asks; preselected is the user that is active in Bambu Studio.
@@ -212,7 +213,8 @@ Windows: `%LOCALAPPDATA%\bambu-filament-profiles`):
 - `profiles/`: the generated profiles, plus `INDEX.md` (overview), `REPORT.md` (skipped filaments, warnings)
   and `BUILD.json` (time and source commits).
 
-If the profiles are older than 30 days, `list`, `install` and `export` point that out. `update --printer` builds
+If the profiles are older than 30 days, `list`, `install` and `export` point that out; a catalog built by an
+older version of the tool is rebuilt automatically. Unreadable files in a source are skipped and reported. `update --printer` builds
 profiles for another Bambu printer profile; the base profile rules are tuned for the P1S, though.
 
 ## Development

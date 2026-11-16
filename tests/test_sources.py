@@ -173,3 +173,43 @@ def test_manual_errors(tmp_path, content, message):
     (tmp_path / "bad.toml").write_text(content, encoding="utf-8")
     with pytest.raises(manual.ManualError, match=message):
         manual.load(tmp_path)
+
+
+def test_broken_upstream_files_are_skipped_and_reported(tmp_path):
+    import shutil
+
+    for name in ("orca", "ofd", "spoolman"):
+        shutil.copytree(FIXTURES / name, tmp_path / name)
+    (tmp_path / "orca" / "resources" / "profiles" / "OrcaFilamentLibrary" / "filament" / "broken.json").write_text("{", encoding="utf-8")
+    (tmp_path / "ofd" / "data" / "geeetech" / "PLA" / "pla" / "filament.json").write_text("[1]", encoding="utf-8")
+    (tmp_path / "spoolman" / "filaments" / "broken.json").write_text("{", encoding="utf-8")
+
+    problems: list[str] = []
+    assert [r.ref for r in orca.load(tmp_path / "orca", PRINTER, problems)] == ["Elegoo PLA @System"]
+    assert ofd.load(tmp_path / "ofd", problems) and spoolman.load(tmp_path / "spoolman", problems)
+    assert [p.split(":")[0] for p in problems] == ["broken.json", "filament.json", "broken.json"]
+    assert ofd.load(tmp_path / "nothing") == []
+
+
+def test_ofd_broken_brand_and_material_files(tmp_path):
+    material = tmp_path / "data" / "acme" / "PLA"
+    (material / "matte").mkdir(parents=True)
+    (tmp_path / "data" / "acme" / "brand.json").write_text('{"name": "Acme"}', encoding="utf-8")
+    (material / "material.json").write_text("{", encoding="utf-8")
+    (material / "matte" / "filament.json").write_text('{"name": "Matte PLA"}', encoding="utf-8")
+    broken_brand = tmp_path / "data" / "other"
+    broken_brand.mkdir()
+    (broken_brand / "brand.json").write_text("{", encoding="utf-8")
+    problems: list[str] = []
+    (record,) = ofd.load(tmp_path, problems)
+    assert record.brand == "Acme" and record.material == "PLA"  # folder name as fallback
+    assert sorted(p.split(":")[0] for p in problems) == ["brand.json", "material.json"]
+
+
+def test_spoolman_ignores_incomplete_ranges(tmp_path):
+    folder = tmp_path / "filaments"
+    folder.mkdir()
+    item = {"name": "PLA", "material": "PLA", "extruder_temp_range": [None, 220], "bed_temp_range": ["x", 60], "diameters": [1.75]}
+    (folder / "acme.json").write_text(json.dumps({"manufacturer": "Acme", "filaments": [item]}), encoding="utf-8")
+    (record,) = spoolman.load(tmp_path)
+    assert record.values == {}

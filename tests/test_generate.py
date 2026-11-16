@@ -43,7 +43,16 @@ def test_product_name():
     assert product_name(make_entry(name="Matte PLA")) == "Matte PLA"
     assert product_name(make_entry(name="Silk")) == "PLA Silk"
     assert product_name(make_entry(name="PLA")) == "PLA"
-    assert product_name(make_entry(name="Rot @Spule")) == "PLA Rot  at Spule"
+    assert product_name(make_entry(name="Red @Spool")) == "PLA Red at Spool"
+    # Bambu Studio saves presets as <name>.json: no path or Windows-invalid characters
+    assert product_name(make_entry(name="PA6/66", family="PA")) == "PA6-66"
+    assert product_name(make_entry(name='PLA "Sparkly Green" |')) == "PLA Sparkly Green"
+
+
+def test_generated_names_are_file_safe(bambu):
+    result = generate(make_entry({"nozzle_temperature": 205}, brand="Hobby/Lobby", name="PLA Candy/Silver"), bambu, PRINTER)
+    assert result.name == f"Hobby-Lobby PLA Candy-Silver @{PRINTER}"
+    assert result.profile["filament_vendor"] == ["Hobby/Lobby"]
 
 
 def test_choose_parent(bambu):
@@ -184,3 +193,29 @@ def test_expand_missing_parent(bambu):
 
 def test_product_name_uses_material_variant():
     assert product_name(make_entry(name="PLA", material="PLA+")) == "PLA+"
+
+
+def test_bed_range_beyond_printer_is_capped_not_rejected(bambu):
+    # like 3DJAKE ABS: bed 100–110 °C; the midpoint 105 used to exceed the P1S limit of 100 °C
+    result = generate(make_entry({"_bed_min": 100, "_bed_max": 110}), bambu, PRINTER)
+    assert result.ok
+    assert result.profile["textured_plate_temp"] == ["100"] and result.profile["hot_plate_temp"] == ["100"]
+    result = generate(make_entry({"_bed_min": 95, "_bed_max": 120}), bambu, PRINTER)
+    assert result.ok and result.profile["textured_plate_temp"] == ["100"]  # round5(97.5)
+    result = generate(make_entry({"_bed_min": 105, "_bed_max": 120}), bambu, PRINTER)
+    assert not result.ok and result.issues[-1].code == "bed"
+
+
+def test_dropped_values_credit_no_source(bambu):
+    e = make_entry({"nozzle_temperature": 205})
+    e.records.append(Record(source="cura", brand="Acme", material="PLA", name="PLA", ref="c", values={"filament_density": 9.9}))
+    result = generate(e, bambu, PRINTER)
+    assert "cura" not in result.provenance.values()
+    assert "Cura" not in result.profile["description"] and "Open Filament Database" in result.profile["description"]
+
+
+def test_error_codes(bambu):
+    assert generate(make_entry(diameter=2.85), bambu, PRINTER).issues[-1].code == "diameter"
+    assert generate(make_entry(family="PEEK", name="PEEK"), bambu, PRINTER).issues[-1].code == "base_profile"
+    assert generate(make_entry({"nozzle_temperature_range_low": 360}), bambu, PRINTER).issues[-1].code == "nozzle"
+    assert generate(make_entry({"_bed": 105}), bambu, PRINTER).issues[-1].code == "bed"

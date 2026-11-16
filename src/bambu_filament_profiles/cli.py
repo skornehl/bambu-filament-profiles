@@ -9,6 +9,7 @@ from pathlib import Path
 
 from . import __version__
 from .catalog import (
+    CATALOG_FORMAT,
     build,
     catalog_age_days,
     list_profiles,
@@ -159,16 +160,22 @@ def _update(profiles: Path, out) -> None:
 def _catalog(args, out) -> list[dict]:
     """The generated profiles; if they are missing in the default place, fetch and build them first."""
     items = list_profiles(args.profiles)
-    if not items:
+    info = read_build_info(args.profiles)
+    outdated = bool(items) and (info or {}).get("format", 1) < CATALOG_FORMAT
+    if not items or outdated:
         if Path(args.profiles) != default_data_dir() / "profiles":
+            if outdated:
+                out(f'Note: the profiles were built by an older version. "bfp update --out {args.profiles}" rebuilds them.')
+                return items
             raise InstallError(f"No profiles in {args.profiles}. Build them first: bfp update --out {args.profiles}")
-        out("No profiles on this computer yet: fetching the sources and building the profiles (once, takes a moment) …")
+        if outdated:
+            out("The profiles were built by an older version: rebuilding them (takes a moment) …")
+        else:
+            out("No profiles on this computer yet: fetching the sources and building the profiles (once, takes a moment) …")
         _update(args.profiles, out)
         return list_profiles(args.profiles)
-    age = catalog_age_days(read_build_info(args.profiles))
-    if age is None:
-        out('Note: the age of the profiles is unknown. "bfp update" fetches the newest state.')
-    elif age > MAX_AGE_DAYS:
+    age = catalog_age_days(info)
+    if age > MAX_AGE_DAYS:
         out(f'Note: the profiles are {age} days old. "bfp update" fetches the newest state.')
     return items
 

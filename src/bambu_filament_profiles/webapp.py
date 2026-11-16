@@ -134,8 +134,11 @@ class Handler(BaseHTTPRequestHandler):
         session = self.server.session
         try:
             body = self._body()
+            path = urlsplit(self.path).path
+            if path == "/api/update":
+                # Takes many seconds; the session only holds the lock to swap the catalog.
+                return self._json(200, session.update(self.server.lock))
             with self.server.lock:
-                path = urlsplit(self.path).path
                 if path == "/api/select":
                     session.select(body.get("installation"), body.get("user"))
                     return self._json(200, session.state())
@@ -145,8 +148,6 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, session.install([int(i) for i in body.get("ids", [])], body.get("overwrite", [])))
                 if path == "/api/delete-local":
                     return self._json(200, session.delete_local(body.get("names", [])))
-                if path == "/api/update":
-                    return self._json(200, session.update())
                 if path == "/api/checklist":
                     return self._json(200, {"markdown": session.checklist(body.get("names", []))})
                 if path == "/api/shutdown":
