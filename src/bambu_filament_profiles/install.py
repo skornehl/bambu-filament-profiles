@@ -526,11 +526,18 @@ def apply_brand_merge(changes: list[BrandChange], user_id: str, presets: list[Us
             result["to_delete"].append(preset)
             continue
         write_profile(Action("conflict", preset.path, preset.path, change.new_name, data), user_id)
-        if target != preset.path:
-            preset.path.rename(target)
-            preset.path.with_suffix(".info").rename(target.with_suffix(".info"))
+        if target.name != preset.path.name:
+            for old, new in ((preset.path, target), (preset.path.with_suffix(".info"), target.with_suffix(".info"))):
+                _rename(old, new)
         result["renamed" if change.kind == "rename" else "updated"].append(change.new_name)
     return result
+
+
+def _rename(old: Path, new: Path) -> None:
+    """Rename, also when only upper/lower case changes (Windows and macOS treat both names as the same file)."""
+    step = old.with_name(old.name + ".renaming")
+    old.rename(step)
+    step.rename(new)
 
 
 def printers_label(preset: UserPreset, system: BambuProfiles | None) -> str:

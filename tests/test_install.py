@@ -453,17 +453,30 @@ def test_brand_merge_updates_and_skips(fake_install):
     base = fake_install / "user" / "123" / "filament" / "base"
     write_preset(base, "Tinmorry PLA @X", {"inherits": "", "filament_vendor": ["Tinmorry"]}, "PFUS1")
     write_preset(base, "My Tinmorry PETG @X", {"inherits": "", "filament_vendor": ["Tinmorry"]})
-    write_preset(base, "Tinmorry ASA @X", {"inherits": "", "filament_vendor": ["Tinmorry"]})
-    write_preset(base, "TINMORRY ASA @X", {"inherits": "", "filament_vendor": ["TINMORRY"]})
+    write_preset(base, "eSUN 3D PLA @X", {"inherits": "", "filament_vendor": ["eSUN 3D"]})
+    write_preset(base, "eSUN PLA @X", {"inherits": "", "filament_vendor": ["eSUN"]})
     presets, _ = scan_user_presets(base.parent)
-    groups = brand_groups(presets, catalog_brands={"TINMORRY"})
+    groups = brand_groups(presets, system_vendors={"eSUN"}, catalog_brands={"TINMORRY"})
     changes = {c.preset.name: c for c in plan_brand_merge(presets, groups)}
     assert changes["Tinmorry PLA @X"].kind == "update"  # cloud preset, only the case changes: same file
     assert changes["My Tinmorry PETG @X"].kind == "rename" and changes["My Tinmorry PETG @X"].new_name == "My Tinmorry PETG @X"
-    assert changes["Tinmorry ASA @X"].kind == "skip" and "already exists" in changes["Tinmorry ASA @X"].reason
+    assert changes["eSUN 3D PLA @X"].kind == "skip" and "already exists" in changes["eSUN 3D PLA @X"].reason
     result = apply_brand_merge(list(changes.values()), "123", presets)
-    assert result["updated"] == ["TINMORRY PLA @X"] and result["skipped"] == ["Tinmorry ASA @X"]
+    assert result["updated"] == ["TINMORRY PLA @X"] and result["skipped"] == ["eSUN 3D PLA @X"]
     assert read_info(base / "TINMORRY PLA @X.info")["setting_id"] == "PFUS1"
     assert json.loads((base / "My Tinmorry PETG @X.json").read_text(encoding="utf-8"))["filament_vendor"] == ["TINMORRY"]
+    assert "TINMORRY PLA @X.json" in {p.name for p in base.iterdir()}  # the file name changes case too, on every system
     with pytest.raises(InstallError, match="not a spelling"):
         plan_brand_merge(presets, groups, {"tinmorry": "Acme"})
+
+
+def test_brand_merge_collisions_ignore_case(tmp_path):
+    # Windows and macOS cannot hold both files; on Linux they can, and renaming would clash there too.
+    def preset(name, vendor):
+        return UserPreset(name, tmp_path / f"{name}.json", True, "", vendor, "", "", False)
+
+    presets = [preset("Tinmorry ASA @X", "Tinmorry"), preset("TINMORRY ASA @X", "TINMORRY"), preset("tinmorry PLA @X", "tinmorry"), preset("Tinmorry PLA @X", "Tinmorry")]
+    groups = brand_groups(presets, catalog_brands={"TINMORRY"})
+    changes = {c.preset.name: c for c in plan_brand_merge(presets, groups)}
+    assert changes["Tinmorry ASA @X"].kind == "skip"
+    assert [changes[n].kind for n in ("tinmorry PLA @X", "Tinmorry PLA @X")] == ["skip", "skip"]
