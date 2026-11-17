@@ -86,6 +86,15 @@ class BambuProfiles:
         printers = self.resolve(name, "compatible_printers") or []
         return not printers or printer in printers
 
+    def vendors(self) -> set[str]:
+        """Brand spellings Bambu Studio uses for its own system filaments (without "Generic")."""
+        found = set()
+        for name in self.presets:
+            vendor = (self.resolve(name, "filament_vendor") or [""])[0]
+            if vendor and vendor != "Generic":
+                found.add(vendor)
+        return found
+
     def system_keys(self, printer: str) -> dict[tuple, str]:
         """Match keys of all non-Generic system profiles for the printer."""
         keys: dict[tuple, str] = {}

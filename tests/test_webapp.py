@@ -154,3 +154,16 @@ def test_update_endpoint(server):
     server.session._updater = broken
     status, result = call(server, "POST", "/api/update", {})
     assert status == 400 and "git" in result["error"]
+
+
+def test_brand_endpoints(server, fake_install):
+    base = fake_install / "user" / "123" / "filament" / "base"
+    (base / "Overture 3D PLA @X.json").write_text(json.dumps({"name": "Overture 3D PLA @X", "inherits": "", "filament_vendor": ["Overture 3D"]}), encoding="utf-8")
+    status, brands = call(server, "GET", "/api/brands")
+    assert status == 200 and brands["groups"][0]["target"] == "Overture"
+    status, plan = call(server, "POST", "/api/brand-plan", {"targets": {"overture": "Overture 3D"}})
+    assert status == 200 and plan["changes"] == []  # keeping "Overture 3D" changes none of your profiles
+    assert call(server, "POST", "/api/brand-plan", {"targets": ["x"]})[0] == 400
+    assert call(server, "POST", "/api/brand-plan", {"targets": {"overture": "Acme"}})[0] == 400
+    status, result = call(server, "POST", "/api/merge-brands", {"targets": {}})
+    assert status == 200 and result["renamed"] == ["Overture PLA @X"]

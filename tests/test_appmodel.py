@@ -171,3 +171,28 @@ def test_update_runs_once_and_swaps_under_the_lock(profiles_dir, tmp_path):
     session = AppSession(profiles_dir, tmp_path / "bk", installations=[], updater=updater)
     assert session.update(lock)["catalog_size"] == len(session.catalog)
     assert seen == [False] and not lock.locked()
+
+
+def test_brand_merge_in_the_app(session, fake_install):
+    base = fake_install / "user" / "123" / "filament" / "base"
+    (base / "Overture 3D PLA @X.json").write_text(json.dumps({"name": "Overture 3D PLA @X", "inherits": "", "filament_vendor": ["Overture 3D"]}), encoding="utf-8")
+    (group,) = session.brands()["groups"]
+    assert group["target"] == "Overture" and group["presets"] == ["Overture 3D PLA @X"]
+    plan = session.brand_plan({})["changes"]
+    assert plan == [{"name": "Overture 3D PLA @X", "new_name": "Overture PLA @X", "vendor": "Overture", "kind": "rename", "reason": ""}]
+    session._running = lambda: True
+    with pytest.raises(InstallError, match="running"):
+        session.merge_brands({})
+    session._running = lambda: False
+    result = session.merge_brands({})
+    assert result["renamed"] == ["Overture PLA @X"] and result["backup"] and result["checklist"] == ""
+    assert session.brands()["groups"] == []
+    assert session.merge_brands({}) == {"renamed": [], "updated": [], "copied": [], "skipped": [], "backup": None, "checklist": ""}
+
+
+def test_brand_merge_copy_returns_checklist(session, fake_install):
+    base = fake_install / "user" / "123" / "filament" / "base"
+    (base / "Overture 3D PLA @X.json").write_text(json.dumps({"name": "Overture 3D PLA @X", "inherits": "", "filament_vendor": ["Overture 3D"]}), encoding="utf-8")
+    (base / "Overture 3D PLA @X.info").write_text("setting_id = PFUS3\n", encoding="utf-8")
+    result = session.merge_brands({"overture": "Overture"})
+    assert result["copied"] == ["Overture PLA @X"] and "- [ ] Overture 3D PLA @X (cloud" in result["checklist"]

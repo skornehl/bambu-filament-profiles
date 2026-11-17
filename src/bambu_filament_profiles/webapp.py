@@ -117,6 +117,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, session.profiles())
                 if parts.path == "/api/profile":
                     return self._json(200, session.profile(int(query.get("id", "-1"))))
+                if parts.path == "/api/brands":
+                    return self._json(200, session.brands())
                 if parts.path == "/api/existing":
                     return self._json(
                         200,
@@ -148,6 +150,12 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, session.install([int(i) for i in body.get("ids", [])], body.get("overwrite", [])))
                 if path == "/api/delete-local":
                     return self._json(200, session.delete_local(body.get("names", [])))
+                if path in ("/api/brand-plan", "/api/merge-brands"):
+                    targets = body.get("targets") or {}
+                    if not isinstance(targets, dict) or not all(isinstance(v, str) for v in targets.values()):
+                        raise ValueError("targets must map brands to spellings")
+                    action = session.brand_plan if path == "/api/brand-plan" else session.merge_brands
+                    return self._json(200, action(targets))
                 if path == "/api/checklist":
                     return self._json(200, {"markdown": session.checklist(body.get("names", []))})
                 if path == "/api/shutdown":

@@ -184,3 +184,12 @@ def test_report_lists_unmatched(tmp_path, bambu):
 def test_fixture_sources_exist():
     for name in ("bambu", "orca", "ofd", "prusa", "spoolman", "cura"):
         assert (FIXTURES / name).is_dir()
+
+
+def test_brands_take_bambu_studio_spelling(bambu):
+    from bambu_filament_profiles.model import Record
+
+    # the fixtures' Bambu Studio ships filaments by "Overture"
+    records = {"ofd": [Record(source="ofd", brand="OVERTURE 3D", material="PETG", name="Rock PETG", ref="o", values={"nozzle_temperature": 240})]}
+    (g,) = [g for g in build(records, bambu, PRINTER).generated]
+    assert g.brand == "Overture" and g.name.startswith("Overture Rock PETG @")

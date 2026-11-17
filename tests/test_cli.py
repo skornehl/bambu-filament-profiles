@@ -300,3 +300,37 @@ def test_app_command(monkeypatch, profiles, fake_install, tmp_path):
     updates = []
     monkeypatch.setattr(cli, "update_profiles", fake_update(updates))
     assert session.update()["catalog_size"] == seen["catalog"] and updates[0][2] == profiles
+
+
+@pytest.fixture
+def split_brands(fake_install):
+    base = fake_install / "user" / "123" / "filament" / "base"
+    for name, vendor, setting in (("Overture 3D PLA @X", "Overture 3D", "PFUS1"), ("Overture 3D PETG @X", "Overture 3D", "")):
+        (base / f"{name}.json").write_text(json.dumps({"name": name, "inherits": "", "filament_vendor": [vendor]}), encoding="utf-8")
+        (base / f"{name}.info").write_text(f"setting_id = {setting}\n", encoding="utf-8")
+    return base
+
+
+def test_cleanup_merges_brand_spellings(fake_install, split_brands, tmp_path, not_running):
+    args = ["cleanup", "--data-dir", str(fake_install), "--user", "123", "--backup-dir", str(tmp_path / "bk")]
+    code, text = run(args)
+    assert code == 0 and "Overture 3D → Overture (Bambu Studio): 2 of your profiles" in text
+    code, text = run(args + ["--merge-brands", "--dry-run"])
+    assert "[new copy] Overture 3D PLA @X → Overture PLA @X" in text and "[rename] Overture 3D PETG @X → Overture PETG @X" in text
+    assert "Dry run" in text and (split_brands / "Overture 3D PETG @X.json").exists()
+    code, text = run(args + ["--merge-brands"], answers=["n"])
+    assert code == 1 and "Cancelled" in text
+    checklist = tmp_path / "old.md"
+    code, text = run(args + ["--merge-brands", "--yes", "--list-file", str(checklist)])
+    assert code == 0 and "1 renamed, 0 updated, 1 copied, 0 skipped" in text and "Backup" in text
+    assert "Delete these old profiles in Bambu Studio" in text and "- [ ] Overture 3D PLA @X (cloud" in checklist.read_text(encoding="utf-8")
+    assert (split_brands / "Overture PETG @X.json").exists() and not (split_brands / "Overture 3D PETG @X.json").exists()
+    code, text = run(args + ["--merge-brands", "--vendor", "acme"])
+    assert code == 0 and "All brands are spelled the same way" in text
+
+
+def test_cleanup_merge_with_only_skips(fake_install, split_brands, not_running):
+    for name in ("Overture PLA @X", "Overture PETG @X"):
+        (split_brands / f"{name}.json").write_text(json.dumps({"name": name, "inherits": "", "filament_vendor": ["Overture"]}), encoding="utf-8")
+    code, text = run(["cleanup", "--data-dir", str(fake_install), "--user", "123", "--merge-brands"])
+    assert code == 0 and text.count("[skip]") == 2 and "Nothing to do" in text

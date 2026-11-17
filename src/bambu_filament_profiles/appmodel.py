@@ -19,12 +19,15 @@ from .install import (
     InstallError,
     Installation,
     active_user,
+    apply_brand_merge,
     backup,
+    brand_groups,
     bambu_running,
     checklist_markdown,
     delete_local,
     filter_presets,
     find_installations,
+    plan_brand_merge,
     plan_install,
     printers_label,
     scan_user_presets,
@@ -332,6 +335,36 @@ class AppSession:
                 return {"catalog_size": len(self.catalog), "catalog_built": self.catalog_built, "log": log[-8:]}
         finally:
             self._updating.release()
+
+    # ------------------------------------------------------ brand spellings
+
+    def _brand_groups(self):
+        presets, _ = self._presets()
+        system_vendors = self.system.vendors() if self.system else ()
+        return presets, brand_groups(presets, system_vendors, {item.brand for item in self.catalog})
+
+    def brands(self) -> dict:
+        return {"groups": [group.to_json() for group in self._brand_groups()[1]]}
+
+    def brand_plan(self, targets: dict) -> dict:
+        presets, groups = self._brand_groups()
+        return {"changes": [change.to_json() for change in plan_brand_merge(presets, groups, targets)]}
+
+    def merge_brands(self, targets: dict) -> dict:
+        self._require()
+        self._guard_write()
+        presets, groups = self._brand_groups()
+        changes = plan_brand_merge(presets, groups, targets)
+        result = {"renamed": [], "updated": [], "copied": [], "skipped": [c.preset.name for c in changes if c.kind == "skip"], "backup": None, "checklist": ""}
+        if all(c.kind == "skip" for c in changes):
+            return result
+        result["backup"] = str(backup(self.filament_dir, self.backup_dir, self.user))
+        done = apply_brand_merge(changes, self.user, presets)
+        for key in ("renamed", "updated", "copied"):
+            result[key] = done[key]
+        if done["to_delete"]:
+            result["checklist"] = checklist_markdown(done["to_delete"], self.user)
+        return result
 
     def checklist(self, names) -> str:
         wanted = set(names)

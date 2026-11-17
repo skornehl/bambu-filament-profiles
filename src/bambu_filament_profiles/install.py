@@ -25,7 +25,7 @@ from pathlib import Path
 
 from . import MARKER
 from .generate import ExpandError, expand, filament_id_for
-from .matching import UNSAFE_FILENAME_CHARS, alias_of
+from .matching import UNSAFE_FILENAME_CHARS, alias_of, norm_brand
 from .sources.bambu import BambuProfiles
 
 APP_DIR = "BambuStudio"
@@ -404,6 +404,133 @@ def delete_local(preset: UserPreset) -> None:
         raise InstallError(f"\"{preset.name}\" is synced with the cloud and would come back; please delete it in Bambu Studio")
     preset.path.unlink(missing_ok=True)
     preset.path.with_suffix(".info").unlink(missing_ok=True)
+
+
+# ----------------------------------------------------------- brand spellings
+
+
+@dataclass
+class BrandGroup:
+    """One brand that Bambu Studio would list under several spellings."""
+
+    key: str
+    spellings: list[str]
+    target: str
+    reason: str  # where the target spelling comes from
+    presets: list[UserPreset]  # standalone presets spelled differently from the target
+
+    def to_json(self) -> dict:
+        return {"key": self.key, "spellings": self.spellings, "target": self.target, "reason": self.reason, "presets": [p.name for p in self.presets]}
+
+
+@dataclass
+class BrandChange:
+    preset: UserPreset
+    new_name: str
+    vendor: str
+    kind: str  # "rename" (local) | "update" (cloud, same name) | "copy" (cloud: new preset, delete the old one in Bambu Studio) | "skip"
+    reason: str = ""
+
+    def to_json(self) -> dict:
+        return {"name": self.preset.name, "new_name": self.new_name, "vendor": self.vendor, "kind": self.kind, "reason": self.reason}
+
+
+def brand_groups(presets: list[UserPreset], system_vendors=(), catalog_brands=()) -> list[BrandGroup]:
+    """Brands of standalone presets that appear under more than one spelling.
+
+    A spelling counts when one of your standalone presets uses it, when Bambu Studio uses it for its own system
+    filaments, or when the catalog uses it (so that later installs land under the same name). The proposed
+    spelling is Bambu Studio's, else the catalog's, else the one most of your presets use.
+    """
+    own: dict[str, dict[str, list[UserPreset]]] = {}
+    for preset in presets:
+        if preset.root and preset.vendor:
+            own.setdefault(norm_brand(preset.vendor), {}).setdefault(preset.vendor, []).append(preset)
+    system = {norm_brand(v): v for v in sorted(system_vendors) if v != "Generic"}
+    catalog = {norm_brand(b): b for b in sorted(catalog_brands)}
+    groups = []
+    for key, by_spelling in sorted(own.items()):
+        spellings = set(by_spelling) | {s for s in (system.get(key), catalog.get(key)) if s}
+        if len(spellings) < 2:
+            continue
+        if key in system:
+            target, reason = system[key], "Bambu Studio"
+        elif key in catalog:
+            target, reason = catalog[key], "catalog"
+        else:
+            target = max(sorted(by_spelling), key=lambda s: len(by_spelling[s]))
+            reason = "most of your profiles"
+        others = [p for spelling, items in by_spelling.items() if spelling != target for p in items]
+        groups.append(BrandGroup(key, sorted(spellings, key=str.lower), target, reason, sorted(others, key=lambda p: p.name.lower())))
+    return groups
+
+
+def _rebrand(name: str, old: str, new: str) -> str:
+    """"eSUN 3D PETG @…" → "eSUN PETG @…"; names that do not start with the brand stay as they are."""
+    if name.lower().startswith(old.lower()) and name[len(old) : len(old) + 1] in ("", " "):
+        return new + name[len(old) :]
+    return name
+
+
+def plan_brand_merge(presets: list[UserPreset], groups: list[BrandGroup], targets: dict[str, str] | None = None) -> list[BrandChange]:
+    """What merging the spellings would do; ``targets`` overrides the proposed spelling per group key."""
+    # Compared case-insensitively: Windows and macOS cannot hold "Tinmorry PLA" and "TINMORRY PLA" side by side.
+    by_name: dict[str, list[UserPreset]] = {}
+    for p in presets:
+        by_name.setdefault(p.name.lower(), []).append(p)
+    taken: set[str] = set()
+    changes = []
+    for group in groups:
+        target = (targets or {}).get(group.key) or group.target
+        if norm_brand(target) != group.key or UNSAFE_FILENAME_CHARS.search(target):
+            raise InstallError(f"\"{target}\" is not a spelling of this brand")
+        members = [p for p in presets if p.root and p.vendor and norm_brand(p.vendor) == group.key and p.vendor != target]
+        for preset in members:
+            new_name = _rebrand(preset.name, preset.vendor, target)
+            others = [p for p in by_name.get(new_name.lower(), []) if p is not preset]
+            if others or new_name.lower() in taken:
+                changes.append(BrandChange(preset, new_name, target, "skip", f"a profile named \"{new_name}\" already exists"))
+                continue
+            taken.add(new_name.lower())
+            if not preset.synced:
+                kind = "rename"
+            elif new_name.lower() == preset.name.lower():
+                kind = "update"  # same file: keep the cloud link and update the cloud preset
+            else:
+                kind = "copy"
+            changes.append(BrandChange(preset, new_name, target, kind))
+    return changes
+
+
+def apply_brand_merge(changes: list[BrandChange], user_id: str, presets: list[UserPreset]) -> dict:
+    """Carry out a plan. Local presets are renamed in place; a synced preset that needs a new name gets a new copy,
+    and the old one must be deleted in Bambu Studio (it is returned in ``to_delete``)."""
+    result: dict[str, list] = {"renamed": [], "updated": [], "copied": [], "skipped": [], "to_delete": []}
+    reserved: dict[str, str] = {}
+    for change in changes:
+        preset = change.preset
+        if change.kind == "skip":
+            result["skipped"].append(preset.name)
+            continue
+        data = json.loads(preset.path.read_text(encoding="utf-8"))
+        data["name"] = change.new_name
+        data["filament_settings_id"] = [change.new_name]
+        data["filament_vendor"] = [change.vendor]
+        target = preset.path.with_name(f"{change.new_name}.json")
+        if change.kind == "copy":
+            # A new preset, uploaded as new; the old cloud preset stays until it is deleted in Bambu Studio.
+            data["filament_id"] = assign_filament_id(change.new_name, user_id, presets, reserved)
+            reserved[data["filament_id"]] = alias_of(change.new_name)
+            write_profile(Action("new", preset.path, target, change.new_name, data), user_id)
+            result["copied"].append(change.new_name)
+            result["to_delete"].append(preset)
+            continue
+        write_profile(Action("conflict", preset.path, preset.path, change.new_name, data), user_id)
+        if target != preset.path:
+            preset.path.rename(target)
+            preset.path.with_suffix(".info").rename(target.with_suffix(".info"))
+        result["renamed" if change.kind == "rename" else "updated"].append(change.new_name)
+    return result
 
 
 def printers_label(preset: UserPreset, system: BambuProfiles | None) -> str:

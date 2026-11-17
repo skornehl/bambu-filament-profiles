@@ -44,7 +44,8 @@ Stop it with the "Quit" button or with Ctrl+C.
   overwritten if you tick them.
 - **My profiles:** your existing filament profiles with kind, brand, printers and where they are stored (local or
   cloud), filterable by "only under Generic" and "not for printer". Local profiles can be deleted; for cloud
-  profiles there is a list for *File → Batch Preset Management*.
+  profiles there is a list for *File → Batch Preset Management*. If a brand appears under several spellings
+  ("eSUN 3D" next to Bambu Studio's "eSUN"), *Merge spellings…* brings them together (see below).
 - **Update profiles:** the header shows how old the profiles are; the button fetches the newest sources and
   rebuilds the profiles. It changes nothing in Bambu Studio.
 - **Same safety net as `install`:** a backup before every write, nothing is written while Bambu Studio is
@@ -136,6 +137,27 @@ cannot queue them. Therefore:
 
 A sensible way to re-sort: `cleanup --generic --list-file …`, delete the list in Bambu Studio, then `install`
 the brands you actually use.
+
+#### Brands under several spellings
+
+Bambu Studio lists a brand once per spelling, so "eSUN 3D" ends up next to "eSUN", and "Tinmorry" next to
+"TINMORRY". `cleanup` lists such brands; `--merge-brands` brings them together:
+
+```bash
+python3 bfp.py cleanup --merge-brands --dry-run
+python3 bfp.py cleanup --merge-brands --list-file old-spellings.md
+```
+
+The spelling kept is the one Bambu Studio uses for its own filaments, otherwise the catalog's, otherwise the one
+most of your profiles use (the app lets you pick). Your standalone profiles get the new brand and, if the name
+starts with the brand, the new name ("eSUN 3D PETG" → "eSUN PETG"):
+
+- **local profiles** are renamed in place,
+- **cloud profiles** get a new copy under the new name (uploaded on the next sync); delete the old ones in
+  Bambu Studio with the checklist. Only when the name does not change (or only its upper/lower case), the cloud
+  profile is updated in place.
+
+The catalog itself always uses Bambu Studio's spelling for brands Bambu Studio ships filaments for.
 
 ### Import by hand
 
