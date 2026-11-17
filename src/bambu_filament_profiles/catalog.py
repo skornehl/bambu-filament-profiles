@@ -11,6 +11,7 @@ from pathlib import Path
 
 from .fetch import fetch_all, read_lock, write_lock
 from .generate import DEFAULT_PRINTER, Generated, Issue, generate, used_sources
+from .matching import norm_brand
 from .merge import build_catalog
 from .model import Record
 from .sources import cura, manual, ofd, orca, prusa, spoolman
@@ -29,7 +30,7 @@ BUILD_INFO = "BUILD.json"
 #: Written first into every catalog folder; only folders with it (or BUILD.json) are ever emptied.
 CATALOG_MARKER = ".bambu-filament-profiles"
 #: Bumped when the catalog layout changes; older catalogs are rebuilt.
-CATALOG_FORMAT = 2
+CATALOG_FORMAT = 3
 
 
 @dataclass
@@ -62,6 +63,11 @@ def load_records(cache_dir: Path, manual_dir: Path | None, printer: str, log=pri
 
 def build(records: dict[str, list[Record]], bambu: BambuProfiles, printer: str = DEFAULT_PRINTER) -> BuildResult:
     catalog = build_catalog(records)
+    # A brand Bambu Studio already ships filaments for is spelled the way Bambu Studio does ("eSUN 3D" → "eSUN"),
+    # otherwise Bambu Studio lists it twice.
+    spelling = {norm_brand(v): v for v in sorted(bambu.vendors())}
+    for entry in catalog.entries:
+        entry.brand = spelling.get(norm_brand(entry.brand), entry.brand)
     system_keys = bambu.system_keys(printer)
     generated = [generate(entry, bambu, printer, system_keys) for entry in catalog.entries]
     _dedupe_paths(generated)

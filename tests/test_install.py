@@ -12,7 +12,9 @@ from bambu_filament_profiles.install import (
     Installation,
     UserPreset,
     active_user,
+    apply_brand_merge,
     assign_filament_id,
+    brand_groups,
     backup,
     bambu_running,
     candidate_dirs,
@@ -22,6 +24,7 @@ from bambu_filament_profiles.install import (
     delete_local,
     filter_presets,
     find_installations,
+    plan_brand_merge,
     plan_install,
     read_info,
     scan_user_presets,
@@ -391,3 +394,89 @@ def test_backups_in_the_same_second_do_not_overwrite(presets_dir, tmp_path, monk
     second = backup(presets_dir, tmp_path / "backups", "123")
     assert first != second and first.exists() and second.exists()
     assert second.name == "filament-123-20261116-120000-2.zip"
+
+
+# ----------------------------------------------------------- brand spellings
+
+
+@pytest.fixture
+def brand_presets(fake_install):
+    base = fake_install / "user" / "123" / "filament" / "base"
+    write_preset(base, "eSUN 3D PETG @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["eSUN 3D"], "filament_id": "Pe1"}, "PFUS1")
+    write_preset(base, "eSUN 3D PLA @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["eSUN 3D"], "filament_id": "Pe2"})
+    write_preset(base, "Tinmorry Silk PLA @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["Tinmorry"]})
+    write_preset(base, "TINMORRY PETG @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["TINMORRY"]})
+    write_preset(base, "TINMORRY Marble @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["TINMORRY"]})
+    write_preset(base, "Acme PLA @Bambu Lab P1S 0.4 nozzle", {"inherits": "", "filament_vendor": ["Acme"]})
+    write_preset(base.parent, "eSun inherited", {"inherits": "Generic PLA", "filament_vendor": ["eSun"]})
+    return base.parent
+
+
+def test_brand_groups(brand_presets):
+    presets, _ = scan_user_presets(brand_presets)
+    groups = {g.key: g for g in brand_groups(presets, system_vendors={"eSUN", "Generic"}, catalog_brands={"Acme"})}
+    assert set(groups) == {"esun", "tinmorry"}  # Acme has one spelling; inheriting presets do not count
+    esun = groups["esun"]
+    assert esun.target == "eSUN" and esun.reason == "Bambu Studio" and esun.spellings == ["eSUN", "eSUN 3D"]
+    assert [p.name for p in esun.presets] == ["eSUN 3D PETG @Bambu Lab P1S 0.4 nozzle", "eSUN 3D PLA @Bambu Lab P1S 0.4 nozzle"]
+    tin = groups["tinmorry"]
+    assert tin.target == "TINMORRY" and tin.reason == "most of your profiles" and len(tin.presets) == 1
+    (tin,) = brand_groups(presets, catalog_brands={"Tinmorry"})  # eSUN 3D alone is one spelling
+    assert tin.target == "Tinmorry" and tin.to_json()["reason"] == "catalog"  # catalog beats majority
+
+
+def test_plan_and_apply_brand_merge(brand_presets):
+    presets, _ = scan_user_presets(brand_presets)
+    groups = brand_groups(presets, system_vendors={"eSUN"})
+    changes = {c.preset.name: c for c in plan_brand_merge(presets, groups)}
+    cloud = changes["eSUN 3D PETG @Bambu Lab P1S 0.4 nozzle"]
+    assert cloud.kind == "copy" and cloud.new_name == "eSUN PETG @Bambu Lab P1S 0.4 nozzle"
+    assert changes["eSUN 3D PLA @Bambu Lab P1S 0.4 nozzle"].kind == "rename"
+    assert changes["Tinmorry Silk PLA @Bambu Lab P1S 0.4 nozzle"].to_json()["new_name"] == "TINMORRY Silk PLA @Bambu Lab P1S 0.4 nozzle"
+
+    result = apply_brand_merge(list(changes.values()), "123", presets)
+    base = brand_presets / "base"
+    assert sorted(result["renamed"]) == ["TINMORRY Silk PLA @Bambu Lab P1S 0.4 nozzle", "eSUN PLA @Bambu Lab P1S 0.4 nozzle"]
+    assert result["copied"] == ["eSUN PETG @Bambu Lab P1S 0.4 nozzle"] and [p.name for p in result["to_delete"]] == [cloud.preset.name]
+    renamed = json.loads((base / "eSUN PLA @Bambu Lab P1S 0.4 nozzle.json").read_text(encoding="utf-8"))
+    assert renamed["filament_vendor"] == ["eSUN"] and renamed["filament_id"] == "Pe2" and renamed["name"] == "eSUN PLA @Bambu Lab P1S 0.4 nozzle"
+    assert not (base / "eSUN 3D PLA @Bambu Lab P1S 0.4 nozzle.json").exists()
+    assert (base / "eSUN PLA @Bambu Lab P1S 0.4 nozzle.info").exists() and not (base / "eSUN 3D PLA @Bambu Lab P1S 0.4 nozzle.info").exists()
+    copy = json.loads((base / "eSUN PETG @Bambu Lab P1S 0.4 nozzle.json").read_text(encoding="utf-8"))
+    assert copy["filament_id"] != "Pe1" and read_info(base / "eSUN PETG @Bambu Lab P1S 0.4 nozzle.info")["setting_id"] == ""
+    assert (base / "eSUN 3D PETG @Bambu Lab P1S 0.4 nozzle.json").exists()  # old cloud preset: delete in Bambu Studio
+    presets, _ = scan_user_presets(brand_presets)
+    assert [g.key for g in brand_groups(presets, system_vendors={"eSUN"})] == ["esun"]  # only the old cloud copy is left
+
+
+def test_brand_merge_updates_and_skips(fake_install):
+    base = fake_install / "user" / "123" / "filament" / "base"
+    write_preset(base, "Tinmorry PLA @X", {"inherits": "", "filament_vendor": ["Tinmorry"]}, "PFUS1")
+    write_preset(base, "My Tinmorry PETG @X", {"inherits": "", "filament_vendor": ["Tinmorry"]})
+    write_preset(base, "eSUN 3D PLA @X", {"inherits": "", "filament_vendor": ["eSUN 3D"]})
+    write_preset(base, "eSUN PLA @X", {"inherits": "", "filament_vendor": ["eSUN"]})
+    presets, _ = scan_user_presets(base.parent)
+    groups = brand_groups(presets, system_vendors={"eSUN"}, catalog_brands={"TINMORRY"})
+    changes = {c.preset.name: c for c in plan_brand_merge(presets, groups)}
+    assert changes["Tinmorry PLA @X"].kind == "update"  # cloud preset, only the case changes: same file
+    assert changes["My Tinmorry PETG @X"].kind == "rename" and changes["My Tinmorry PETG @X"].new_name == "My Tinmorry PETG @X"
+    assert changes["eSUN 3D PLA @X"].kind == "skip" and "already exists" in changes["eSUN 3D PLA @X"].reason
+    result = apply_brand_merge(list(changes.values()), "123", presets)
+    assert result["updated"] == ["TINMORRY PLA @X"] and result["skipped"] == ["eSUN 3D PLA @X"]
+    assert read_info(base / "TINMORRY PLA @X.info")["setting_id"] == "PFUS1"
+    assert json.loads((base / "My Tinmorry PETG @X.json").read_text(encoding="utf-8"))["filament_vendor"] == ["TINMORRY"]
+    assert "TINMORRY PLA @X.json" in {p.name for p in base.iterdir()}  # the file name changes case too, on every system
+    with pytest.raises(InstallError, match="not a spelling"):
+        plan_brand_merge(presets, groups, {"tinmorry": "Acme"})
+
+
+def test_brand_merge_collisions_ignore_case(tmp_path):
+    # Windows and macOS cannot hold both files; on Linux they can, and renaming would clash there too.
+    def preset(name, vendor):
+        return UserPreset(name, tmp_path / f"{name}.json", True, "", vendor, "", "", False)
+
+    presets = [preset("Tinmorry ASA @X", "Tinmorry"), preset("TINMORRY ASA @X", "TINMORRY"), preset("tinmorry PLA @X", "tinmorry"), preset("Tinmorry PLA @X", "Tinmorry")]
+    groups = brand_groups(presets, catalog_brands={"TINMORRY"})
+    changes = {c.preset.name: c for c in plan_brand_merge(presets, groups)}
+    assert changes["Tinmorry ASA @X"].kind == "skip"
+    assert [changes[n].kind for n in ("tinmorry PLA @X", "Tinmorry PLA @X")] == ["skip", "skip"]

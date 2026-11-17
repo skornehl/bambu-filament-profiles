@@ -122,6 +122,7 @@ dialog .foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px
 <main id="paneMine" class="hidden">
   <div class="note">Please delete profiles with a cloud copy in Bambu Studio: <b>File → Batch Preset Management</b>, tick them, Delete.
     If they are only deleted locally, Bambu Studio brings them back from the cloud on the next start. Only local profiles can be deleted here.</div>
+  <div class="note hidden" id="brandNote"><span id="brandText"></span> <button id="brandBtn" type="button">Merge spellings…</button></div>
   <div class="toolbar">
     <input id="mq" type="search" placeholder="Name contains …">
     <label><input id="mGeneric" type="checkbox"> only under "Generic"</label>
@@ -146,7 +147,7 @@ dialog .foot { display: flex; justify-content: flex-end; gap: 8px; padding: 12px
 <script>
 const TOKEN = "__BFP_TOKEN__";
 const LIMIT = 400;
-const S = { info: null, profiles: [], sel: new Set(), current: null, mine: [], mSel: new Set() };
+const S = { info: null, profiles: [], sel: new Set(), current: null, mine: [], mSel: new Set(), brands: [] };
 const $ = (id) => document.getElementById(id);
 const num = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 
@@ -312,15 +313,68 @@ async function loadMine() {
     $("mineBody").replaceChildren(...(rows.length ? rows : [el("tr", {}, el("td", { colspan: 6, class: "empty" }, "No own filament profiles"))]));
     $("mAll").checked = r.presets.length > 0 && r.presets.every((p) => S.mSel.has(p.name));
     updateActions();
+    await loadBrands();
   } catch (e) { fail(e); }
+}
+
+function save(text, filename) {
+  const url = URL.createObjectURL(new Blob([text], { type: "text/markdown" }));
+  const a = el("a", { href: url, download: filename });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ------------------------------------------------------- brand spellings
+async function loadBrands() {
+  const r = await api("/api/brands");
+  S.brands = r.groups;
+  $("brandNote").classList.toggle("hidden", !r.groups.length);
+  $("brandText").textContent = "Bambu Studio lists these brands more than once: "
+    + r.groups.map((g) => `${g.spellings.filter((s) => s !== g.target).join(", ")} → ${g.target}`).join("; ") + ".";
+}
+
+function startBrandMerge() {
+  const picks = S.brands.map((g) => ({ g, sel: el("select", {}, g.spellings.map((s) => el("option", { value: s, selected: s === g.target }, s))) }));
+  const targets = () => Object.fromEntries(picks.map(({ g, sel }) => [g.key, sel.value]));
+  const rows = picks.map(({ g, sel }) => el("p", {}, `${g.spellings.join(" / ")}: keep `, sel, el("span", { class: "sub" }, ` (proposed by ${g.reason})`)));
+  const next = el("button", { class: "primary", type: "button", onclick: async () => {
+    try { showBrandPlan(targets(), await api("/api/brand-plan", { targets: targets() })); } catch (e) { fail(e); }
+  } }, "Show changes");
+  dialog("Merge brand spellings", [el("p", {}, "Pick the spelling each brand should keep:"), ...rows], [closeBtn("Cancel"), next]);
+}
+
+const KIND = { rename: "renamed", update: "updated in place", copy: "new copy, delete the old one in Bambu Studio", skip: "skipped" };
+function showBrandPlan(targets, plan) {
+  const todo = plan.changes.filter((c) => c.kind !== "skip").length;
+  const parts = [el("ul", {}, plan.changes.map((c) => el("li", {}, c.name, c.new_name !== c.name ? ` → ${c.new_name}` : ` (brand → ${c.vendor})`,
+    el("span", { class: "sub" }, ` – ${KIND[c.kind]}${c.reason ? ": " + c.reason : ""}`))))];
+  if (plan.changes.some((c) => c.kind === "copy")) {
+    parts.push(el("p", {}, "Profiles synced with the cloud are not renamed: they get a new copy under the new name, and you delete the old ones in Bambu Studio (File → Batch Preset Management). A list for that follows."));
+  }
+  parts.push(el("p", { class: "sub" }, "A backup of your filament folder is made first."));
+  const go = el("button", { class: "primary", type: "button", disabled: !todo || S.info.running, onclick: async () => {
+    go.disabled = true;
+    try {
+      const r = await api("/api/merge-brands", { targets });
+      const out = [el("p", {}, `${r.renamed.length} renamed, ${r.updated.length} updated, ${r.copied.length} copied, ${r.skipped.length} skipped.`)];
+      if (r.backup) out.push(el("p", { class: "sub" }, `Backup: ${r.backup}`));
+      const buttons = [closeBtn()];
+      if (r.checklist) {
+        out.push(el("p", {}, "Now delete the old profiles in Bambu Studio: File → Batch Preset Management."));
+        buttons.unshift(el("button", { type: "button", onclick: () => save(r.checklist, "old-brand-spellings-to-delete.md") }, "Download list"));
+      }
+      dialog("Brands merged", out, buttons);
+      S.mSel.clear(); await loadMine(); await loadProfiles();
+    } catch (e) { fail(e); }
+  } }, `Change ${num(todo, "profile", "profiles")}`);
+  dialog("Merge brand spellings", parts, [closeBtn("Cancel"), go]);
 }
 
 async function downloadList() {
   const names = S.mine.filter((p) => S.mSel.has(p.name)).map((p) => p.name);
   try {
     const r = await api("/api/checklist", { names });
-    const a = el("a", { href: URL.createObjectURL(new Blob([r.markdown], { type: "text/markdown" })), download: "filament-profiles-to-delete.md" });
-    document.body.append(a); a.click(); a.remove();
+    save(r.markdown, "filament-profiles-to-delete.md");
   } catch (e) { fail(e); }
 }
 
@@ -359,6 +413,7 @@ $("clearSel").onclick = () => { S.sel.clear(); renderFind(); updateActions(); };
 $("installBtn").onclick = startInstall;
 $("listBtn").onclick = downloadList;
 $("delBtn").onclick = startDelete;
+$("brandBtn").onclick = startBrandMerge;
 $("updBtn").onclick = updateCatalog;
 $("reloadBtn").onclick = async () => { await loadState(); await loadProfiles(); if (!$("paneMine").classList.contains("hidden")) await loadMine(); };
 $("instSel").onchange = async (e) => { try { S.info = await api("/api/select", { installation: Number(e.target.value) }); S.mSel.clear(); renderState(); await loadProfiles(); } catch (err) { fail(err); } };

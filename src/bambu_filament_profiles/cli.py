@@ -24,7 +24,9 @@ from .generate import DEFAULT_PRINTER, ExpandError, expand, filament_id_for
 from .matching import alias_of, safe_filename
 from .install import (
     InstallError,
+    apply_brand_merge,
     backup,
+    brand_groups,
     bambu_running,
     checklist_markdown,
     choose_installation,
@@ -33,6 +35,7 @@ from .install import (
     delete_local,
     filter_presets,
     find_installations,
+    plan_brand_merge,
     plan_install,
     printers_label,
     scan_user_presets,
@@ -129,6 +132,7 @@ def _parser() -> argparse.ArgumentParser:
     p.add_argument("--not-for", metavar="PRINTER", help='only profiles that do not apply to this printer, e.g. "P1S 0.4"')
     p.add_argument("--delete-local", action="store_true", help="delete local (not synced) profiles only")
     p.add_argument("--list-file", type=Path, help="write the list of profiles to delete as Markdown")
+    p.add_argument("--merge-brands", action="store_true", help='merge brands spelled differently ("eSUN 3D" → "eSUN")')
     p.set_defaults(func=cmd_cleanup)
     return parser
 
@@ -321,7 +325,7 @@ def cmd_install(args, ask, out) -> int:
 
 
 def cmd_cleanup(args, ask, out) -> int:
-    inst, user, filament_dir = _target(args, ask, out, writes=args.delete_local)
+    inst, user, filament_dir = _target(args, ask, out, writes=args.delete_local or args.merge_brands)
     presets, problems = scan_user_presets(filament_dir)
     for problem in problems:
         out(f"Note: {problem}")
@@ -329,6 +333,17 @@ def cmd_cleanup(args, ask, out) -> int:
         system = BambuProfiles.from_installation(inst.data_dir)
     except FileNotFoundError:
         system = None
+    catalog_brands = {item["brand"] for item in list_profiles(default_data_dir() / "profiles")}
+    groups = brand_groups(presets, system.vendors() if system else (), catalog_brands)
+    if args.vendor:
+        groups = [g for g in groups if any(v.lower() in s.lower() for v in args.vendor for s in g.spellings)]
+    if args.merge_brands:
+        return _merge_brands(args, ask, out, groups, presets, filament_dir, user)
+    if groups:
+        out("Brands with several spellings (merge them with --merge-brands):")
+        for group in groups:
+            others = ", ".join(s for s in group.spellings if s != group.target)
+            out(f"  {others} → {group.target} ({group.reason}): {len(group.presets)} of your profiles")
     selected = filter_presets(presets, args.vendor, args.name, args.generic, args.from_tool, args.not_for, system)
     out(f"{len(selected)} of {len(presets)} own filament profiles selected:")
     for p in selected:
@@ -358,6 +373,43 @@ def cmd_cleanup(args, ask, out) -> int:
     for preset in local:
         delete_local(preset)
     out(f"{len(local)} local profiles deleted")
+    return 0
+
+
+def _merge_brands(args, ask, out, groups, presets, filament_dir, user) -> int:
+    changes = plan_brand_merge(presets, groups)
+    if not changes:
+        out("All brands are spelled the same way")
+        return 0
+    labels = {"rename": "rename", "update": "update", "copy": "new copy", "skip": "skip"}
+    for change in changes:
+        line = f"  [{labels[change.kind]}] {change.preset.name}"
+        if change.kind == "skip":
+            line += f": {change.reason}"
+        elif change.new_name != change.preset.name:
+            line += f" → {change.new_name}"
+        else:
+            line += f" (brand → {change.vendor})"
+        out(line)
+    if any(c.kind == "copy" for c in changes):
+        out("Profiles synced with the cloud get a new copy under the new name; delete the old ones in Bambu Studio afterwards.")
+    todo = [c for c in changes if c.kind != "skip"]
+    if args.dry_run or not todo:
+        out("Dry run: nothing written" if args.dry_run else "Nothing to do")
+        return 0
+    if not _confirm(args, ask, f"Change {len(todo)} profiles?"):
+        out("Cancelled")
+        return 1
+    archive = backup(filament_dir, args.backup_dir, user)
+    out(f"Backup: {archive}")
+    result = apply_brand_merge(changes, user, presets)
+    out(f"{len(result['renamed'])} renamed, {len(result['updated'])} updated, {len(result['copied'])} copied, {len(result['skipped'])} skipped")
+    if result["to_delete"]:
+        names = ", ".join(p.name for p in result["to_delete"])
+        out(f"Delete these old profiles in Bambu Studio (File → Batch Preset Management): {names}")
+        if args.list_file:
+            args.list_file.write_text(_cleanup_list(result["to_delete"], user), encoding="utf-8")
+            out(f"List written: {args.list_file}")
     return 0
 
 

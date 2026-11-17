@@ -213,3 +213,7 @@ def test_spoolman_ignores_incomplete_ranges(tmp_path):
     (folder / "acme.json").write_text(json.dumps({"manufacturer": "Acme", "filaments": [item]}), encoding="utf-8")
     (record,) = spoolman.load(tmp_path)
     assert record.values == {}
+
+
+def test_bambu_vendors(bambu):
+    assert bambu.vendors() == {"Overture"}  # without "Generic"
